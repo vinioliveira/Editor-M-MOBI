@@ -17,7 +17,7 @@
 	var height = 30;
 	var widht = 80;
     
-    function main(container)
+    function main()
     {
        // Checks if the browser is supported
        if (!mxClient.isBrowserSupported())
@@ -53,16 +53,10 @@
 				for (var i = 0; i < cells.length; i++)
 				{
 					var cell = cells[i];
-					
 					if (this.model.isEdge(cell))
 					{
-						
-						var terminal = this.model.getTerminal(cell, false);
-						var parent = this.model.getChildVertices(terminal);
-						alert(mxUtils.toString(terminal));
-						alert(mxUtils.toString(parent));
-						alert(mxUtils.toString(parent[0]));
-						alert(mxUtils.toString(parent[1]));
+						eliminarRelacionamento(cell.source.value,cell.target.value);
+						this.model.remove(cell);
 					}
 				}
 			});
@@ -85,7 +79,7 @@
     		// Text label changes will go into the name field of the user object
     		graph.model.valueForCellChanged = function(cell, value)
     		{
-    			//Não houve alteração no nome
+    			//NÃ£o houve alteraÃ§Ã£o no nome
     	  	if(cell.value == value){
     				return;
     	  	}
@@ -95,7 +89,12 @@
     			if(conjunto == 'ConjuntoA'){
     				for (var name in instanciasConjuntoA){
     					if(value == instanciasConjuntoA[name]){
-    						mxUtils.error('Já Existe uma instancia com este nome',200,true);
+    						        Ext.MessageBox.show({
+    						           title: 'Erro',
+    						           msg: 'JÃ¡ Existe uma instancia com este nome.',
+    						           buttons: Ext.MessageBox.ERROR,
+    						           icon: Ext.MessageBox.ERROR
+    						       });
     						return;
     					}
     					
@@ -109,7 +108,12 @@
     				//Conjunto B
     				for (var name in instanciasConjuntoB){
     					if(value == instanciasConjuntoB[name]){
-    						mxUtils.error('Já Existe uma instancia com este nome',200,true);
+    						Ext.MessageBox.show({
+						           title: 'Erro',
+						           msg: 'JÃ¡ Existe uma instancia com este nome.',
+						           buttons: Ext.MessageBox.ERROR,
+						           icon: Ext.MessageBox.ERROR
+						       });
     						return;
     					}
     					
@@ -201,20 +205,23 @@
 		}
 		
 		function resetarRelacoes(){
-			var suns = graph.getChildCells();
-			for ( var int = 0; int < suns.length; int++){
+			/*var suns = graph.getChildCells();
+			for (var int = 0; int < suns.length; int++){
 				model.remove(suns[int]);
-			}
+			}*/
 			
-			qtdInstanciasConjuntoA = 0;
-			qtdInstanciasConjuntoB = 0;
+			editor.destroy();
+			main();
 			
+			//Contador de intancias
 			xLeft = 20; 
 			xRight = 300;
 			yLeft = 20;
 			yRight = 20;
 			height = 30;
 			widht = 80;
+			qtdInstanciasConjuntoA = 0;
+			qtdInstanciasConjuntoB = 0;
 			
 			Ext.getCmp("classeA").setValue('');
 			Ext.getCmp("classeB").setValue('');
@@ -223,9 +230,6 @@
 			var panel = Ext.get('relacoes-div');
 			panel.getUpdater().update( {
 				url : '/EditorM-MOBI/ajaxListarRelacoes.do',
-				params : {
-					checked : true
-				},
 				scripts : true,
 				loadScripts: true
 			});
@@ -269,7 +273,7 @@
 			});
 		}
 		
-		
+
 		
 //
 // This is the main layout definition.
@@ -301,7 +305,7 @@ Ext.onReady(function(){
 	
 	var classeA =  new Ext.form.TextField({
     	id : 'classeA',
-    	fieldLabel : 'Classe',
+    	fieldLabel : 'Classe A',
     	style: {
 			top:100
 		},
@@ -314,7 +318,7 @@ Ext.onReady(function(){
 	
 	var classeB =  new Ext.form.TextField({
     	id : 'classeB',
-    	fieldLabel : 'Classe',
+    	fieldLabel : 'Classe B',
     	style: {
 			
 		},
@@ -331,6 +335,7 @@ Ext.onReady(function(){
 	    triggerAction: 'all',
 	    lazyRender:true,
 	    mode: 'local',
+	    fieldLabel: 'Tipo da RelaÃ§Ã£o',
 	    store: new Ext.data.ArrayStore({
 	        id: 0,
 	        fields: [

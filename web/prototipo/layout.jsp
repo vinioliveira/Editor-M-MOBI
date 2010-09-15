@@ -44,7 +44,7 @@
     </script>
 
 </head>
-<body onload="main(document.getElementById('graphContainer'),document.getElementById('graphDiagramaContainer'))">
+<body onload="main()">
     <div id="header"><h1>Editor M-MOBI</h1></div>
 
     <div style="display:none;">
