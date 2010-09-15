@@ -29,11 +29,15 @@ function carregar(){
 	graph.setCellsDisconnectable(false);
 	graph.swimlaneNesting = false;
 	graph.setCellsSelectable(true);
+	graph.setAllowLoops(false);
+	graph.setCellsResizable(false);
 
 	var config = mxUtils.load(
 	'comum/keyhandler-minimal.xml').
 		getDocumentElement();
 	editor.configure(config);
+
+	graph.cellsMovable = false;
 
 	// Edges are not editable
 	graph.isCellEditable = function(cell)
@@ -61,6 +65,16 @@ function carregar(){
 					{
 						eliminarRelacionamento(cell.source.value,cell.target.value);
 						this.model.remove(cell);
+					}else{
+						var conjunto = cell.id.substring(0,9);
+						var classe;
+						
+						if(conjunto == 'ConjuntoA'){
+							classe = Ext.getCmp("classeA").getValue();
+						}else{
+							classe = Ext.getCmp("classeB").getValue();
+						}
+						eliminarInstancia(cell.value,classe);
 					}
 				}
 			});

@@ -4,7 +4,7 @@
 <c:forEach var="relacao" items="${listaNomeRelacoes}">
   
   <div onclick="carregarRelacao('${relacao.classeA}','${relacao.classeB}','${relacao.tipoRelacao}');">	
-	${relacao.nomeRelacao}
+	<a style="cursor:pointer;">${relacao.classeA} --> ${relacao.classeB}</a>
   </div>
 
 </c:forEach>

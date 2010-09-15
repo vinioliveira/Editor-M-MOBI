@@ -2,19 +2,38 @@
 
 <!-- Example code -->
 <div id="teste">
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
+
+    var editor2;
+	var graph2;
+	var model2;
+	var parent2;
+	var layout2;
+	
 	function mainDiagrama(){
 	    var container2 = document.getElementById('teste');
-	    // Creates the graph inside the given container
-        var editor2 = new mxEditor();
-		var graph2 = editor2.graph;
-		var model2 = graph2.model;
-		var parent2 = graph2.getDefaultParent();
-		var layout2;
+        editor2 = new mxEditor();
+		graph2 = editor2.graph;
+		model2 = graph2.model;
+		parent2 = graph2.getDefaultParent();
+		layout2;
 		editor2.setGraphContainer(container2);
+
+		graph2.setConnectable(false);
+		graph2.setCellsDisconnectable(false);
+		graph2.swimlaneNesting = false;
+		graph2.setCellsSelectable(true);
+		graph2.setAllowLoops(false);
+		graph2.setCellsResizable(false);
+		graph.setCellsMovable(false);
+		graph.setAutoSizeCells(true);
+		graph.setPanning(true);
+		graph.panningHandler.useLeftButtonForPanning = true;
 
 		  // Enables rubberband selection
         new mxRubberband(graph2);
+
+        var outln = new mxOutline(graph2, document.getElementById('outlineContainer'));
 
      	// Enables automatic layout on the graph and installs
 		// a tree layout for all groups who's children are
@@ -23,6 +42,7 @@
 		layout2.useBoundingBox = false;
 		layout2.levelDistance = 30;
 		layout2.nodeDistance = 10;
+		layout2.invert = true;
 		var layoutMgr = new mxLayoutManager(graph2);
 		
 		layoutMgr.getLayout = function(cell)
@@ -54,12 +74,17 @@
 
 			 	if(classeA == null){
 			 		classeA = graph2.insertVertex(parent2, '${relacao.classeA}', '${relacao.classeA}', 0, 0, 80, 30);
-			 		graph2.insertEdge(parent2, null, '', thing, classeA);
+			 		graph2.insertEdge(parent2, null, '', classeA,thing);
 			 	}
 
 			 	if('${relacao.tipoRelacao}' == 'Heranca'){
 			 		var classeB = graph2.insertVertex(parent2, '${relacao.classeB}', '${relacao.classeB}', 0, 0, 80, 30);
-			 		graph2.insertEdge(parent2, null, '', classeA, classeB);
+			 		graph2.insertEdge(parent2, null, '', classeB,classeA);
+			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
+					{
+						return createPopupMenu(graph, menu, cell, evt);
+					};
+			 		
 			 	}
 
 			 	if('${relacao.tipoRelacao}' == 'Composicao'){
@@ -88,7 +113,19 @@
 
 	}
 	
-		mainDiagrama();	
-	--></script>
+		mainDiagrama();
+		addToolbarButton(editor2,document.getElementById('statusContainer'), 'zoomIn', '', 'images/zoom_in.png', true);
+		addToolbarButton(editor2,document.getElementById('statusContainer'), 'zoomOut', '', 'images/zoom_out.png', true);
+		addToolbarButton(editor2,document.getElementById('statusContainer'), 'actualSize', '', 'images/view_1_1.png', true);
+		addToolbarButton(editor2,document.getElementById('statusContainer'), 'fit', '', 'images/fit_to_size.png', true);	
+	</script>
 </div>
 
+<div id="outlineContainer"
+	style="position:absolute;overflow:hidden;top:2px;right:0px;width:200px;height:140px;background:transparent;border-style:solid;border-color:black;">
+</div>
+
+<div id="statusContainer" style="text-align:right;position:absolute;overflow:hidden;bottom:0px;left:0px;max-height:15px;height:36px;right:0px;color:white;padding:6px;background-image:url('prototipo/imagem/layout-browser-hd-bg.gif');">
+	<div style="font-size:10pt;float:left;">
+	</div>
+</div>

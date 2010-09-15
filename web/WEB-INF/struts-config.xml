@@ -119,6 +119,10 @@
 				name="relacaoForm" scope="session" parameter="eliminarRelacionamento" >
 		</action>
 		
+		<action path="/ajaxEliminarInstancia" type="com.mobi.comum.action.DiagramaAction" 
+				name="relacaoForm" scope="session" parameter="eliminarInstancia" >
+		</action>
+		
     </action-mappings>
 
 

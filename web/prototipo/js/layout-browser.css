@@ -20,6 +20,11 @@ a:hover {
 #header {
     background: #7F99BE url(../imagem/layout-browser-hd-bg.gif) repeat-x center;
 }
+
+.teste {
+    background: #7F99BE url(../imagem/layout-browser-hd-bg.gif) repeat-x center;
+}
+
 #header h1 {
     font-size: 16px;
     color: #fff;
@@ -62,7 +67,7 @@ a:hover {
 }
 
 .add {
-    background-image: url(../imagem/button-add.gif) !important;
+    background-image: url(../imagem/plus.gif) !important;
 }
 
 

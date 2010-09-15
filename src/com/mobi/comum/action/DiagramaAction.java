@@ -230,5 +230,32 @@ public class DiagramaAction extends MappingDispatchAction {
 		return null;
 	}
 	
+	public ActionForward eliminarInstancia(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		
+		RelacaoForm relacaoForm = (RelacaoForm)form;
+		String instancia = request.getParameter("instancia");
+		String classe = request.getParameter("idClasse");
+		RelationDTO relacaoDTO = relacaoForm.getRelacaoDTO();
+		
+		if(relacaoDTO.getClasseA().equals(classe)){
+			relacaoDTO.getInstanciasA().remove(instancia);
+		}
+		
+		if(relacaoDTO.getClasseB().equals(classe)){
+			relacaoDTO.getInstanciasB().remove(instancia);
+		}
+		
+		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		if(relacoes != null){
+			relacoes.remove(relacaoDTO);
+			relacoes.add(relacaoDTO);
+		}
+		
+		return null;
+	}
+	
 
 }

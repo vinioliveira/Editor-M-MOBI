@@ -1,0 +1,143 @@
+div.mxRubberband {
+	position: absolute;
+	overflow: hidden;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #0000FF;
+	background: #0077FF;
+}
+textarea.mxCellEditor {
+	overflow: auto;
+	border-style: solid;
+	border-width: 0;
+	border-color: black;
+	background: url('../images/transparent.gif');
+}
+div.mxWindow {
+	z-index: 1;
+	overflow: hidden;
+	position: absolute;
+	border-style: outset;
+	border-width: 1px;
+ 	background: url('../images/window.gif');
+}
+table.mxWindow {
+	table-layout: fixed;
+	border-collapse: collapse;
+	font-size: 8pt;
+  	font-family: Arial;
+}
+td.mxWindowTitle {
+ 	white-space: nowrap;
+ 	overflow: hidden;
+	height: 23px;
+	padding: 2px;
+ 	padding-top: 4px;
+ 	padding-bottom: 6px;
+ 	text-align: center;
+ 	color: black;
+ 	font-weight: bold;
+	background: url('../images/window-title.gif') repeat-x;
+}
+td.mxWindowPane {
+	padding: 0px;
+	vertical-align: top;
+}
+div.mxWindowPane {
+	overflow: hidden;
+}
+td.mxWindowPane td {
+  	font-size: 8pt;
+  	font-family: Arial;
+}
+td.mxWindowPane input, select, textarea, radio {
+  	font-size: 8pt;
+  	font-family: Arial;
+ 	padding: 1px;
+  	border-color: #8C8C8C;
+  	border-style: solid;
+  	border-width: 1px;
+}
+td.mxWindowPane button {
+	float: left;
+  	font-size: 8pt;
+  	font-family: Arial;
+  	padding: 2px;
+	background: url('../images/button.gif') repeat-x;
+}
+img.mxToolbarItem {
+	margin-right: 6px;
+	margin-bottom: 6px;
+	border-width: 1px;
+}
+select.mxToolbarCombo {
+	vertical-align: top;
+	border-style: inset;
+	border-width: 2px;
+}
+div.mxToolbarComboContainer {
+	padding: 2px;
+}
+img.mxToolbarMode {
+	margin: 2px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	border-width: 0px;
+}
+img.mxToolbarModeSelected {
+	margin: 0px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+	border-width: 2px;
+	border-style: inset;
+}
+div.mxTooltip {
+	position: absolute;
+	padding: 4px;
+	font-family: Arial;
+	font-size: 8pt;
+	cursor: default;
+	color: black;
+	background: #FFFFCC;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+}
+div.mxTooltipShadow {
+	position: absolute;
+	background: #888888;
+}
+div.mxPopupMenu {
+	position: absolute;
+ 	background: url('../images/window.gif');
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+}
+div.mxPopupMenuShadow {
+	position: absolute;
+	display: inline;
+	background: #888888;
+}
+table.mxPopupMenu {
+	border-collapse: collapse;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+tr.mxPopupMenuItem {
+	color: black;
+	cursor: default;
+}
+tr.mxPopupMenuItem:hover {
+	background-color: #000066;
+	color: #FFFFFF;
+}
+td.mxPopupMenuItem {
+	padding: 2px 30px 2px 10px;
+	font-family: Arial;
+	font-size: 8pt;
+}
+td.mxPopupMenuIcon {
+	padding: 2px 4px 2px 4px;
+	background-color: #D0D0D0;
+}
