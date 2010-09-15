@@ -17,8 +17,8 @@ import com.mobi.relacao.application.IRelacaoService;
 import com.mobi.relacao.form.RelationDTO;
 
 public class RelacaoServiceImpl implements IRelacaoService {
-
-	@Override
+	
+	
 	public void processarRelacoes(RelationDTO relacao) {
 		
 		Mobi mobi = new Mobi();
@@ -64,7 +64,7 @@ public class RelacaoServiceImpl implements IRelacaoService {
 			e.printStackTrace();
 		}
 		
-		//Relações de Herança
+		//RelaÃ§Ãµeses de HeranÃ§a
 		
 		if(relacao.getTipoRelacao().equalsIgnoreCase("heranca")){
 			criarRelacaoHeranca(classeConjuntoA, classeConjuntoB, dominio, instanciasConjuntoA, mobi);

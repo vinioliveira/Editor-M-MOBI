@@ -45,10 +45,25 @@ function carregar(){
 
 	graph.addEdge = function(edge, parent, source, target, index)
 	{
-
 		atualizarRelacionamento(source.value,target.value);
 		return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
 	}
+
+	graph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt)
+			{
+				
+				var cells = evt.getArgAt(0);
+				
+				for (var i = 0; i < cells.length; i++)
+				{
+					var cell = cells[i];
+					if (this.model.isEdge(cell))
+					{
+						eliminarRelacionamento(cell.source.value,cell.target.value);
+						this.model.remove(cell);
+					}
+				}
+			});
 
 	// Text label changes will go into the name field of the user object
 	graph.model.valueForCellChanged = function(cell, value)
@@ -125,11 +140,11 @@ function carregar(){
 		</c:forEach>
 
 		<c:forEach var="instancia" items="${relacao.relacionamentosInstancias}">
-			var intanciaA = model.getCell('${instancia.key}'); 
+			var intanciaA = model.getCell('${instancia.key}');
 			<c:forEach var="teste" items="${instancia.value}">
 				var idInstancia = 'ConjuntoB ' + '${teste}';
-				var intanciaB = model.getCell(idInstancia); 	
-				graph.insertEdge(parent, null, '', intanciaA, intanciaB,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+				var intanciaB = model.getCell(idInstancia);
+				graph.insertEdge(parent, intanciaA.value + '->' + intanciaB.value, '', intanciaA, intanciaB);
 			</c:forEach>
 		</c:forEach>
 		
