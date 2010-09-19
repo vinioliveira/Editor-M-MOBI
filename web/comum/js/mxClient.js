@@ -4530,6 +4530,7 @@ if(!this.polling)
 this.poll();
 }
 
+
 }
 
 };
@@ -18320,6 +18321,7 @@ this.model.endUpdate();
 return cells;
 };
 mxGraph.prototype.cellsAdded=function(cells,parent,index,source,target,absolute)
+
 {
 if(cells!=null&&parent!=null&&index!=null)
 {
@@ -20742,7 +20744,7 @@ mxGraph.prototype.traverse=function(vertex,directed,func,edge,visited,inverted)
                             var isSource=this.model.getTerminal(e,true)!=vertex;
                             if(!directed||isSource)
                             {
-                                var next=this.model.getTerminal(e,true);
+                                var next=this.model.getTerminal(e,isSource);
                                 this.traverse(next,directed,func,e,visited,true);
                             }
                         }
@@ -23204,6 +23206,7 @@ if(state!=null&&this.error==null)
 this.previousCursor=state.shape.node.style.cursor;
 state.shape.node.style.cursor=(false)?'all-scroll':'default';
 this.icons=this.createIcons(state);
+
 }
 this.previous=state;
 }
@@ -24186,6 +24189,7 @@ this.marker.invalidColor;
 this.setPreviewColor(color);
 this.abspoints=clone.absolutePoints;
 }
+
 this.drawPreview();
 
 me.consume();

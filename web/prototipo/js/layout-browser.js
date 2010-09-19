@@ -573,6 +573,20 @@
 					parent = graph.getDefaultParent();
 					ClasseNova = graph.insertVertex(parent, 'Novo', 'Novo', 0, 0, 80, 30);
 					graph.insertEdge(parent, null, '', ClasseNova,cell);
+					
+					alert(mxUtils.toString(cell));
+					alert(mxUtils.toString(ClasseNova));
+					
+					graph.startEditingAtCell(ClasseNova);
+					
+					params = 'tipoRelacao=Heranca' + '&classeA=' + cell.id + '&classeB=' + ClasseNova.id ;
+	  				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', 
+	  				{
+	  					method: 'get',
+	  					parameters:params,
+	  					evalScripts : true,
+	  					onComplete : resetarRelacoes
+	  				});
 											
 				});
 			}
@@ -580,6 +594,8 @@
 			menu.addItem('Edit label', 'comum/mxgraph/images/text.gif', function()
 			{
 				graph.startEditingAtCell(cell);
+				//alert(graph.getEditingValue(cell));
+				
 			});
 
 			if (cell.id != 'Thing' &&

@@ -58,6 +58,25 @@
 		{
 			return !this.model.isEdge(cell);
 		}
+
+		graph2.addListener(mxEvent.DOUBLE_CLICK, function(sender, event){
+			cell = event.getArgAt(1);
+						
+			if (graph2.model.isEdge(cell)){
+				if (cell.getStyle() == null){
+					carregarRelacao(cell.target.value,cell.source.value,"Heranca");
+				}
+			}
+			
+		});
+		//Adicionar evento para quando Atualizar o nome da Label das Classes
+		graph2.addListener(mxEvent.LABEL_CHANGED, function(sender, event){
+			cell = event.getArgAt(0);
+			alert(cell.id);
+			alert(graph.getEditingValue(cell));
+			
+		});
+
 		
 		graph2.getModel().beginUpdate();
 		try

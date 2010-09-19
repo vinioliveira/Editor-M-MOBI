@@ -24,6 +24,7 @@ import com.mobi.relacao.form.RelationDTO;
 public class DiagramaAction extends MappingDispatchAction {
 	
 	private static final String CONJUNTO_A = "ConjuntoA";
+	private static final String CONJUNTO_B = "ConjuntoB";
 
 	public ActionForward addRelacoes(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -101,6 +102,41 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 	}
 	
+	//TODO Atualizar  Label
+	/*public ActionForward atualizarNomeClasse(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		String nomeClasseAntigo = request.getParameter("classeAntigo");
+		String nomeClasseNovo = request.getParameter("classeNovo");
+		
+		List<RelacionamentoDTO> todosRelacionamentos = (List<RelacionamentoDTO>)request.getSession().getAttribute("relacionamentos");
+		
+		RelationDTO relacao = diagramaForm.getRelacaoDTO();  
+		RelacionamentoDTO relacao0 = new RelacionamentoDTO(relacao.getClasseA(),relacao.getClasseB());
+		relacao0.setTipoRelacao(relacao.getTipoRelacao());
+		
+		if(!relacionamentos.contains(relacao0)){
+			relacionamentos.add(relacao0);
+		}
+		
+		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
+		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		if(relacoes == null){
+			relacoes = new HashSet<RelationDTO>();
+		}
+		
+		relacoes.add(diagramaForm.getRelacaoDTO());
+		
+		request.getSession().setAttribute("listaNomeRelacoes", relacoes);
+		
+		diagramaForm.reset();
+		
+		
+		
+		return null;
+	}*/
 	public ActionForward atualizarInstancias(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -194,15 +230,16 @@ public class DiagramaAction extends MappingDispatchAction {
  		String classeA = request.getParameter("classeA");
 		String classeB = request.getParameter("classeB");
 		String tipoRelacao = request.getParameter("tipoRelacao");
-		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		Set<RelationDTO> listaRelacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
 		
 		RelationDTO relacao = new RelationDTO();
 		relacao.setClasseA(classeA);
 		relacao.setClasseB(classeB);
 		relacao.setTipoRelacao(tipoRelacao);
 		
-		List<RelationDTO> relacoesAux = new ArrayList<RelationDTO>(relacoes);
+		List<RelationDTO> relacoesAux = new ArrayList<RelationDTO>(listaRelacoes);
 		relacao = relacoesAux.get(relacoesAux.indexOf(relacao));
+		criarInstanciasRelacacao(relacoesAux,relacao);
 		diagramaForm.setRelacaoDTO(relacao);
 		request.setAttribute("relacao", relacao);
 		
@@ -210,6 +247,55 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 	}
 	
+	private void criarInstanciasRelacacao(List<RelationDTO> listaRelacacoes, RelationDTO relacao){
+		if (relacao.getInstanciasB().isEmpty()){
+			List<String> nomeInstanciasB = new ArrayList<String>();
+			for(RelationDTO relacaoTemp : listaRelacacoes){
+				if(relacaoTemp.getClasseA().equals(relacao.getClasseA())){
+					nomeInstanciasB.add(relacaoTemp.getClasseB());
+				}
+				
+			}
+			
+					
+			
+			for(String nomeInstancia : nomeInstanciasB){
+				addInstancia("I"+nomeInstancia, CONJUNTO_A, nomeInstancia , relacao);
+			}
+			
+			addInstancia("I"+relacao.getClasseB(), CONJUNTO_B, relacao.getClasseA() , relacao);
+			
+			Set<String> instancias = relacao.getRelacionamentosInstancias().get(CONJUNTO_A + " " +"I"+relacao.getClasseB());
+			instancias.add("I"+relacao.getClasseB());
+			relacao.getRelacionamentosInstancias().put(CONJUNTO_A + " " +"I"+relacao.getClasseB(), instancias);
+
+			
+			
+		}
+		
+	}
+	
+	
+	private void addInstancia(String nomeInstancia, String conjuntoInstancia, String nomeClass, RelationDTO relacao){
+		
+		
+		if(CONJUNTO_A.equals(conjuntoInstancia)){
+			if(relacao.getClasseA() == null){
+				relacao.setClasseA(nomeClass);
+			}
+			relacao.getInstanciasA().add(nomeInstancia);
+			relacao.getRelacionamentosInstancias().put(CONJUNTO_A + " " + nomeInstancia, new HashSet<String>());
+		}
+		
+		if(CONJUNTO_B.equals(conjuntoInstancia)){
+			if(relacao.getClasseB() == null){
+				relacao.setClasseB(nomeClass);
+			}
+			relacao.getInstanciasB().add(nomeInstancia);
+			relacao.getRelacionamentosInstancias().put(CONJUNTO_B + " " + nomeInstancia, new HashSet<String>());
+		}
+	}
+
 	public ActionForward eliminarRelacionamento(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
