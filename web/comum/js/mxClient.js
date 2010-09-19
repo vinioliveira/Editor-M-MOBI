@@ -2080,7 +2080,7 @@ getSizeForString:function(text,fontSize,fontFamily)
 {
 var div=document.createElement('div');
 div.style.fontSize=fontSize||mxConstants.DEFAULT_FONTSIZE;
-div.style.fontFamily=fontFamily||mxConstants.DEFAULT_FONTFAMILY 
+div.style.fontFamily=fontFamily||mxConstants.DEFAULT_FONTFAMILY
 div.style.position='absolute';
 div.style.display='inline';
 div.style.visibility='hidden';
@@ -2091,6 +2091,7 @@ document.body.removeChild(div);
 return size;
 },
 getViewXml:function(graph,scale,cells,x0,y0)
+
 {
 x0=(x0!=null)?x0:0;
 y0=(y0!=null)?y0:0;
@@ -2422,6 +2423,7 @@ button.setAttribute('style','float:right');
 }
 mxEvent.addListener(button,'click',function(evt)
 {
+
 warn.destroy();
 });
 mxUtils.write(button,mxResources.get(mxUtils.closeResource)||mxUtils.closeResource);
@@ -4527,7 +4529,9 @@ if(!this.polling)
 {
 this.poll();
 }
+
 }
+
 };
 mxSession.prototype.stop=function(reason)
 {
@@ -7250,7 +7254,7 @@ path.moveTo(w,0);
 path.lineTo(0,0.5*h);
 path.lineTo(w,h);
 }
-else 
+else
 {
 path.moveTo(0,0);
 path.lineTo(w,0.5*h);
@@ -7624,7 +7628,7 @@ else if(align==mxConstants.ALIGN_CENTER)
 {
 x+=(this.bounds.width-width)/2;
 }
-else 
+else
 {
 x+=inset;
 }
@@ -7637,7 +7641,7 @@ else if(valign==mxConstants.ALIGN_TOP)
 {
 y+=inset;
 }
-else 
+else
 {
 y+=(this.bounds.height-height)/2;
 }
@@ -8078,6 +8082,7 @@ if(mxUtils.getValue(this.style,mxConstants.STYLE_HORIZONTAL,true))
 {
 this.startSize=Math.min(this.startSize,this.bounds.height);
 this.label.style.height=(this.startSize*this.scale)+'px';
+
 this.updateHtmlShape(this.content);
 var h=this.startSize*this.scale;
 this.content.style.top=h+'px';
@@ -9064,6 +9069,7 @@ sum+=d+h;
 child=child.next;
 }
 return sum;
+
 };
 mxCompactTreeLayout.prototype.merge=function(p1,p2)
 {
@@ -10581,6 +10587,7 @@ var internalEdge=root.connectsAsSource[i];
 var targetNode=internalEdge.target;
 this.extendedDfs(root,targetNode,internalEdge,visitor,seen,root.hashCode,i,layer+1);
 }
+
 }
 else
 {
@@ -14866,6 +14873,7 @@ state.shape.image=image;
 var indicator=state.view.graph.getIndicatorColor(state);
 var key=state.view.graph.getIndicatorShape(state);
 var ctor=(key!=null)?this.shapes[key]:null;
+
 if(indicator!=null)
 {
 state.shape.indicatorShape=ctor;
@@ -17064,7 +17072,7 @@ else if(renderHint==mxConstants.RENDERING_HINT_FASTER)
 {
 this.dialect=mxConstants.DIALECT_PREFERHTML;
 }
-else 
+else
 {
 this.dialect=mxConstants.DIALECT_MIXEDHTML;
 }
@@ -20710,36 +20718,52 @@ roots.push(best);
 }
 return roots;
 };
-mxGraph.prototype.traverse=function(vertex,directed,func,edge,visited)
+mxGraph.prototype.traverse=function(vertex,directed,func,edge,visited,inverted)
 {
-if(func!=null&&vertex!=null)
-{
-directed=(directed!=null)?directed:true;
-visited=visited||new Array();
-var id=mxCellPath.create(vertex);
-if(visited[id]==null)
-{
-visited[id]=vertex;
-var result=func(vertex,edge);
-if(result==null||result)
-{
-var edgeCount=this.model.getEdgeCount(vertex);
-if(edgeCount>0)
-{
-for(var i=0;i<edgeCount;i++)
-{
-var e=this.model.getEdgeAt(vertex,i);
-var isSource=this.model.getTerminal(e,true)==vertex;
-if(!directed||isSource)
-{
-var next=this.model.getTerminal(e,!isSource);
-this.traverse(next,directed,func,e,visited);
-}
-}
-}
-}
-}
-}
+    if(func!=null&&vertex!=null)
+    {
+        directed=(directed!=null)?directed:true;
+        inverted=(inverted != null)?inverted:false;
+        visited=visited||new Array();
+        var id=mxCellPath.create(vertex);
+        if(visited[id]==null)
+        {
+            visited[id]=vertex;
+            var result=func(vertex,edge);
+            if(result==null||result)
+            {
+                var edgeCount=this.model.getEdgeCount(vertex);
+                if(edgeCount>0)
+                {
+                    if(inverted){
+                        for(var i=0;i<edgeCount;i++)
+                        {
+                            var e=this.model.getEdgeAt(vertex,i);
+                            var isSource=this.model.getTerminal(e,true)!=vertex;
+                            if(!directed||isSource)
+                            {
+                                var next=this.model.getTerminal(e,true);
+                                this.traverse(next,directed,func,e,visited,true);
+                            }
+                        }
+
+                    }
+                    else{
+                        for(var i=0;i<edgeCount;i++)
+                        {
+                            var e=this.model.getEdgeAt(vertex,i);
+                            var isSource=this.model.getTerminal(e,true)==vertex;
+                            if(!directed||isSource)
+                            {
+                                var next=this.model.getTerminal(e,!isSource);
+                                this.traverse(next,directed,func,e,visited);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 };
 
 mxGraph.prototype.isCellSelected=function(cell)
@@ -20837,6 +20861,7 @@ this.setSelectionCell(parent);
 }
 else if(cell!=null&&isChild)
 {
+
 var tmp=this.model.getChildCount(cell);
 if(tmp>0)
 {
@@ -21450,7 +21475,7 @@ mxMultiplicity.prototype.checkType=function(graph,value,type,attr,attrValue)
 {
 if(value!=null)
 {
-if(!isNaN(value.nodeType)) 
+if(!isNaN(value.nodeType))
 {
 return mxUtils.isNode(value,type,attr,attrValue);
 }
@@ -24162,6 +24187,7 @@ this.setPreviewColor(color);
 this.abspoints=clone.absolutePoints;
 }
 this.drawPreview();
+
 me.consume();
 }
 };
@@ -25148,6 +25174,7 @@ if(item.nodeName=='add')
 {
 var condition=item.getAttribute('if');
 if(condition==null||conditions[condition])
+
 {
 var as=item.getAttribute('as');
 as=mxResources.get(as)||as;
@@ -27233,7 +27260,7 @@ if(typeof(value)!='object' )
 {
 this.writePrimitiveAttribute(enc,obj,attr,value,node);
 }
-else 
+else
 {
 this.writeComplexAttribute(enc,obj,attr,value,node);
 }
@@ -28299,3 +28326,4 @@ if(mxClient.loading==null)
 {
 mxClient.onload();
 }
+

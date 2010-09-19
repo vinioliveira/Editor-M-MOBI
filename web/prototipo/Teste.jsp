@@ -19,7 +19,7 @@
 	<script type="text/javascript" src="../comum/js/mxClient.js"></script>
 
 	<!-- Example code -->
-	<script type="text/javascript">
+	<script type="text/javascript"><!--
 		// Program starts here. Creates a sample graph in the
 		// DOM node with the specified ID. This function is invoked
 		// from the onLoad event handler of the document (see below).
@@ -42,6 +42,9 @@
 				container.style.top = '0px';
 				container.style.right = '0px';
 				container.style.bottom = '0px';
+
+				
+				
 
 				if (mxClient.IS_IE)
 				{
@@ -155,7 +158,7 @@
 						model.beginUpdate();
 						try
 						{
-							var vertex = graph.insertVertex(parent, null, 'New Vertex');
+							var vertex = graph.insertVertex(parent, 'novo', 'New Vertex');
 							var geometry = model.getGeometry(vertex);
 
 							// Updates the geometry of the vertex with the
@@ -242,16 +245,32 @@ function deleteSubtree(graph, cell)
 {
 	// Gets the subtree from cell downwards
 	var cells = [];
-	graph.traverse(cell, true, function(vertex)
+	/*graph.traverse(cell, true, function(vertex)
 	{
 		cells.push(vertex);
 		
 		return true;
-	});
+	});*/
 
-	graph.removeCells(cells);
+	model = graph.getModel();
+	
+	var edgeCount= model.getEdgeCount(cell);
+    if(edgeCount>0)
+    {
+        for(var i=0;i<edgeCount;i++)
+        {
+            var e= model.getEdgeAt(cell,i);
+            var isSource=this.model.getTerminal(e,true)==cell;
+            if(isSource)
+            {
+                var next=this.model.getTerminal(e,!isSource);
+             	alert(next.id);
+            }
+        }
+    }
+	
 };
-	</script>
+	--></script>
 </head>
 
 <!-- Calls the main function after the page has loaded. Container is dynamically created. -->

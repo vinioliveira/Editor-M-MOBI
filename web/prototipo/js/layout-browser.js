@@ -560,7 +560,7 @@
 	
 	mxBasePath = 'comum/mxgraph';
 	
-	function createPopupMenu(graph, menu, cell, evt)
+	function createPopupMenu(graph, menu, cell, evt, classe)
 	{
 		var model = graph.getModel();
 
@@ -570,40 +570,10 @@
 			{
 				menu.addItem('Add child', 'comum/mxgraph/images/check.png', function(){
 					
-				/*	factoryMethod = function(menu, cell, evt)
-					{
-						return createPopupMenu(graph, menu, cell, evt);
-					};
-					*/
-/*					var parent = graph.getDefaultParent();
-
-					model.beginUpdate();
-					try	{
-						var vertex = graph.insertVertex(parent, null, 'New Vertex');
-						var geometry = model.getGeometry(vertex);
-
-						// Updates the geometry of the vertex with the
-						// preferred size computed in the graph
-						var size = graph.getPreferredSizeForCell(vertex);
-						geometry.width = size.width;
-						geometry.height = size.height;
-
-						// Adds the edge between the existing cell
-						// and the new vertex and executes the
-						// automatic layout on the parent
-						var edge = graph.insertEdge(parent, null, '', cell, vertex);
-
-						// Configures the edge label "in-place" to reside
-						// at the end of the edge (x = 1) and with an offset
-						// of 20 pixels in negative, vertical direction.
-						edge.geometry.x = 1;
-						edge.geometry.y = 0;
-						edge.geometry.offset = new mxPoint(0, -20);
-					}
-					finally
-					{
-						model.endUpdate();
-					}*/
+					parent = graph.getDefaultParent();
+					ClasseNova = graph.insertVertex(parent, 'Novo', 'Novo', 0, 0, 80, 30);
+					graph.insertEdge(parent, null, '', ClasseNova,cell);
+											
 				});
 			}
 
@@ -612,12 +582,21 @@
 				graph.startEditingAtCell(cell);
 			});
 
-			if (cell.id != 'treeRoot' &&
+			if (cell.id != 'Thing' &&
 				model.isVertex(cell))
 			{
 				menu.addItem('Delete', 'comum/mxgraph/images/delete.gif', function()
 				{
-					deleteSubtree(graph, cell);
+					var cells = [];								
+						
+					graph.traverse(cell, true, function(vertex)
+							{
+								cells.push(vertex);					
+								return true;
+							},null,new Array(), true);
+
+					graph.removeCells(cells);
+										
 				});
 			}
 				

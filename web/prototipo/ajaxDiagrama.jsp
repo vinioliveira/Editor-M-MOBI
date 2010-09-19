@@ -75,6 +75,10 @@
 			 	if(classeA == null){
 			 		classeA = graph2.insertVertex(parent2, '${relacao.classeA}', '${relacao.classeA}', 0, 0, 80, 30);
 			 		graph2.insertEdge(parent2, null, '', classeA,thing);
+			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
+					{
+						return createPopupMenu(graph2, menu, cell, evt, classeB);
+					};
 			 	}
 
 			 	if('${relacao.tipoRelacao}' == 'Heranca'){
@@ -82,7 +86,7 @@
 			 		graph2.insertEdge(parent2, null, '', classeB,classeA);
 			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
 					{
-						return createPopupMenu(graph, menu, cell, evt);
+						return createPopupMenu(graph2, menu, cell, evt, classeB);
 					};
 			 		
 			 	}
