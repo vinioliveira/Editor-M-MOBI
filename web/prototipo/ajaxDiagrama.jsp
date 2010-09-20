@@ -59,6 +59,7 @@
 			return !this.model.isEdge(cell);
 		}
 
+		//Adicionar evento para gerar as intancias quando clicar na relação
 		graph2.addListener(mxEvent.DOUBLE_CLICK, function(sender, event){
 			cell = event.getArgAt(1);
 						
@@ -69,11 +70,21 @@
 			}
 			
 		});
+		
 		//Adicionar evento para quando Atualizar o nome da Label das Classes
 		graph2.addListener(mxEvent.LABEL_CHANGED, function(sender, event){
 			cell = event.getArgAt(0);
-			alert(cell.id);
-			alert(graph.getEditingValue(cell));
+
+			params = 'classeAntigo='+ cell.id + '&classeNovo=' + cell.value ;
+				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/atualizarNomeClasse.do', 
+				{
+					method: 'get',
+					parameters:params,
+					evalScripts : true,
+					onComplete : resetarRelacoes
+				});
+
+			
 			
 		});
 

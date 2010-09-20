@@ -123,6 +123,11 @@
 				name="relacaoForm" scope="session" parameter="eliminarInstancia" >
 		</action>
 		
+		<action path="/atualizarNomeClasse" type="com.mobi.comum.action.DiagramaAction"
+				name="relacaoForm" scope="session" parameter="atualizarNomeClasse">
+				<forward name="success" path="/prototipo/ajaxDiagrama.jsp"/>
+		</action>
+		
     </action-mappings>
 
 

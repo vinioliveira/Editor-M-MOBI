@@ -102,41 +102,58 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 	}
 	
-	//TODO Atualizar  Label
-	/*public ActionForward atualizarNomeClasse(ActionMapping mapping, ActionForm form,
+	@SuppressWarnings("unchecked")
+	public ActionForward atualizarNomeClasse(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
 		String nomeClasseAntigo = request.getParameter("classeAntigo");
 		String nomeClasseNovo = request.getParameter("classeNovo");
 		
-		List<RelacionamentoDTO> todosRelacionamentos = (List<RelacionamentoDTO>)request.getSession().getAttribute("relacionamentos");
+		List<RelacionamentoDTO> todasRelacoes =  (List<RelacionamentoDTO>) request.getSession().getAttribute("relacionamentos");
+		Set<RelationDTO> listaRelacaoNomeClasse =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
 		
-		RelationDTO relacao = diagramaForm.getRelacaoDTO();  
-		RelacionamentoDTO relacao0 = new RelacionamentoDTO(relacao.getClasseA(),relacao.getClasseB());
-		relacao0.setTipoRelacao(relacao.getTipoRelacao());
+		boolean classeEncontrada = false;
 		
-		if(!relacionamentos.contains(relacao0)){
-			relacionamentos.add(relacao0);
+		if(todasRelacoes != null){
+			for(RelacionamentoDTO relacionamento : todasRelacoes){
+				
+				if(relacionamento.getClasseA().equals(nomeClasseAntigo)){
+					
+					relacionamento.setClasseA(nomeClasseNovo);
+				}
+				
+				if(relacionamento.getClasseB().equals(nomeClasseAntigo)){
+				
+					relacionamento.setClasseB(nomeClasseNovo);
+				}
+				
+			}
+			for(RelationDTO relacao : listaRelacaoNomeClasse){
+				
+				if(relacao.getClasseA().equals(nomeClasseAntigo)){
+					
+					relacao.setClasseA(nomeClasseNovo);
+				}
+				
+				if(relacao.getClasseB().equals(nomeClasseAntigo)){
+				
+					relacao.setClasseB(nomeClasseNovo);
+				}
+				
+			}
+			
 		}
 		
-		request.getSession().setAttribute("relacionamentos", relacionamentos);
-		
-		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
-		if(relacoes == null){
-			relacoes = new HashSet<RelationDTO>();
+		if(classeEncontrada){
+			request.getSession().setAttribute("relacionamentos", todasRelacoes);
+			request.getSession().setAttribute("listaNomeRelacoes", listaRelacaoNomeClasse);
 		}
-		
-		relacoes.add(diagramaForm.getRelacaoDTO());
-		
-		request.getSession().setAttribute("listaNomeRelacoes", relacoes);
-		
-		diagramaForm.reset();
-		
-		
-		
-		return null;
-	}*/
+					
+		return mapping.findForward("success");
+	}
+	
+	@SuppressWarnings("unchecked")
 	public ActionForward atualizarInstancias(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -257,8 +274,6 @@ public class DiagramaAction extends MappingDispatchAction {
 				
 			}
 			
-					
-			
 			for(String nomeInstancia : nomeInstanciasB){
 				addInstancia("I"+nomeInstancia, CONJUNTO_A, nomeInstancia , relacao);
 			}
@@ -268,8 +283,6 @@ public class DiagramaAction extends MappingDispatchAction {
 			Set<String> instancias = relacao.getRelacionamentosInstancias().get(CONJUNTO_A + " " +"I"+relacao.getClasseB());
 			instancias.add("I"+relacao.getClasseB());
 			relacao.getRelacionamentosInstancias().put(CONJUNTO_A + " " +"I"+relacao.getClasseB(), instancias);
-
-			
 			
 		}
 		
@@ -316,6 +329,7 @@ public class DiagramaAction extends MappingDispatchAction {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ActionForward eliminarInstancia(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
