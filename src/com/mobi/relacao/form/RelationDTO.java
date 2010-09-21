@@ -52,7 +52,10 @@ public class RelationDTO implements Serializable {
 		this.tipoRelacao = tipoRelacao;
 	}
 	public String getNomeRelacao() {
-		return getClasseA() + " " + getClasseB();
+		if(tipoRelacao.equals("Heranca")){
+			return getClasseA() + " Heranca " + getClasseB();
+		}
+		return getClasseA() + " Tem/Pertence " + getClasseB();
 	}
 	public void setNomeRelacao(String nomeRelacao) {
 		this.nomeRelacao = nomeRelacao;
@@ -71,6 +74,8 @@ public class RelationDTO implements Serializable {
 			HashMap<String, Set<String>> relacionamentosInstancias) {
 		this.relacionamentosInstancias = relacionamentosInstancias;
 	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

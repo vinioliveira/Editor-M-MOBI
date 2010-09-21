@@ -57,6 +57,9 @@
             <div>
             	<div id="relacoes-div"></div>
             </div>
+            <div>
+            	<div id="classes"></div>
+            </div>
         </div>
 		
      </div>
