@@ -30,7 +30,18 @@ var start = {
     layout: 'fit',
     bodyStyle: 'padding:25px',
     contentEl: 'start-div',
-    tbar: [
-    ]// pull existing content from the page
+    tbar: [{
+			text:'Gerar OWL',
+			scope: this,
+			handler: function(){
+    			
+    			new Ajax.Request('/EditorM-MOBI/gerarArquivoOWL.do', 
+  				{
+  					method: 'post',
+  					evalScripts : true
+  				});
+    		
+    		}
+    }]// pull existing content from the page
 };
 

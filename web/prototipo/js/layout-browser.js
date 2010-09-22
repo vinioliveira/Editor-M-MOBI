@@ -222,11 +222,6 @@
 	}
 	
 	function resetarRelacoes(){
-		/*var suns = graph.getChildCells();
-		for (var int = 0; int < suns.length; int++){
-			model.remove(suns[int]);
-		}*/
-		
 		editor.destroy();
 		main();
 		
@@ -427,7 +422,7 @@
 	            width: 170,
 	            scope: this,
 	            handler: function(){
-		        	if(qtdInstanciasConjuntoA < 5)
+		        	if(qtdInstanciasConjuntoA <= 5)
 					{
 						graph.getModel().beginUpdate();
 						parent = graph.getDefaultParent();
@@ -438,7 +433,7 @@
 			               var nameClass = '';
 			               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xLeft, yLeft, widht, height);
 		
-			               if(qtdInstanciasConjuntoA == 0){
+			               if(qtdInstanciasConjuntoA == 1){
 			            	   nameClass = 'Classe ' + qtdClasses;
 			            	   if(Ext.getCmp("classeA").getValue(nameClass) == ''){
 			            		   Ext.getCmp("classeA").setValue(nameClass);
@@ -486,7 +481,7 @@
 	            width: 170,
 	            text:'Add Instancia B',
 	            handler: function(){
-	        	if(qtdInstanciasConjuntoB < 5)
+	        	if(qtdInstanciasConjuntoB <= 5)
 				{
 					graph.getModel().beginUpdate();
 					parent = graph.getDefaultParent();
@@ -497,7 +492,7 @@
 		               var nameClass = '';
 		               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xRight, yRight, widht, height);
 	
-		               if(qtdInstanciasConjuntoB == 0){
+		               if(qtdInstanciasConjuntoB == 1){
 		            	   nameClass = 'Classe ' + qtdClasses;
 		            	   if(Ext.getCmp("classeB").getValue() == ''){
 		            		   Ext.getCmp("classeB").setValue(nameClass);
@@ -552,7 +547,7 @@
 		            width: 170,
 		            scope: this,
 		            handler: function(){
-			        	if(qtdInstanciasConjuntoA < 5)
+			        	if(qtdInstanciasConjuntoA <= 5)
 						{
 							graph.getModel().beginUpdate();
 							parent = graph.getDefaultParent();
@@ -563,7 +558,7 @@
 				               var nameClass = '';
 				               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xLeft, yLeft, widht, height);
 			
-				               if(qtdInstanciasConjuntoA == 0){
+				               if(qtdInstanciasConjuntoA == 1){
 				            	   nameClass = 'Classe ' + qtdClasses;
 				            	   if(Ext.getCmp("classeA").getValue(nameClass) == ''){
 				            		   Ext.getCmp("classeA").setValue(nameClass);
@@ -612,7 +607,7 @@
 		            width: 170,
 		            text:'Add Instancia B',
 		            handler: function(){
-		        	if(qtdInstanciasConjuntoB < 5)
+		        	if(qtdInstanciasConjuntoB <= 5)
 					{
 						graph.getModel().beginUpdate();
 						parent = graph.getDefaultParent();
@@ -623,7 +618,7 @@
 			               var nameClass = '';
 			               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xRight, yRight, widht, height);
 		
-			               if(qtdInstanciasConjuntoB == 0){
+			               if(qtdInstanciasConjuntoB == 1){
 			            	   nameClass = 'Classe ' + qtdClasses;
 			            	   if(Ext.getCmp("classeB").getValue() == ''){
 			            		   Ext.getCmp("classeB").setValue(nameClass);

@@ -1,146 +1,140 @@
 package com.mobi.relacao.application.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import mobi.Classe;
-import mobi.Dominio;
-import mobi.FabricaRelacao;
-import mobi.Instancia;
-import mobi.Mobi;
-import mobi.Relacao;
+import mobi.core.Mobi;
+import mobi.core.common.Relation;
+import mobi.core.concept.Class;
+import mobi.core.concept.Instance;
+import mobi.extension.export.owl.Mobi2OWL;
 
+import com.mobi.comum.util.EditorMMobiConstantes;
 import com.mobi.relacao.application.IRelacaoService;
 import com.mobi.relacao.form.RelationDTO;
 
 public class RelacaoServiceImpl implements IRelacaoService {
 	
 	
-	public void processarRelacoes(RelationDTO relacao) {
+	public void processarRelacoes(Set<RelationDTO> relacoes) {
 		
-		Mobi mobi = Mobi.getInstancia();
+		Mobi mobi = new Mobi("CampeonatoBasquete");
 		
-		Dominio dominio = new Dominio();
-		dominio.setUri("Teste");
 		
-		//Cria as instancias e adciona os conceitos 
-		List<Instancia> instanciasConjuntoA = new ArrayList<Instancia>();
-		List<Instancia> instanciasConjuntoB = new ArrayList<Instancia>();
-		
-		for(String instanciaA : relacao.getInstanciasA()){
-			Instancia instancia = new Instancia();
-			instancia.setUri(instanciaA);
-			instanciasConjuntoA.add(instancia);
-			mobi.vinculaConceito(instancia);
-		}
-		
-		for(String instanciaB : relacao.getInstanciasB()){
-			Instancia instancia = new Instancia();
-			instancia.setUri(instanciaB);
-			instanciasConjuntoB.add(instancia);
-			mobi.vinculaConceito(instancia);
-		}
-		
-		//Cria as classes
-		Classe classeConjuntoA = new Classe();
-		Classe classeConjuntoB = new Classe();
-		classeConjuntoA.setUri(relacao.getClasseA());
-		classeConjuntoB.setUri(relacao.getClasseB());
-		
-		mobi.vinculaConceito(classeConjuntoA);
-		mobi.vinculaConceito(classeConjuntoB);
-		
-		//Relacionando Classes e Instancias
-		try {
+		for(RelationDTO relacao : relacoes){
 			
-			for(Instancia instance : instanciasConjuntoA){
-				mobi.e_um(instance.getUri(), classeConjuntoA.getUri());
+			//Cria as instancias e adciona os conceitos 
+			List<Instance> instanciasConjuntoA = new ArrayList<Instance>();
+			List<Instance> instanciasConjuntoB = new ArrayList<Instance>();
+			
+			for(String instanciaA : relacao.getInstanciasA()){
+				Instance instancia = new Instance(instanciaA);
+				instanciasConjuntoA.add(instancia);
+				mobi.addConcept(instancia);
 			}
 			
-			for(Instancia instance : instanciasConjuntoB){
-				mobi.e_um(instance.getUri(), classeConjuntoB.getUri());
+			for(String instanciaB : relacao.getInstanciasB()){
+				Instance instancia = new Instance(instanciaB);
+				instanciasConjuntoB.add(instancia);
+				mobi.addConcept(instancia);
 			}
-		
-		} catch (Exception e) {
-			e.printStackTrace();
+			
+			//Cria as classes
+			Class classeConjuntoA = new Class(relacao.getClasseA());
+			Class classeConjuntoB = new Class(relacao.getClasseB());
+			
+			mobi.addConcept(classeConjuntoA);
+			mobi.addConcept(classeConjuntoB);
+			
+			//Relacionando Classes e Instancias
+			try {
+				mobi.linkInstances(new HashSet<Instance>(instanciasConjuntoA), classeConjuntoA);
+				mobi.linkInstances(new HashSet<Instance>(instanciasConjuntoB), classeConjuntoB);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			//Relaçõeses de Herança
+			
+			if(relacao.getTipoRelacao().equalsIgnoreCase(EditorMMobiConstantes.HERANCA)){
+				criarRelacaoHeranca(classeConjuntoA, classeConjuntoB,relacao.getRelacionamentosInstancias(), mobi);
+			}
+			
+			if(relacao.getTipoRelacao().equalsIgnoreCase(EditorMMobiConstantes.COMPOSICAO)){
+				criarRelacaoComposicao(classeConjuntoA,classeConjuntoB,relacao.getRelacionamentosInstancias(),mobi);
+			}
+			
+			if(relacao.getTipoRelacao().equalsIgnoreCase(EditorMMobiConstantes.EQUIVALENCIA)){
+				criarRelacaoEquivalencia(classeConjuntoA,classeConjuntoB,mobi);
+			}
+			
 		}
 		
-		//Relaçõeses de Herança
+		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.org/", mobi);
+		mobi2OWL.setExportPath("/home/diego/");
+		mobi2OWL.exportMobiToOWL("Teste.owl");
 		
-		if(relacao.getTipoRelacao().equalsIgnoreCase("heranca")){
-			criarRelacaoHeranca(classeConjuntoA, classeConjuntoB, dominio, relacao.getRelacionamentosInstancias(), mobi);
-		}
+		System.out.println("Fim da Exportação");
 		
-		if(relacao.getTipoRelacao().equalsIgnoreCase("composicao")){
-			criarRelacaoComposicao(classeConjuntoA,classeConjuntoB, dominio,mobi,relacao.getRelacionamentosInstancias());
-		}
-		
-		if(relacao.getTipoRelacao().equalsIgnoreCase("equivalencia")){
-			criarRelacaoEquivalencia(classeConjuntoA,classeConjuntoB,dominio,mobi);
-		}
 		
 	}
 	
-	private void criarRelacaoHeranca(Classe classeA,Classe classeB, Dominio dominio,Map<String, Set<String>> relacionamentosInstancias,Mobi mobi){
+	private void criarRelacaoHeranca(Class classeA,Class classeB, Map<String, Set<String>> relacionamentosInstancias,Mobi mobi){
 		
-		
-		Relacao rHeranca =FabricaRelacao.getInstancia().criaRelacaoHeranca(classeA.getUri() + classeB.getUri());
+		Relation rHeranca = mobi.createInheritanceRelation(classeA.getUri() + classeB.getUri());
         
-        rHeranca.setClasseA(classeA);
-        rHeranca.setClasseB(classeB);
-        rHeranca.setDominio(dominio);
+        rHeranca.setClassA(classeA);
+        rHeranca.setClassB(classeB);
      
-        mobi.vinculaConceito(rHeranca);
-        
         for (Entry<String, Set<String>> entry : relacionamentosInstancias.entrySet()){
 			
 			for(String instancia : entry.getValue() ){
 				
-				rHeranca.adicionaRelacaoInstancia(entry.getKey(),instancia);
+				rHeranca.addInstanceRelation(mobi.getInstance(entry.getKey().substring(10)),mobi.getInstance(instancia));
 				
 			}
 			
 		}
         
-        rHeranca.processaCardinalidade();
-		
+        rHeranca.processCardinality();
+        mobi.addConcept(rHeranca);
 		
 	}
 	
-	private void criarRelacaoComposicao(Classe classeA,Classe classeB, Dominio dominio,Mobi mobi,Map<String, Set<String>> relacionamentosInstancias){
+	private void criarRelacaoComposicao(Class classeA,Class classeB,Map<String, Set<String>> relacionamentosInstancias,Mobi mobi){
 		
-		Relacao relacaoComposicao =FabricaRelacao.getInstancia().criaRelacaoComposicaoBidirecionalTemPertence(classeA.getUri(),classeB.getUri());
-		relacaoComposicao.setClasseA(classeA);
-		relacaoComposicao.setClasseB(classeB);
-		relacaoComposicao.setDominio(dominio);
+		Relation relacaoComposicao = mobi.createBidirecionalCompositionRelationship(classeA.getUri(),classeB.getUri());
+		relacaoComposicao.setClassA(classeA);
+		relacaoComposicao.setClassB(classeB);
 		relacaoComposicao.setUri(classeA.getUri() + classeB.getUri());
-		
-		mobi.vinculaConceito(relacaoComposicao);
-		
 		
 		for (Entry<String, Set<String>> entry : relacionamentosInstancias.entrySet()){
 			
 			for(String instancia : entry.getValue() ){
 				
-				relacaoComposicao.adicionaRelacaoInstancia(entry.getKey(),instancia);
+				relacaoComposicao.addInstanceRelation(mobi.getInstance(entry.getKey()),mobi.getInstance(instancia));
 				
 			}
 			
 		}
 		
+		relacaoComposicao.processCardinality();
+		mobi.addConcept(relacaoComposicao);
+		
+		
 	}
 	
-	private void criarRelacaoEquivalencia(Classe classeA, Classe classeB,Dominio dominio, Mobi mobi){
+	private void criarRelacaoEquivalencia(Class classeA, Class classeB,Mobi mobi){
 		
-		Relacao relacaoSimetrica =FabricaRelacao.getInstancia().criaRelacaoComposicaoSimetrica(classeA.getUri() + classeB.getUri());
-		relacaoSimetrica.setClasseA(classeA);
-        relacaoSimetrica.setClasseB(classeB);
-        relacaoSimetrica.setDominio(dominio);
-      
-        mobi.vinculaConceito(relacaoSimetrica);
+		Relation relacaoSimetrica =mobi.createSymmetricRelation(classeA.getUri() + classeB.getUri());
+		relacaoSimetrica.setClassA(classeA);
+        relacaoSimetrica.setClassB(classeB);
+        mobi.addConcept(relacaoSimetrica);
 		
 	}
 

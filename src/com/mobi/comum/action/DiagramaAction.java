@@ -68,9 +68,6 @@ public class DiagramaAction extends MappingDispatchAction {
 		diagramaForm.getRelacaoDTO().setClasseA(classeA);
 		diagramaForm.getRelacaoDTO().setClasseB(classeB);
 		
-		IRelacaoService relacaoService = new RelacaoServiceImpl();
-		relacaoService.processarRelacoes(diagramaForm.getRelacaoDTO());
-		
 		List<RelacionamentoDTO> relacionamentos = (List<RelacionamentoDTO>)request.getSession().getAttribute("relacionamentos");
 		
 		if(relacionamentos == null){
@@ -356,6 +353,21 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 		return null;
 	}
+	
+	public ActionForward gerarArquivoOWL(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		
+		IRelacaoService relacaoService = new RelacaoServiceImpl();
+		relacaoService.processarRelacoes(relacoes);
+		
+		return null;
+		
+	}
+	
+	
 	
 
 }

@@ -87,6 +87,10 @@
 			<forward name="success" path="/prototipo/ajaxDiagrama.jsp"/>
 		</action>
 		
+		<action path="/gerarArquivoOWL" type="com.mobi.comum.action.DiagramaAction" 
+				name="relacaoForm" parameter="gerarArquivoOWL" scope="session">
+		</action>
+		
 		<action path="/visualizarRelacao" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" scope="session" parameter="visualizarRelacoes">
 			<forward name="success" path="/prototipo/layout.jsp"/>

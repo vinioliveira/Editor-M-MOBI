@@ -9,8 +9,8 @@ var yLeft = 20;
 var yRight = 20;
 var height = 30;
 var widht = 80;
-var qtdInstanciasConjuntoA = 0;
-var qtdInstanciasConjuntoB = 0;
+var qtdInstanciasConjuntoA = 1;
+var qtdInstanciasConjuntoB = 1;
 var editor;
 var graph;
 var model;
@@ -138,7 +138,7 @@ function carregar(){
 			graph.insertVertex(parent, idInstancia, '${instancia}', xLeft, yLeft, 80, 30);
 			instanciasConjuntoA[qtdInstanciasConjuntoA] = '${instancia}';
             qtdInstanciasConjuntoA++;
-			yLeft += 60;
+			yLeft += 40;
 			
 		</c:forEach>
 
@@ -149,7 +149,7 @@ function carregar(){
 			var nomeInstancia = 
 			instanciasConjuntoB[qtdInstanciasConjuntoB] = '${instancia}';
             qtdInstanciasConjuntoB++;
-			yRight += 60;
+			yRight += 40;
 			
 		</c:forEach>
 
