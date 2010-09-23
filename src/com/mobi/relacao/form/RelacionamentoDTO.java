@@ -8,6 +8,8 @@ public class RelacionamentoDTO implements Serializable{
 	private String classeA;
 	private String classeB;
 	private String tipoRelacao;
+	private String ida;
+	private String volta;
 	
 	public RelacionamentoDTO(String classeA, String classeB) {
 		super();
@@ -31,6 +33,18 @@ public class RelacionamentoDTO implements Serializable{
 	}
 	public void setTipoRelacao(String tipoRelacao) {
 		this.tipoRelacao = tipoRelacao;
+	}
+	public String getIda() {
+		return ida;
+	}
+	public void setIda(String ida) {
+		this.ida = ida;
+	}
+	public String getVolta() {
+		return volta;
+	}
+	public void setVolta(String volta) {
+		this.volta = volta;
 	}
 	@Override
 	public int hashCode() {

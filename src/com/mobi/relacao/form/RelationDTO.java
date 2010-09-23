@@ -17,9 +17,12 @@ public class RelationDTO implements Serializable {
 	private Set<String> instanciasA = new HashSet<String>();
 	private Set<String> instanciasB = new HashSet<String>();
 	private String tipoRelacao;
+	@SuppressWarnings("unused")
 	private String nomeRelacao;
 	private List<RelacionamentoDTO> relacionamentoClasses = new ArrayList<RelacionamentoDTO>();
 	private Map<String, Set<String>> relacionamentosInstancias = new HashMap<String, Set<String>>();
+	private String ida;
+	private String volta;
 	
 	public String getClasseA() {
 		return classeA;
@@ -75,7 +78,18 @@ public class RelationDTO implements Serializable {
 		this.relacionamentosInstancias = relacionamentosInstancias;
 	}
 	
-	
+	public String getIda() {
+		return ida;
+	}
+	public void setIda(String ida) {
+		this.ida = ida;
+	}
+	public String getVolta() {
+		return volta;
+	}
+	public void setVolta(String volta) {
+		this.volta = volta;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

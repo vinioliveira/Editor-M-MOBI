@@ -32,15 +32,34 @@ public class RelacaoServiceImpl implements IRelacaoService {
 			List<Instance> instanciasConjuntoB = new ArrayList<Instance>();
 			
 			for(String instanciaA : relacao.getInstanciasA()){
-				Instance instancia = new Instance(instanciaA);
+				
+				Instance instancia = null;
+				
+				if(mobi.getInstance(instanciaA) != null){
+					instancia = mobi.getInstance(instanciaA);
+					
+				}else{
+					instancia = new Instance(instanciaA);
+					mobi.addConcept(instancia);
+				}
+				
 				instanciasConjuntoA.add(instancia);
-				mobi.addConcept(instancia);
+				
 			}
 			
 			for(String instanciaB : relacao.getInstanciasB()){
-				Instance instancia = new Instance(instanciaB);
+				
+				Instance instancia = null;
+				
+				if(mobi.getInstance(instanciaB) != null){
+					instancia = mobi.getInstance(instanciaB);
+				}else{
+					instancia = new Instance(instanciaB);
+					mobi.addConcept(instancia);
+				}
+				
 				instanciasConjuntoB.add(instancia);
-				mobi.addConcept(instancia);
+				
 			}
 			
 			//Cria as classes

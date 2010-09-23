@@ -17,6 +17,7 @@ public class BuscarInstanciaAction extends Action {
 	
 	private static final String CONJUNTO_A = "ConjuntoA"; //TODO Criar uma classe para as constantes
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response)
 			throws Exception {

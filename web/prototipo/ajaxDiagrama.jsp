@@ -125,7 +125,7 @@
 			 		var x1 = classeA.geometry.x + 100;
 			 		var y1 = classeA.geometry.y;
 			 		var classeB = graph2.insertVertex(parent2, '${relacao.classeB}', '${relacao.classeB}', x1, y1, 80, 30);
-			 		graph2.insertEdge(parent2, null, 'Pertence a(1,1)->\n<-tem(1,n)', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+			 		graph2.insertEdge(parent2, null, '${relacao.ida}->\n<-${relacao.volta}', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 			 	}
 
 			 	if('${relacao.tipoRelacao}' == 'Equivalencia'){

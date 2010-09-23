@@ -237,14 +237,8 @@
 		
 		Ext.getCmp("classeA").setValue('');
 		Ext.getCmp("classeB").setValue('');
-		Ext.getCmp("tipoRelacao").setValue('');
-		
-		var panel = Ext.get('relacoes-div');
-		panel.getUpdater().update( {
-			url : '/EditorM-MOBI/ajaxListarRelacoes.do',
-			scripts : true,
-			loadScripts: true
-		});
+		Ext.getCmp('fieldSetRadioGroup').remove('form');
+		Ext.getCmp('fieldSetRadioGroup').doLayout();
 		
 	}
 	
@@ -266,9 +260,6 @@
 		});
 	}
 	
-    /*	
-     * END - Block of actions from the class 
-     */
 	
 	function carregarRelacao(classeA,classeB,tipoRelacao){
 		
@@ -361,7 +352,6 @@
 		
 		var classeA =  new Ext.form.TextField({
 	    	id : 'classeA',
-	    	fieldLabel : 'Classe A',
 	    	style: { margin : '5px 0px 5px 30px'},
 	    	value: 'ClasseA',
 			listeners : {
@@ -373,7 +363,6 @@
 		
 		var classeB =  new Ext.form.TextField({
 	    	id : 'classeB',
-	    	fieldLabel : 'Classe B',
 	    	value: 'ClasseB',
 	    	style: { margin : '5px 5px 5px 50px'},
 	    	listeners : {
@@ -383,31 +372,53 @@
 			}
 	    });
 		
-		var cb = new Ext.form.ComboBox({
-			id: 'tipoRelacao',
-		    typeAhead: true,
-		    triggerAction: 'all',
-		    lazyRender:true,
-		    mode: 'local',
-		    fieldLabel: 'Tipo da Relação',
-/*		    items:[
-				'Composicao', 'Composicao',
-				'Heranca', 'Heranca',
-				'Equivalencia', 'Equivalencia',
-				'Simetrica', 'Simetrica'
-			],*/
-		    store: new Ext.data.ArrayStore({
-		        id: 0,
-		        fields: [
-		            'id',
-		            'relacao'
-		        ],
-		        data: [['Composicao', 'Composicao'], ['Heranca', 'Heranca'], ['Equivalencia', 'Equivalencia'],['Simetrica', 'Simetrica']]
-		    }),
-		    valueField: 'id',
-		    displayField: 'relacao'
-		});
-	
+		
+		var radioGroup =  new Ext.form.FieldSet({
+			id: 'fieldSetRadioGroup',
+			title: 'Tipos de Relações',
+	        autoHeight: true,
+	        items: [{
+	            xtype: 'radiogroup',
+	            fieldLabel: 'Tipo',
+	            id: 'tipoRelacao',
+	            items: [
+					{boxLabel: 'Herança', name: 'rb-auto', id: 'Heranca'},
+					{boxLabel: 'Composição', name: 'rb-auto', id: 'Composicao',listeners: {check: function(radio, checked) { if(checked){adcionarFieldTextDaComposicao();}else{removerFieldTextDaComposicao();}  }}},
+					{boxLabel: 'Equivalência', name: 'rb-auto', id: 'Equivalencia'},
+	            ]
+	        }]
+	    });
+		
+		
+		function adcionarFieldTextDaComposicao(){
+			var ida =  new Ext.form.TextField({
+		    	id : 'ida',
+		    	fieldLabel : 'Ida'
+		    });
+			
+			var volta =  new Ext.form.TextField({
+		    	id : 'volta',
+		    	fieldLabel : 'Volta'
+		    });
+			
+			var fp = new Ext.FormPanel({
+						id: 'form',
+						bodyBorder : false,
+						items: [ida,volta]
+			});
+			Ext.getCmp('fieldSetRadioGroup').add(fp);
+			Ext.getCmp('fieldSetRadioGroup').doLayout();
+			
+		}
+		
+		function removerFieldTextDaComposicao(){
+			
+			Ext.getCmp('fieldSetRadioGroup').remove('form');
+			Ext.getCmp('fieldSetRadioGroup').doLayout();
+			
+		}
+			
+		
 		// Go ahead and create the TreePanel now so that we can use it below
 	    var treePanel = new Ext.FormPanel({
 	    	id: 'tree-panel',
@@ -460,12 +471,16 @@
 	            text:'OK',
 	            width: 70,
 	            handler: function(){
-	        		var relacao = Ext.getCmp("tipoRelacao").getValue();
+	        		var relacao = Ext.getCmp("tipoRelacao").getValue().getId();
 	        		var classeA = Ext.getCmp("classeA").getValue();
 	        		var classeB = Ext.getCmp("classeB").getValue();
-	        		        		
+	        		
+	        		var ida = Ext.getCmp("ida").getValue();
+	        		var volta = Ext.getCmp("volta").getValue();
+	        		
 	        		if(relacao!= '' && classeA != '' && classeB !=  ''){
-		        		params = 'tipoRelacao=' + relacao + '&classeA=' + classeA + '&classeB=' + classeB;
+	        			
+		        		params = 'tipoRelacao=' + relacao + '&classeA=' + classeA + '&classeB=' + classeB + '&ida=' + ida + '&volta=' + volta;
 		  				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', 
 		  				{
 		  					method: 'get',
@@ -520,24 +535,13 @@
 	        
 	    });
 	    
-		// This is the Details panel that contains the description for each example layout.
-		var detailsPanel = {
-			id: 'details-panel',
-	        title: 'Relacoes',
-	        height: 150,
-	        region: 'south',
-	        bodyStyle: 'padding-bottom:15px;background:#eee;',
-			autoScroll: true,
-			contentEl: 'relacoes-div',
-			items: []
-	    };
+		
 		
 		var classesPanel = {
 				id: 'classes-panel',
-		        title: 'Tipo Relação',
 		        height: 200,
 		        region: 'center', 
-		        bodyStyle: 'padding-bottom:15px;background:#eee;',
+		        bodyStyle: 'padding-bottom:15px',
 				autoScroll: true,
 				contentEl: 'classes',
 				tbar: [{
@@ -585,12 +589,15 @@
 		            text:'OK',
 		            width: 70,
 		            handler: function(){
-		        		var relacao = Ext.getCmp("tipoRelacao").getValue();
+		        		var relacao = Ext.getCmp("tipoRelacao").getValue().getId();
 		        		var classeA = Ext.getCmp("classeA").getValue();
 		        		var classeB = Ext.getCmp("classeB").getValue();
 		        		
+		        		var ida = Ext.getCmp("ida").getValue();
+		        		var volta = Ext.getCmp("volta").getValue();
+		        		
 		        		if(relacao!= '' && classeA != '' && classeB != ''){
-			        		params = 'tipoRelacao=' + relacao + '&classeA=' + classeA + '&classeB=' + classeB;
+		        			params = 'tipoRelacao=' + relacao + '&classeA=' + classeA + '&classeB=' + classeB + '&ida=' + ida + '&volta=' + volta;
 			  				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', 
 			  				{
 			  					method: 'get',
@@ -640,7 +647,7 @@
 					}
 		    	}
 		        }],
-				items: [classeA,classeB,cb]
+				items: [classeA,classeB,radioGroup]
 		    };
 		
 		// Finally, build the main layout once all the pieces are ready.  This is also a good
@@ -663,7 +670,7 @@
 		        width: 420,
 		        minSize: 200,
 		        maxSize: 500,
-				items: [detailsPanel,classesPanel,treePanel]
+				items: [classesPanel,treePanel]
 			},
 				contentPanel
 			],

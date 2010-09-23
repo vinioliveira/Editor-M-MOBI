@@ -63,10 +63,16 @@ public class DiagramaAction extends MappingDispatchAction {
 		String tipoRelacao = request.getParameter("tipoRelacao");
 		String classeA = request.getParameter("classeA");
 		String classeB = request.getParameter("classeB");
+		String ida = request.getParameter("ida");
+		String volta = request.getParameter("volta");
+		
+		
 		RelacaoForm diagramaForm = (RelacaoForm)form;
 		diagramaForm.getRelacaoDTO().setTipoRelacao(tipoRelacao);
 		diagramaForm.getRelacaoDTO().setClasseA(classeA);
 		diagramaForm.getRelacaoDTO().setClasseB(classeB);
+		diagramaForm.getRelacaoDTO().setIda(ida);
+		diagramaForm.getRelacaoDTO().setVolta(volta);
 		
 		List<RelacionamentoDTO> relacionamentos = (List<RelacionamentoDTO>)request.getSession().getAttribute("relacionamentos");
 		
@@ -77,6 +83,8 @@ public class DiagramaAction extends MappingDispatchAction {
 		RelationDTO relacao = diagramaForm.getRelacaoDTO();  
 		RelacionamentoDTO relacao0 = new RelacionamentoDTO(relacao.getClasseA(),relacao.getClasseB());
 		relacao0.setTipoRelacao(relacao.getTipoRelacao());
+		relacao0.setIda(relacao.getIda());
+		relacao0.setVolta(relacao.getVolta());
 		
 		if(!relacionamentos.contains(relacao0)){
 			relacionamentos.add(relacao0);
@@ -354,6 +362,7 @@ public class DiagramaAction extends MappingDispatchAction {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ActionForward gerarArquivoOWL(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
