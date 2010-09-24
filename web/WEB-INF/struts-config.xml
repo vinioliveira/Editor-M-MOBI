@@ -93,7 +93,7 @@
 		
 		<action path="/visualizarRelacao" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" scope="session" parameter="visualizarRelacoes">
-			<forward name="success" path="/prototipo/layout.jsp"/>
+			<forward name="success" path="/prototipo/editorMobi.jsp"/>
 		</action>
 		
 		<action path="/ajaxAddInstancia" type="com.mobi.comum.action.AddInstanceAction" 

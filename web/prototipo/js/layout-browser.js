@@ -74,6 +74,7 @@
 				}
 			});
 
+			
     		//Set edges are not editable
     		graph.isCellEditable = function(cell){
     			
@@ -145,8 +146,6 @@
 
     		  // Enables rubberband selection
     	    new mxRubberband(graph);
-          
-         
        }
     }
 
@@ -221,10 +220,13 @@
 		
 	}
 	
-	function resetarRelacoes(){
-		editor.destroy();
-		main();
+	function estruturaInicial(){
 		
+		atualizarRelacoes();
+		
+	}
+	
+	function atualizarRelacoes(){
 		//Contador de intancias
 		xLeft = 20; 
 		xRight = 300;
@@ -245,6 +247,14 @@
 			scripts : true,
 			loadScripts: true
 		});
+		
+	}
+	
+	function resetarRelacoes(){
+		
+		editor.destroy();
+		main();
+		atualizarRelacoes();
 		
 	}
 	
@@ -332,344 +342,7 @@
 	/*
  		This is the main layout definition.
  	*/
-	Ext.onReady(function(){
-		
-		Ext.QuickTips.init();
-		
-		/* This is an inner body element within the Details panel created to provide a "slide in" effect
-		 on the panel body without affecting the body's box itself.  This element is created on
-		 initial use and cached in this var for subsequent access.*/
-		
-		var detailEl;
-		
-		/* This is the main content center region that will contain each example layout panel.
-		 It will be implemented as a CardLayout since it will contain multiple panels with
-		 only one being visible at any given time.*/
-		
-		var contentPanel = new Ext.Panel({
-			id: 'content-panel',
-			region: 'center', // this is what makes this panel into a region within the containing layout
-			layout: 'card',
-			margins: '2 5 5 0',
-			activeItem: 0,
-			border: false,
-			items: [
-				start
-			]
-		});
-		
-		
-		var classeA =  new Ext.form.TextField({
-	    	id : 'classeA',
-	    	fieldLabel : 'Classe A',
-	    	style: { margin : '5px 0px 5px 30px'},
-	    	value: 'ClasseA',
-			listeners : {
-				change : function (text,newValue,oldValue){
-					buscarInstancias(newValue,this.id,Ext.getCmp("tipoRelacao").getValue());
-				}
-			}
-	    });
-		
-		var classeB =  new Ext.form.TextField({
-	    	id : 'classeB',
-	    	fieldLabel : 'Classe B',
-	    	value: 'ClasseB',
-	    	style: { margin : '5px 5px 5px 50px'},
-	    	listeners : {
-				change : function (text,newValue,oldValue){
-					buscarInstancias(newValue,this.id,Ext.getCmp("tipoRelacao").getValue());
-				}
-			}
-	    });
-		
-		var cb = new Ext.form.ComboBox({
-			id: 'tipoRelacao',
-		    typeAhead: true,
-		    triggerAction: 'all',
-		    lazyRender:true,
-		    mode: 'local',
-		    fieldLabel: 'Tipo da Relação',
-/*		    items:[
-				'Composicao', 'Composicao',
-				'Heranca', 'Heranca',
-				'Equivalencia', 'Equivalencia',
-				'Simetrica', 'Simetrica'
-			],*/
-		    store: new Ext.data.ArrayStore({
-		        id: 0,
-		        fields: [
-		            'id',
-		            'relacao'
-		        ],
-		        data: [['Composicao', 'Composicao'], ['Heranca', 'Heranca'], ['Equivalencia', 'Equivalencia'],['Simetrica', 'Simetrica']]
-		    }),
-		    valueField: 'id',
-		    displayField: 'relacao'
-		});
-	
-		// Go ahead and create the TreePanel now so that we can use it below
-	    var treePanel = new Ext.FormPanel({
-	    	id: 'tree-panel',
-	        region:'north',
-	        height: 250,
-	        minSize: 150,
-	        autoScroll: true,
-	        tbar: [{
-	        	id:'add-instancia',
-	        	iconCls:'add',
-	            text:'Add Instancia A',
-	            width: 170,
-	            scope: this,
-	            handler: function(){
-		        	if(qtdInstanciasConjuntoA <= 5)
-					{
-						graph.getModel().beginUpdate();
-						parent = graph.getDefaultParent();
-			            try
-			            {
-			               var nomeInstancia = 'i'+Ext.getCmp("classeB").getValue() + qtdInstanciasConjuntoA;
-			               var idInstancia = 'ConjuntoA ' + nomeInstancia;
-			               var nameClass = '';
-			               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xLeft, yLeft, widht, height);
-		
-			               if(qtdInstanciasConjuntoA == 1){
-			            	   nameClass = 'Classe ' + qtdClasses;
-			            	   if(Ext.getCmp("classeA").getValue(nameClass) == ''){
-			            		   Ext.getCmp("classeA").setValue(nameClass);
-			            	   }
-			            	   qtdClasses++;			               
-			               }
-			               
-			               instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
-			               qtdInstanciasConjuntoA++;
-			               yLeft = yLeft + 40;
-			               adcionarUmaInstancia(nomeInstancia,'ConjuntoA',nameClass);
-			               
-			            }
-			            finally
-			            {
-			               // Updates the display
-			               graph.getModel().endUpdate();
-			            }
-					}
-	        	}
-	        },{
-	            id:'ok',
-	            iconCls:'delete-icon',
-	            text:'OK',
-	            width: 70,
-	            handler: function(){
-	        		var relacao = Ext.getCmp("tipoRelacao").getValue();
-	        		var classeA = Ext.getCmp("classeA").getValue();
-	        		var classeB = Ext.getCmp("classeB").getValue();
-	        		        		
-	        		if(relacao!= '' && classeA != '' && classeB !=  ''){
-		        		params = 'tipoRelacao=' + relacao + '&classeA=' + classeA + '&classeB=' + classeB;
-		  				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', 
-		  				{
-		  					method: 'get',
-		  					parameters:params,
-		  					evalScripts : true,
-		  					onComplete : resetarRelacoes
-		  				});
-	        		}else { alert('Classe/Relacao deve estar preenchida')}
-	    		}
-	        },{
-	            id:'delete',
-	            iconCls:'add',
-	            width: 170,
-	            text:'Add Instancia B',
-	            handler: function(){
-	        	if(qtdInstanciasConjuntoB <= 5)
-				{
-					graph.getModel().beginUpdate();
-					parent = graph.getDefaultParent();
-		            try
-		            {
-		               var nomeInstancia = 'I'+ Ext.getCmp("classeB").getValue() + qtdInstanciasConjuntoB;
-		               var idInstancia = 'ConjuntoB ' + nomeInstancia;
-		               var nameClass = '';
-		               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xRight, yRight, widht, height);
-	
-		               if(qtdInstanciasConjuntoB == 1){
-		            	   nameClass = 'Classe ' + qtdClasses;
-		            	   if(Ext.getCmp("classeB").getValue() == ''){
-		            		   Ext.getCmp("classeB").setValue(nameClass);
-		            	   }
-		            	   qtdClasses++;			               
-		               }
-		               
-		               instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
-		               qtdInstanciasConjuntoB++;
-		               yRight = yRight + 40;
-		               adcionarUmaInstancia(nomeInstancia,'ConjuntoB',nameClass);
-		               
-		            }
-		            finally
-		            {
-		               // Updates the display
-		               graph.getModel().endUpdate();
-		            }
-				}
-	    	}
-	        }],
-	        // tree-specific configs:
-	        contentEl: 'relaco-div',
-	        items: []
-	        
-	    });
-	    
-		// This is the Details panel that contains the description for each example layout.
-		var detailsPanel = {
-			id: 'details-panel',
-	        title: 'Relacoes',
-	        height: 150,
-	        region: 'south',
-	        bodyStyle: 'padding-bottom:15px;background:#eee;',
-			autoScroll: true,
-			contentEl: 'relacoes-div',
-			items: []
-	    };
-		
-		var classesPanel = {
-				id: 'classes-panel',
-		        title: 'Tipo Relação',
-		        height: 200,
-		        region: 'center', 
-		        bodyStyle: 'padding-bottom:15px;background:#eee;',
-				autoScroll: true,
-				contentEl: 'classes',
-				tbar: [{
-		        	id:'add-instancia',
-		        	iconCls:'add',
-		            text:'Add Instancia A',
-		            width: 170,
-		            scope: this,
-		            handler: function(){
-			        	if(qtdInstanciasConjuntoA <= 5)
-						{
-							graph.getModel().beginUpdate();
-							parent = graph.getDefaultParent();
-				            try
-				            {
-				               var nomeInstancia = 'i'+ Ext.getCmp("classeA").getValue() + qtdInstanciasConjuntoA;
-				               var idInstancia = 'ConjuntoA ' + nomeInstancia;
-				               var nameClass = '';
-				               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xLeft, yLeft, widht, height);
-			
-				               if(qtdInstanciasConjuntoA == 1){
-				            	   nameClass = 'Classe ' + qtdClasses;
-				            	   if(Ext.getCmp("classeA").getValue(nameClass) == ''){
-				            		   Ext.getCmp("classeA").setValue(nameClass);
-				            	   }
-				            	   qtdClasses++;			               
-				               }
-				               
-				               instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
-				               qtdInstanciasConjuntoA++;
-				               yLeft = yLeft + 40;
-				               adcionarUmaInstancia(nomeInstancia,'ConjuntoA',nameClass);
-				               
-				            }
-				            finally
-				            {
-				               // Updates the display
-				               graph.getModel().endUpdate();
-				            }
-						}
-		        	}
-		        },{
-		            id:'ok',
-		            iconCls:'delete-icon',
-		            text:'OK',
-		            width: 70,
-		            handler: function(){
-		        		var relacao = Ext.getCmp("tipoRelacao").getValue();
-		        		var classeA = Ext.getCmp("classeA").getValue();
-		        		var classeB = Ext.getCmp("classeB").getValue();
-		        		
-		        		if(relacao!= '' && classeA != '' && classeB != ''){
-			        		params = 'tipoRelacao=' + relacao + '&classeA=' + classeA + '&classeB=' + classeB;
-			  				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', 
-			  				{
-			  					method: 'get',
-			  					parameters:params,
-			  					evalScripts : true,
-			  					onComplete : resetarRelacoes
-			  				});
-		        		}else { alert('Classe/Relacao deve estar preenchida')}
-		        			
-		    		}
-		        },{
-		            id:'delete',
-		            iconCls:'add',
-		            width: 170,
-		            text:'Add Instancia B',
-		            handler: function(){
-		        	if(qtdInstanciasConjuntoB <= 5)
-					{
-						graph.getModel().beginUpdate();
-						parent = graph.getDefaultParent();
-			            try
-			            {
-			               var nomeInstancia = 'i'+ Ext.getCmp("classeB").getValue() + qtdInstanciasConjuntoB;
-			               var idInstancia = 'ConjuntoB ' + nomeInstancia;
-			               var nameClass = '';
-			               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xRight, yRight, widht, height);
-		
-			               if(qtdInstanciasConjuntoB == 1){
-			            	   nameClass = 'Classe ' + qtdClasses;
-			            	   if(Ext.getCmp("classeB").getValue() == ''){
-			            		   Ext.getCmp("classeB").setValue(nameClass);
-			            	   }
-			            	   qtdClasses++;			               
-			               }
-			               
-			               instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
-			               qtdInstanciasConjuntoB++;
-			               yRight = yRight + 40;
-			               adcionarUmaInstancia(nomeInstancia,'ConjuntoB',nameClass);
-			               
-			            }
-			            finally
-			            {
-			               // Updates the display
-			               graph.getModel().endUpdate();
-			            }
-					}
-		    	}
-		        }],
-				items: [classeA,classeB,cb]
-		    };
-		
-		// Finally, build the main layout once all the pieces are ready.  This is also a good
-		// example of putting together a full-screen BorderLayout within a Viewport.
-	    new Ext.Viewport({
-			layout: 'border',
-			title: 'Ext Layout Browser',
-			items: [{
-				xtype: 'box',
-				region: 'north',
-				applyTo: 'header',
-				height: 30
-			},{
-				layout: 'border',
-		    	id: 'layout-browser',
-		        region:'west',
-		        border: false,
-		        split:true,
-				margins: '2 0 5 5',
-		        width: 420,
-		        minSize: 200,
-		        maxSize: 500,
-				items: [detailsPanel,classesPanel,treePanel]
-			},
-				contentPanel
-			],
-	        renderTo: Ext.getBody()
-	    });
-	});
+
 	
 	mxBasePath = 'comum/mxgraph';
 	
@@ -681,7 +354,7 @@
 		{
 			if (model.isVertex(cell))
 			{
-				menu.addItem('Add child', 'comum/mxgraph/images/check.png', function(){
+				menu.addItem('Adicionar Herança', 'comum/mxgraph/images/check.png', function(){
 					
 					parent = graph.getDefaultParent();
 					ClasseNova = graph.insertVertex(parent, 'Novo', 'Novo', 0, 0, 80, 30);
@@ -701,7 +374,7 @@
 				});
 			}
 
-			menu.addItem('Edit label', 'comum/mxgraph/images/text.gif', function()
+			menu.addItem('Editar Nome Classe', 'comum/mxgraph/images/text.gif', function()
 			{
 				graph.startEditingAtCell(cell);
 				
@@ -710,7 +383,7 @@
 			if (cell.id != 'Thing' &&
 				model.isVertex(cell))
 			{
-				menu.addItem('Delete', 'comum/mxgraph/images/delete.gif', function()
+				menu.addItem('Excluir Classe', 'comum/mxgraph/images/delete.gif', function()
 				{
 					var cells = [];								
 						
