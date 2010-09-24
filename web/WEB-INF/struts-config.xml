@@ -84,7 +84,7 @@
 		
 		<action path="/ajaxDiagrama" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" parameter="salvarRelacoes" scope="session">
-			<forward name="success" path="/prototipo/ajaxDiagrama.jsp"/>
+			<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
 		<action path="/gerarArquivoOWL" type="com.mobi.comum.action.DiagramaAction" 
@@ -93,7 +93,7 @@
 		
 		<action path="/visualizarRelacao" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" scope="session" parameter="visualizarRelacoes">
-			<forward name="success" path="/prototipo/editorMobi.jsp"/>
+			<forward name="success" path="/pages/editorMobi.jsp"/>
 		</action>
 		
 		<action path="/ajaxAddInstancia" type="com.mobi.comum.action.AddInstanceAction" 
@@ -106,17 +106,17 @@
 		
 		<action path="/ajaxListarRelacoes" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" scope="session" parameter="listarRelacoes">
-				<forward name="success" path="/prototipo/listarRelacoes.jsp"/>
+				<forward name="success" path="/pages/listarRelacoes.jsp"/>
 		</action>
 		
 		<action path="/ajaxCarregarRelacao" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" scope="session" parameter="carregarRelacao">
-				<forward name="success" path="/prototipo/ajaxCarregarRelacao.jsp"/>
+				<forward name="success" path="/pages/ajaxCarregarRelacao.jsp"/>
 		</action>
 		
 		<action path="/ajaxBuscarInstancia" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" scope="session" parameter="atualizarInstancias">
-				<forward name="success" path="/prototipo/ajaxCarregarRelacao.jsp"/>
+				<forward name="success" path="/pages/ajaxCarregarRelacao.jsp"/>
 		</action>
 		
 		<action path="/ajaxEliminarRelacionamento" type="com.mobi.comum.action.DiagramaAction" 
@@ -129,7 +129,7 @@
 		
 		<action path="/atualizarNomeClasse" type="com.mobi.comum.action.DiagramaAction"
 				name="relacaoForm" scope="session" parameter="atualizarNomeClasse">
-				<forward name="success" path="/prototipo/ajaxDiagrama.jsp"/>
+				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
     </action-mappings>

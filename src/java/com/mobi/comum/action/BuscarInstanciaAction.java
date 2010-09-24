@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mobi.core.Mobi;
+
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -27,6 +29,8 @@ public class BuscarInstanciaAction extends Action {
 		RelacaoForm diagramaForm = (RelacaoForm)form;
 		
 		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		
+		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
 		
 		for(RelationDTO relacao : relacoes){
 			
