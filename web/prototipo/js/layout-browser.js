@@ -441,17 +441,9 @@
 			            {
 			               var nomeInstancia = 'i'+Ext.getCmp("classeB").getValue() + qtdInstanciasConjuntoA;
 			               var idInstancia = 'ConjuntoA ' + nomeInstancia;
-			               var nameClass = '';
+			               var nameClass = Ext.getCmp("classeA").getValue();
 			               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xLeft, yLeft, widht, height);
 		
-			               if(qtdInstanciasConjuntoA == 1){
-			            	   nameClass = 'Classe ' + qtdClasses;
-			            	   if(Ext.getCmp("classeA").getValue(nameClass) == ''){
-			            		   Ext.getCmp("classeA").setValue(nameClass);
-			            	   }
-			            	   qtdClasses++;			               
-			               }
-			               
 			               instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
 			               qtdInstanciasConjuntoA++;
 			               yLeft = yLeft + 40;
@@ -504,16 +496,8 @@
 		            {
 		               var nomeInstancia = 'I'+ Ext.getCmp("classeB").getValue() + qtdInstanciasConjuntoB;
 		               var idInstancia = 'ConjuntoB ' + nomeInstancia;
-		               var nameClass = '';
+		               var nameClass = Ext.getCmp("classeB").getValue();
 		               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xRight, yRight, widht, height);
-	
-		               if(qtdInstanciasConjuntoB == 1){
-		            	   nameClass = 'Classe ' + qtdClasses;
-		            	   if(Ext.getCmp("classeB").getValue() == ''){
-		            		   Ext.getCmp("classeB").setValue(nameClass);
-		            	   }
-		            	   qtdClasses++;			               
-		               }
 		               
 		               instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
 		               qtdInstanciasConjuntoB++;
@@ -559,17 +543,9 @@
 				            {
 				               var nomeInstancia = 'i'+ Ext.getCmp("classeA").getValue() + qtdInstanciasConjuntoA;
 				               var idInstancia = 'ConjuntoA ' + nomeInstancia;
-				               var nameClass = '';
+				               var nameClass = Ext.getCmp("classeA").getValue();
 				               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xLeft, yLeft, widht, height);
 			
-				               if(qtdInstanciasConjuntoA == 1){
-				            	   nameClass = 'Classe ' + qtdClasses;
-				            	   if(Ext.getCmp("classeA").getValue(nameClass) == ''){
-				            		   Ext.getCmp("classeA").setValue(nameClass);
-				            	   }
-				            	   qtdClasses++;			               
-				               }
-				               
 				               instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
 				               qtdInstanciasConjuntoA++;
 				               yLeft = yLeft + 40;
@@ -622,17 +598,9 @@
 			            {
 			               var nomeInstancia = 'i'+ Ext.getCmp("classeB").getValue() + qtdInstanciasConjuntoB;
 			               var idInstancia = 'ConjuntoB ' + nomeInstancia;
-			               var nameClass = '';
+			               var nameClass = Ext.getCmp("classeB").getValue();
 			               var instancia1 = graph.insertVertex(parent, idInstancia, nomeInstancia, xRight, yRight, widht, height);
 		
-			               if(qtdInstanciasConjuntoB == 1){
-			            	   nameClass = 'Classe ' + qtdClasses;
-			            	   if(Ext.getCmp("classeB").getValue() == ''){
-			            		   Ext.getCmp("classeB").setValue(nameClass);
-			            	   }
-			            	   qtdClasses++;			               
-			               }
-			               
 			               instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
 			               qtdInstanciasConjuntoB++;
 			               yRight = yRight + 40;
