@@ -7,7 +7,7 @@
 -->
 <html>
 <head>
-	<title>Hello, World! example for mxGraph</title>
+	<title>Hello, Wfsdfsdorld! example for mxGraph</title>
 	
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/comum/ext/resources/css/ext-all.css" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/ext/ext-base.js"></script>
