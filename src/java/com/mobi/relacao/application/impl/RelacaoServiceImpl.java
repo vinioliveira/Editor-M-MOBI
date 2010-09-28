@@ -33,31 +33,16 @@ public class RelacaoServiceImpl implements IRelacaoService {
 			
 			for(String instanciaA : relacao.getInstanciasA()){
 				
-				Instance instancia = null;
-				
-				if(mobi.getInstance(instanciaA) != null){
-					instancia = mobi.getInstance(instanciaA);
-					
-				}else{
-					instancia = new Instance(instanciaA);
-					mobi.addConcept(instancia);
-				}
-				
+				Instance instancia = new Instance(instanciaA);
+				mobi.addConcept(instancia);
 				instanciasConjuntoA.add(instancia);
 				
 			}
 			
 			for(String instanciaB : relacao.getInstanciasB()){
 				
-				Instance instancia = null;
-				
-				if(mobi.getInstance(instanciaB) != null){
-					instancia = mobi.getInstance(instanciaB);
-				}else{
-					instancia = new Instance(instanciaB);
-					mobi.addConcept(instancia);
-				}
-				
+				Instance instancia = new Instance(instanciaB);
+				mobi.addConcept(instancia);
 				instanciasConjuntoB.add(instancia);
 				
 			}
@@ -95,7 +80,7 @@ public class RelacaoServiceImpl implements IRelacaoService {
 		}
 		
 		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.org/", mobi);
-		mobi2OWL.setExportPath("/home/diego/");
+		mobi2OWL.setExportPath("/home/progoz/mobi/");
 		mobi2OWL.exportMobiToOWL("Teste.owl");
 		
 		System.out.println("Fim da Exportação");

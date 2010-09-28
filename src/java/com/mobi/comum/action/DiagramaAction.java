@@ -63,16 +63,21 @@ public class DiagramaAction extends MappingDispatchAction {
 		String tipoRelacao = request.getParameter("tipoRelacao");
 		String classeA = request.getParameter("classeA");
 		String classeB = request.getParameter("classeB");
-		String ida = request.getParameter("ida");
-		String volta = request.getParameter("volta");
-		
-		
+
 		RelacaoForm diagramaForm = (RelacaoForm)form;
 		diagramaForm.getRelacaoDTO().setTipoRelacao(tipoRelacao);
 		diagramaForm.getRelacaoDTO().setClasseA(classeA);
 		diagramaForm.getRelacaoDTO().setClasseB(classeB);
-		diagramaForm.getRelacaoDTO().setIda(ida);
-		diagramaForm.getRelacaoDTO().setVolta(volta);
+		
+		if(tipoRelacao.equals("Composicao")){
+			String ida = request.getParameter("ida");
+			String volta = request.getParameter("volta");
+			diagramaForm.getRelacaoDTO().setIda(ida);
+			diagramaForm.getRelacaoDTO().setVolta(volta);
+		}
+		
+
+		
 		
 		List<RelacionamentoDTO> relacionamentos = (List<RelacionamentoDTO>)request.getSession().getAttribute("relacionamentos");
 		

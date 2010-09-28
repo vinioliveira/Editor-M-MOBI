@@ -10,12 +10,18 @@
 	var qtdInstanciasConjuntoA = 1;
 	var qtdInstanciasConjuntoB = 1;
 	var qtdClasses = 0;
-	var	xLeft = 20; 
-	var	xRight = 300;
+	
+	var	xLeft = 60; 
 	var yLeft = 20;
+	
+	var	xRight = 280;
 	var yRight = 20;
+	
 	var height = 30;
 	var widht = 80;
+	
+	var widhtInstance = 80;
+	var heightInstance = 60;
     
 	
     function main(){
@@ -42,10 +48,11 @@
     		graph.setAllowLoops(false);
     		graph.setCellsResizable(false);
 
-    		var config = mxUtils.load('comum/keyhandler-minimal.xml')
+    		var config = mxUtils.load('comum/wfgraph-commons.xml')
 				.getDocumentElement();
     		editor.configure(config);
     		
+    		//graph.setBackgroundImage(new mxImage('/EditorM-MOBI/pages/imagem/Ok.png', 360, 200));
     		graph.cellsMovable = false;
     		
     		// Removes the source vertex if edges are removed and destroy the relation 
@@ -146,6 +153,8 @@
 
     		  // Enables rubberband selection
     	    new mxRubberband(graph);
+			  
+    	//    graph.setBackgroundImage(new mxImage('../imagem/Ok.png', 100, 100));
        }
     }
 
@@ -154,9 +163,9 @@
 			var style = new Object();
 			style = graph.stylesheet.getDefaultVertexStyle();
 			style[mxConstants.STYLE_SHAPE] = 'box';
-			style[mxConstants.STYLE_STROKECOLOR] = '#000000';
+			style[mxConstants.STYLE_STROKECOLOR] = '#EFFBFB';
 			style[mxConstants.STYLE_FONTCOLOR] = '#000000';
-			style[mxConstants.STYLE_FILLCOLOR] = 'white';
+			style[mxConstants.STYLE_FILLCOLOR] = '#EFFBFB';
 			graph.getStylesheet().putCellStyle('boxstyle', style);
 
 			graph.getStylesheet().putDefaultEdgeStyle(mxConstants.EDGESTYLE_TOPTOBOTTOM);
@@ -203,20 +212,15 @@
 		if(nameClass != ''){
 			params = params + '&' + 'nameClass=' + nameClass;
 		}
-		
-		var myAjax = new Ajax.Request('/EditorM-MOBI/ajaxAddInstancia.do', {
-			method : 'get',
-			parameters : params
-		});
+	
+		ajaxRequest('/EditorM-MOBI/ajaxAddInstancia.do', params);
+
 	}
 
 	function editarInstancia(nomeAntigo,nomeNovo,conjunto){
 		var params = 'nomeAntigo=' + nomeAntigo + '&nomeNovo=' + nomeNovo + '&conjunto=' + conjunto;
 
-		var myAjax = new Ajax.Request('/EditorM-MOBI/ajaxEditarInstancia.do', {
-			method : 'get',
-			parameters : params
-		});
+		ajaxRequest('/EditorM-MOBI/ajaxAddInstancia.do', params);
 		
 	}
 	
@@ -228,8 +232,8 @@
 	
 	function atualizarRelacoes(){
 		//Contador de intancias
-		xLeft = 20; 
-		xRight = 300;
+		xLeft = 60;  
+		xRight = 280;
 		yLeft = 20;
 		yRight = 20;
 		height = 30;
@@ -329,6 +333,11 @@
 		mxUtils.write(button, label);
 		toolbar.appendChild(button);
 	}
+	
+	function criarCellVertex(graph, id, nome, x, y, width, height, shape ){
+		parent = graph.getDefaultParent();
+		return graph.insertVertex(parent, id, nome, x, y, width, height, shape);
+	}
 		
 	/*
  		This is the main layout definition.
@@ -338,7 +347,7 @@
 	mxBasePath = 'comum/mxgraph';
 	
 	function createPopupMenu(graph, menu, cell, evt, classe)
-	{
+		{
 		var model = graph.getModel();
 
 		if (cell != null)
@@ -347,48 +356,60 @@
 			{
 				menu.addItem('Adicionar Herança', 'comum/mxgraph/images/check.png', function(){
 					
-					parent = graph.getDefaultParent();
-					ClasseNova = graph.insertVertex(parent, 'Novo', 'Novo', 0, 0, 80, 30);
+					ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
 					graph.insertEdge(parent, null, '', ClasseNova,cell);
 
 					graph.startEditingAtCell(ClasseNova);
 					
 					params = 'tipoRelacao=Heranca' + '&classeA=' + cell.id + '&classeB=' + ClasseNova.id ;
-	  				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', 
-	  				{
-	  					method: 'get',
-	  					parameters:params,
-	  					evalScripts : true,
-	  					onComplete : resetarRelacoes
-	  				});
+					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
 											
 				});
-			}
-
-			menu.addItem('Editar Nome Classe', 'comum/mxgraph/images/text.gif', function()
-			{
-				graph.startEditingAtCell(cell);
 				
-			});
+				menu.addItem('Adicionar Composicao', 'comum/mxgraph/images/check.png', function(){
+					
+					abrirPopupComposicao(graph, cell);
 
-			if (cell.id != 'Thing' &&
-				model.isVertex(cell))
-			{
-				menu.addItem('Excluir Classe', 'comum/mxgraph/images/delete.gif', function()
-				{
-					var cells = [];								
-						
-					graph.traverse(cell, true, function(vertex)
-							{
-								cells.push(vertex);					
-								return true;
-							},null,new Array(), true);
-
-					graph.removeCells(cells);
-										
 				});
-			}
 				
+				menu.addItem('Adicionar Equivalência', 'comum/mxgraph/images/check.png', function(){
+					
+					ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
+					graph.insertEdge(parent, null, '', ClasseNova,cell);
+
+					graph.startEditingAtCell(ClasseNova);
+					
+					params = 'tipoRelacao=Equivalencia' + '&classeA=' + cell.id + '&classeB=' + ClasseNova.id ;
+					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
+											
+				});
+			
+	
+				menu.addItem('Editar Nome Classe', 'comum/mxgraph/images/text.gif', function()
+				{
+					graph.startEditingAtCell(cell);
+					
+				});
+	
+				/*if (cell.id != 'Thing' &&
+					model.isVertex(cell))
+				{
+					menu.addItem('Excluir Classe', 'comum/mxgraph/images/delete.gif', function()
+					{
+						var cells = [];								
+							
+						graph.traverse(cell, true, function(vertex)
+								{
+									cells.push(vertex);					
+									return true;
+								},null,new Array(), true);
+	
+						graph.removeCells(cells);
+											
+					});
+				}*/
+			}
+					
 		}
 
 	};

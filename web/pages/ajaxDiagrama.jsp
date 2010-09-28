@@ -103,7 +103,8 @@
 			 	var classeA = model2.getCell('${relacao.classeA}');
 
 			 	if(classeA == null){
-			 		classeA = graph2.insertVertex(parent2, '${relacao.classeA}', '${relacao.classeA}', 0, 0, 80, 30);
+				 	
+			 		classeA = criarCellVertex(graph2, '${relacao.classeA}', '${relacao.classeA}', 0, 0, widht, height );
 			 		graph2.insertEdge(parent2, null, '', classeA,thing);
 			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
 					{
@@ -112,7 +113,7 @@
 			 	}
 
 			 	if('${relacao.tipoRelacao}' == 'Heranca'){
-			 		var classeB = graph2.insertVertex(parent2, '${relacao.classeB}', '${relacao.classeB}', 0, 0, 80, 30);
+			 		var classeB = criarCellVertex(graph2, '${relacao.classeB}', '${relacao.classeB}', 0, 0, widht, height);
 			 		graph2.insertEdge(parent2, null, '', classeB,classeA);
 			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
 					{
@@ -124,14 +125,14 @@
 			 	if('${relacao.tipoRelacao}' == 'Composicao'){
 			 		var x1 = classeA.geometry.x + 100;
 			 		var y1 = classeA.geometry.y;
-			 		var classeB = graph2.insertVertex(parent2, '${relacao.classeB}', '${relacao.classeB}', x1, y1, 80, 30);
+			 		var classeB = criarCellVertex(graph2, '${relacao.classeB}', '${relacao.classeB}',x1, y1, widht, height); 
 			 		graph2.insertEdge(parent2, null, '${relacao.ida}->\n<-${relacao.volta}', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 			 	}
 
 			 	if('${relacao.tipoRelacao}' == 'Equivalencia'){
 			 		var x1 = classeA.geometry.x + 100;
 			 		var y1 = classeA.geometry.y;
-			 		var classeB = graph2.insertVertex(parent2, '${relacao.classeB}', '${relacao.classeB}', x1, y1, 80, 30);
+			 		var classeB = criarCellVertex(graph2, '${relacao.classeB}', '${relacao.classeB}',x1, y1, widht, height);
 			 		graph2.insertEdge(parent2, null, 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 			 		
 			 	}

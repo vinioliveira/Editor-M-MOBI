@@ -3,18 +3,17 @@
 <script type="text/javascript">
 
 var w = graph.container.offsetWidth;
-var	xLeft = 20; 
-var	xRight = 300;
-var yLeft = 20;
-var yRight = 20;
-var height = 30;
-var widht = 80;
-var qtdInstanciasConjuntoA = 1;
-var qtdInstanciasConjuntoB = 1;
-var editor;
-var graph;
-var model;
-var parent;
+
+//Iniciando os valores do gráfico de instancia
+xLeft = 60; 
+xRight = 280;
+yLeft = 20;
+yRight = 20;
+height = 30;
+widht = 80;
+qtdInstanciasConjuntoA = 1;
+qtdInstanciasConjuntoB = 1;
+
 
 function carregar(){
     var container = document.getElementById('graphContainer');
@@ -135,21 +134,21 @@ function carregar(){
 		<c:forEach var="instancia" items="${relacao.instanciasA}">
 		
         	var idInstancia = 'ConjuntoA ' + '${instancia}';
-			graph.insertVertex(parent, idInstancia, '${instancia}', xLeft, yLeft, 80, 30);
+        	criarCellVertex(graph, idInstancia, '${instancia}',xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
 			instanciasConjuntoA[qtdInstanciasConjuntoA] = '${instancia}';
             qtdInstanciasConjuntoA++;
-			yLeft += 40;
+			yLeft += 60;
 			
 		</c:forEach>
 
 		<c:forEach var="instancia" items="${relacao.instanciasB}">
 			
 			var idInstancia = 'ConjuntoB ' + '${instancia}';
-			graph.insertVertex(parent, idInstancia, '${instancia}', xRight, yRight, 80, 30);
-			var nomeInstancia = 
-			instanciasConjuntoB[qtdInstanciasConjuntoB] = '${instancia}';
+			criarCellVertex(graph, idInstancia, '${instancia}', xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
+			
+			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB] = '${instancia}';
             qtdInstanciasConjuntoB++;
-			yRight += 40;
+			yRight += 60;
 			
 		</c:forEach>
 
@@ -172,7 +171,7 @@ function carregar(){
 
 }
 
-</script>
+--></script>
 
 <div id="graphContainer">
 

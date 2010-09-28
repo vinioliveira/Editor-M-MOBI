@@ -27,7 +27,7 @@ public class AddInstanceAction extends Action {
 			throws Exception {
 		
 		
-		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
+		/*Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
 		
 		//TODO Refatorar para que o o objeto mobi nunca esteja nulo
 		if(mobi == null){
@@ -45,12 +45,14 @@ public class AddInstanceAction extends Action {
 		}
 		
 		
-		request.getSession().setAttribute("mobi", mobi);
+		request.getSession().setAttribute("mobi", mobi);*/
 		
-		//RelacaoForm diagramaForm = (RelacaoForm)form;
-		//String instanceSet = request.getParameter("conjunto");
+		RelacaoForm diagramaForm = (RelacaoForm)form;
+		String instanceSet = request.getParameter("conjunto");
+		String nameInstance = request.getParameter("nomeIstancia");
+		String nameClass = request.getParameter("nameClass");
 		
-		/*if(CONJUNTO_A.equals(instanceSet)){
+		if(CONJUNTO_A.equals(instanceSet)){
 			
 			if(diagramaForm.getRelacaoDTO().getClasseA() == null){
 				diagramaForm.getRelacaoDTO().setClasseA(nameClass);
@@ -66,7 +68,7 @@ public class AddInstanceAction extends Action {
 			}
 			diagramaForm.getRelacaoDTO().getInstanciasB().add(nameInstance);
 			diagramaForm.getRelacaoDTO().getRelacionamentosInstancias().put(CONJUNTO_B + " " + nameInstance, new HashSet<String>());
-		}*/
+		}
 		
 		return null;
 	}
