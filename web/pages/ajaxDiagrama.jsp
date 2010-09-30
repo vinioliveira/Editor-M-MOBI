@@ -40,7 +40,7 @@
 		// being changed, added or removed.
 		layout2 = new mxCompactTreeLayout(graph2, false);
 		layout2.useBoundingBox = false;
-		layout2.levelDistance = 30;
+		layout2.levelDistance = 40;
 		layout2.nodeDistance = 10;
 		layout2.invert = true;
 		var layoutMgr = new mxLayoutManager(graph2);

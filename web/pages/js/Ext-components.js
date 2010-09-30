@@ -59,18 +59,36 @@ Ext.onReady(function(){
 		
 		var ida =  new Ext.form.TextField({
 	    	id : 'ida',
-	    	fieldLabel : 'Ida'
+	    	fieldLabel : 'Ida',
+    		listeners : {
+				change : function (text,newValue,oldValue){
+					volta = Ext.getCmp('volta').getValue();
+					detectorTipoComposicao(newValue, volta, 'label-type');
+					}
+				}
 	    });
 		
 		var volta =  new Ext.form.TextField({
 	    	id : 'volta',
-	    	fieldLabel : 'Volta'
+	    	fieldLabel : 'Volta',
+    		listeners : {
+				change : function (text,newValue,oldValue){
+						ida = Ext.getCmp('ida').getValue();
+						detectorTipoComposicao(ida , newValue, 'label-type');
+						}
+					}
 	    });
+		
+		var label = new Ext.form.Label({
+			id: 'label-type',
+			text: '',
+			labelStyle: 'align: center; text-align: center'
+		});
 		
 		var fp = new Ext.FormPanel({
 					id: 'form',
 					bodyBorder : false,
-					items: [ida,volta]
+					items: [ida,volta,label]
 		});
 		
 		Ext.getCmp('fieldSetRadioGroup').add(fp);
@@ -114,7 +132,7 @@ Ext.onReady(function(){
 		               
 		               instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
 		               qtdInstanciasConjuntoA++;
-		               yLeft = yLeft + 60;
+		               yLeft = yLeft + 50;
 		               adcionarUmaInstancia(nomeInstancia,'ConjuntoA',nameClass);
 		               
 		            }
@@ -174,7 +192,7 @@ Ext.onReady(function(){
 	               
 	               instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
 	               qtdInstanciasConjuntoB++;
-	               yRight = yRight + 60;
+	               yRight = yRight + 50;
 	               adcionarUmaInstancia(nomeInstancia,'ConjuntoB',nameClass);
 	               
 	            }
@@ -189,7 +207,7 @@ Ext.onReady(function(){
 	var treePanel = new Ext.FormPanel({
 		id: 'tree-panel',
 		region:'north',
-		height: 350,
+		height: 300,
 		minSize: 150,
 		autoScroll: true,
 		tbar:panelButtons ,
@@ -266,25 +284,42 @@ function abrirPopupComposicao(graph, cell){
         closable:true,
         modal:true,
         width:300,
-        height:130,
+        height:150,
         closeAction:'close',
         items:new Ext.FormPanel({
         		bodyStyle: 'padding: 10px 10px ;background:#eee;',
         		bodyBorder : false,
     	        hideLabel: true,
-    	        height: 110,
+    	        height: 130,
     	        id: 'tipoRelacao-2',
     	        items: 
         		[new Ext.form.TextField({
         	    	id : 'ida_popup',
         	    	fieldLabel : 'Ida',
-        	    	hideLabel : false
+        	    	hideLabel : false,
+        	    	listeners : {
+        				change : function (text,newValue,oldValue){
+        					volta = Ext.getCmp('volta_popup').getValue();
+        					detectorTipoComposicao(newValue, volta, 'label-popup');
+        					}
+        				}
         	    }),        		
         		new Ext.form.TextField({
         	    	id : 'volta_popup',
         	    	fieldLabel : 'Volta',
-    	    		hideLabel : false
+    	    		hideLabel : false,
+        	    	listeners : {
+        				change : function (text,newValue,oldValue){
+        					ida = Ext.getCmp('ida_popup').getValue();
+        					detectorTipoComposicao( ida , newValue, 'label-popup');
+        					}
+        				}
+        	    }),
+        	    new Ext.form.Label({
+        	    	id: 'label-popup',
+        	    	text: ''
         	    })] 
+        	    
         	}),
         buttons: [{text :'Criar',
 				  handler : function (){
@@ -307,4 +342,27 @@ function abrirPopupComposicao(graph, cell){
 			      }
         }]
 	}).show();
+}
+
+
+function detectorTipoComposicao(ida, volta, label){
+	
+	if (ida != '' || volta != ''  ){
+		label  = Ext.getCmp(label); 
+		if(ida != '' && volta == '' || ida == '' && volta != '' ){
+			//uniderecional 
+			label.setText('Unidirecional');
+		}
+			
+		if(ida != '' && volta != '' && ida != volta ){
+			//bidirecional
+			label.setText('Bidirecional');
+		}
+		
+		if(ida != '' && volta != '' && ida == volta ){
+			//simetrica
+			label.setText('Simetrica');
+		}
+	}	
+	
 }

@@ -12,16 +12,18 @@
 	var qtdClasses = 0;
 	
 	var	xLeft = 60; 
-	var yLeft = 20;
+	var yLeft = 10;
 	
 	var	xRight = 280;
-	var yRight = 20;
+	var yRight = 10;
 	
+	//tamanho caixas diagrama
 	var height = 30;
 	var widht = 80;
 	
-	var widhtInstance = 80;
-	var heightInstance = 60;
+	//tamanho nuvens instancias
+	var widhtInstance = 70;
+	var heightInstance = 50;
     
 	
     function main(){
@@ -163,9 +165,9 @@
 			var style = new Object();
 			style = graph.stylesheet.getDefaultVertexStyle();
 			style[mxConstants.STYLE_SHAPE] = 'box';
-			style[mxConstants.STYLE_STROKECOLOR] = '#EFFBFB';
+			style[mxConstants.STYLE_STROKECOLOR] = '#64A8C6';
 			style[mxConstants.STYLE_FONTCOLOR] = '#000000';
-			style[mxConstants.STYLE_FILLCOLOR] = '#EFFBFB';
+			style[mxConstants.STYLE_FILLCOLOR] = '#64A8C6';
 			graph.getStylesheet().putCellStyle('boxstyle', style);
 
 			graph.getStylesheet().putDefaultEdgeStyle(mxConstants.EDGESTYLE_TOPTOBOTTOM);
@@ -233,11 +235,14 @@
 	function atualizarRelacoes(){
 		//Contador de intancias
 		xLeft = 60;  
-		xRight = 280;
 		yLeft = 20;
+		
 		yRight = 20;
+		xRight = 280;
+
 		height = 30;
 		widht = 80;
+		
 		qtdInstanciasConjuntoA = 1;
 		qtdInstanciasConjuntoB = 1;
 		
@@ -335,6 +340,7 @@
 	}
 	
 	function criarCellVertex(graph, id, nome, x, y, width, height, shape ){
+		
 		parent = graph.getDefaultParent();
 		return graph.insertVertex(parent, id, nome, x, y, width, height, shape);
 	}
