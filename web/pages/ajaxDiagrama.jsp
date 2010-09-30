@@ -9,6 +9,12 @@
 	var model2;
 	var parent2;
 	var layout2;
+	var BIDIRECIONAL_COMPOSITION                = 1;
+	var BIDIRECIONAL_COMPOSITION_HAS_BELONGS_TO = 2;
+	var SYMMETRIC_COMPOSITION                   = 3;
+	var INHERITANCE                             = 4;
+	var UNIDIRECIONAL_COMPOSITION               = 5;
+	var EQUIVALENCE                             = 6;
 	
 	function mainDiagrama(){
 	    var container2 = document.getElementById('teste');
@@ -100,11 +106,11 @@
 			 
 			 <c:forEach items="${relacionamentos}" var="relacao">
 			 
-			 	var classeA = model2.getCell('${relacao.classeA}');
+			 	var classeA = model2.getCell('${relacao.classA.uri}');
 
 			 	if(classeA == null){
 				 	
-			 		classeA = criarCellVertex(graph2, '${relacao.classeA}', '${relacao.classeA}', 0, 0, widht, height );
+			 		classeA = criarCellVertex(graph2, '${relacao.classA.uri}', '${relacao.classA.uri}', 0, 0, widht, height );
 			 		graph2.insertEdge(parent2, null, '', classeA,thing);
 			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
 					{
@@ -112,8 +118,8 @@
 					};
 			 	}
 
-			 	if('${relacao.tipoRelacao}' == 'Heranca'){
-			 		var classeB = criarCellVertex(graph2, '${relacao.classeB}', '${relacao.classeB}', 0, 0, widht, height);
+			 	if('${relacao.type}' == INHERITANCE){
+			 		var classeB = criarCellVertex(graph2, '${relacao.classB.uri}', '${relacao.classB.uri}', 0, 0, widht, height);
 			 		graph2.insertEdge(parent2, null, '', classeB,classeA);
 			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
 					{
@@ -122,21 +128,6 @@
 			 		
 			 	}
 
-			 	if('${relacao.tipoRelacao}' == 'Composicao'){
-			 		var x1 = classeA.geometry.x + 100;
-			 		var y1 = classeA.geometry.y;
-			 		var classeB = criarCellVertex(graph2, '${relacao.classeB}', '${relacao.classeB}',x1, y1, widht, height); 
-			 		graph2.insertEdge(parent2, null, '${relacao.ida}->\n<-${relacao.volta}', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
-			 	}
-
-			 	if('${relacao.tipoRelacao}' == 'Equivalencia'){
-			 		var x1 = classeA.geometry.x + 100;
-			 		var y1 = classeA.geometry.y;
-			 		var classeB = criarCellVertex(graph2, '${relacao.classeB}', '${relacao.classeB}',x1, y1, widht, height);
-			 		graph2.insertEdge(parent2, null, 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
-			 		
-			 	}
-		 		
 			 </c:forEach>
 
 		}

@@ -127,40 +127,29 @@ function carregar(){
 	graph.getModel().beginUpdate();
 	try
 	{
-		Ext.getCmp("classeA").setValue('${relacao.classeA}');
-		Ext.getCmp("classeB").setValue('${relacao.classeB}');
-		Ext.getCmp("tipoRelacao").setValue('${relacao.tipoRelacao}');
+		Ext.getCmp("classeA").setValue('${relacao.classA.uri}');
+		Ext.getCmp("classeB").setValue('${relacao.classB.uri}');
 
-		<c:forEach var="instancia" items="${relacao.instanciasA}">
-		
-        	var idInstancia = 'ConjuntoA ' + '${instancia}';
-        	criarCellVertex(graph, idInstancia, '${instancia}',xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
-			instanciasConjuntoA[qtdInstanciasConjuntoA] = '${instancia}';
+		<c:forEach var="instancia" items="${relacao.instanceRelationMapA}">
+        	var idInstancia = 'ConjuntoA ' + '${instancia.key}';
+        	criarCellVertex(graph, idInstancia, '${instancia.key}',xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
+			instanciasConjuntoA[qtdInstanciasConjuntoA] = '${instancia.key}';
             qtdInstanciasConjuntoA++;
 			yLeft += 60;
 			
 		</c:forEach>
 
-		<c:forEach var="instancia" items="${relacao.instanciasB}">
+		<c:forEach var="instancia" items="${relacao.instanceRelationMapB}">
 			
-			var idInstancia = 'ConjuntoB ' + '${instancia}';
-			criarCellVertex(graph, idInstancia, '${instancia}', xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
+			var idInstancia = 'ConjuntoB ' + '${instancia.key}';
+			criarCellVertex(graph, idInstancia, '${instancia.key}', xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
 			
-			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB] = '${instancia}';
+			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB] = '${instancia.key}';
             qtdInstanciasConjuntoB++;
 			yRight += 60;
 			
 		</c:forEach>
 
-		<c:forEach var="instancia" items="${relacao.relacionamentosInstancias}">
-			var intanciaA = model.getCell('${instancia.key}');
-			<c:forEach var="teste" items="${instancia.value}">
-				var idInstancia = 'ConjuntoB ' + '${teste}';
-				var intanciaB = model.getCell(idInstancia);
-				graph.insertEdge(parent, intanciaA.value + '->' + intanciaB.value, '', intanciaA, intanciaB);
-			</c:forEach>
-		</c:forEach>
-		
 	}
 	finally
 	{
