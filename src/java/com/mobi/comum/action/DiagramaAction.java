@@ -9,11 +9,18 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mobi.core.Mobi;
+import mobi.core.common.Relation;
+import mobi.core.concept.Instance;
+import mobi.core.relation.InheritanceRelation;
+import mobi.core.relation.InstanceRelation;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.MappingDispatchAction;
 
+import com.mobi.comum.util.EditorMMobiConstantes;
 import com.mobi.relacao.application.IRelacaoService;
 import com.mobi.relacao.application.impl.RelacaoServiceImpl;
 import com.mobi.relacao.form.RelacaoForm;
@@ -49,6 +56,10 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 		RelacaoForm diagramaForm = (RelacaoForm)form;
 		
+		Mobi mobi = new Mobi("Dominio");
+		
+		request.getSession().setAttribute("mobi", mobi);
+		
 		diagramaForm.reset();
 		
 		return mapping.findForward("success");
@@ -60,53 +71,47 @@ public class DiagramaAction extends MappingDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
+		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
+		
 		String tipoRelacao = request.getParameter("tipoRelacao");
 		String classeA = request.getParameter("classeA");
 		String classeB = request.getParameter("classeB");
-
-		RelacaoForm diagramaForm = (RelacaoForm)form;
-		diagramaForm.getRelacaoDTO().setTipoRelacao(tipoRelacao);
-		diagramaForm.getRelacaoDTO().setClasseA(classeA);
-		diagramaForm.getRelacaoDTO().setClasseB(classeB);
 		
-		if(tipoRelacao.equals("Composicao")){
-			String ida = request.getParameter("ida");
-			String volta = request.getParameter("volta");
-			diagramaForm.getRelacaoDTO().setIda(ida);
-			diagramaForm.getRelacaoDTO().setVolta(volta);
+		Relation relation = null;
+		
+		if( tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.HERANCA) ){
+			
+			relation = mobi.createInheritanceRelation(classeA + classeB);
+			relation.setClassA(mobi.getClass(classeA));
+			relation.setClassB(mobi.getClass(classeB));
+			
+			Set<Instance> instancesA =  mobi.getClassInstances(classeA);
+			Set<Instance> instancesB =  mobi.getClassInstances(classeB);
+			
+			for(Instance instance : instancesA){
+				
+				relation.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
+				
+			}
+			
+			for(Instance instance : instancesB){
+				
+				relation.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
+				
+			}
+			
 		}
 		
-
+		mobi.addConcept(relation);
 		
-		
-		List<RelacionamentoDTO> relacionamentos = (List<RelacionamentoDTO>)request.getSession().getAttribute("relacionamentos");
-		
+		List<Relation> relacionamentos = (List<Relation>)request.getSession().getAttribute("relacionamentos");
 		if(relacionamentos == null){
-			relacionamentos = new ArrayList<RelacionamentoDTO>();
+			relacionamentos = new ArrayList<Relation>();
 		}
-		
-		RelationDTO relacao = diagramaForm.getRelacaoDTO();  
-		RelacionamentoDTO relacao0 = new RelacionamentoDTO(relacao.getClasseA(),relacao.getClasseB());
-		relacao0.setTipoRelacao(relacao.getTipoRelacao());
-		relacao0.setIda(relacao.getIda());
-		relacao0.setVolta(relacao.getVolta());
-		
-		if(!relacionamentos.contains(relacao0)){
-			relacionamentos.add(relacao0);
-		}
+		relacionamentos.add(relation);
 		
 		request.getSession().setAttribute("relacionamentos", relacionamentos);
 		
-		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
-		if(relacoes == null){
-			relacoes = new HashSet<RelationDTO>();
-		}
-		
-		relacoes.add(diagramaForm.getRelacaoDTO());
-		
-		request.getSession().setAttribute("listaNomeRelacoes", relacoes);
-		
-		diagramaForm.reset();
 		
 		return mapping.findForward("success");
 		
@@ -248,27 +253,27 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ActionForward carregarRelacao(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		RelacaoForm diagramaForm = (RelacaoForm)form;
  		String classeA = request.getParameter("classeA");
 		String classeB = request.getParameter("classeB");
 		String tipoRelacao = request.getParameter("tipoRelacao");
-		Set<RelationDTO> listaRelacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
 		
-		RelationDTO relacao = new RelationDTO();
-		relacao.setClasseA(classeA);
-		relacao.setClasseB(classeB);
-		relacao.setTipoRelacao(tipoRelacao);
+		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
+		Relation relation = null;
 		
-		List<RelationDTO> relacoesAux = new ArrayList<RelationDTO>(listaRelacoes);
-		relacao = relacoesAux.get(relacoesAux.indexOf(relacao));
-		criarInstanciasRelacacao(relacoesAux,relacao);
-		diagramaForm.setRelacaoDTO(relacao);
-		request.setAttribute("relacao", relacao);
+		if(EditorMMobiConstantes.HERANCA.equalsIgnoreCase(tipoRelacao)){
+			
+			relation = mobi.getInheritanceRelation(classeA + classeB);
+			
+		}
+		
+		
+		request.getSession().setAttribute("relacao", relation);
+		
+		//criarInstanciasRelacacao(relacoesAux,relacao);
 		
 		return mapping.findForward("success");
 		

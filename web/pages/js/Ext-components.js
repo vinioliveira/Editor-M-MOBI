@@ -82,7 +82,9 @@ Ext.onReady(function(){
 		var label = new Ext.form.Label({
 			id: 'label-type',
 			text: '',
-			labelStyle: 'align: center; text-align: center'
+			  style: {
+					width: '50px' 
+				}
 		});
 		
 		var fp = new Ext.FormPanel({
@@ -117,19 +119,11 @@ Ext.onReady(function(){
 					parent = graph.getDefaultParent();
 		            try
 		            {
-		               var nomeInstancia = 'i'+Ext.getCmp('classeB').getValue() + qtdInstanciasConjuntoA;
+		               var nomeInstancia = 'i'+Ext.getCmp('classeA').getValue() + qtdInstanciasConjuntoA;
 		               var idInstancia = 'ConjuntoA ' + nomeInstancia;
-		               var nameClass = '';
+		               var nameClass = Ext.getCmp('classeA').getValue();
 		               var instancia1 = criarCellVertex(graph ,idInstancia, nomeInstancia, xLeft, yLeft, widhtInstance, heightInstance,'shape=cloud');
 	
-		               if(qtdInstanciasConjuntoA == 1){
-		            	   nameClass = 'Classe ' + qtdClasses;
-		            	   if(Ext.getCmp('classeA').getValue(nameClass) == ''){
-		            		   Ext.getCmp('classeA').setValue(nameClass);
-		            	   }
-		            	   qtdClasses++;			               
-		               }
-		               
 		               instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
 		               qtdInstanciasConjuntoA++;
 		               yLeft = yLeft + 50;
@@ -179,17 +173,9 @@ Ext.onReady(function(){
 	            {
 	               var nomeInstancia = 'I'+ Ext.getCmp('classeB').getValue() + qtdInstanciasConjuntoB;
 	               var idInstancia = 'ConjuntoB ' + nomeInstancia;
-	               var nameClass = '';
+	               var nameClass = Ext.getCmp('classeB').getValue();
 	               var instancia1 = criarCellVertex(graph, idInstancia, nomeInstancia, xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
 	
-	               if(qtdInstanciasConjuntoB == 1){
-	            	   nameClass = 'Classe ' + qtdClasses;
-	            	   if(Ext.getCmp('classeB').getValue() == ''){
-	            		   Ext.getCmp('classeB').setValue(nameClass);
-	            	   }
-	            	   qtdClasses++;			               
-	               }
-	               
 	               instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
 	               qtdInstanciasConjuntoB++;
 	               yRight = yRight + 50;
