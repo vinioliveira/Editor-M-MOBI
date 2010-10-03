@@ -42,7 +42,7 @@ function carregar(){
 	graph.isCellEditable = function(cell)
 	{
 		return !this.model.isEdge(cell);
-	}
+	};
 
 	configureStylesheet(graph);
 
@@ -50,7 +50,7 @@ function carregar(){
 	{
 		atualizarRelacionamento(source.value,target.value);
 		return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
-	}
+	};
 
 	graph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt)
 			{

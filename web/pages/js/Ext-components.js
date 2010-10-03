@@ -15,28 +15,43 @@ Ext.onReady(function(){
 	});
 	
 	//Inputs 
-	var classeA =  new Ext.form.TextField({
+	var classeA =  new Ext.form.ComboBox({
 		id : 'classeA',
-		style: { margin : '5px 0px 5px 30px'},
-		value: 'ClasseA',
-		listeners : {
+        store: classes,
+        hideLabel: true,
+        width: 149,
+        displayField: 'classe',
+        style: { margin : '10px 0px 5px 30px'},
+        hideTrigger: true,
+        mode: 'local',
+        value:'ClasseA',
+        listeners : {
 			change : function (text,newValue,oldValue){
 				buscarInstancias(newValue,this.id,Ext.getCmp('tipoRelacao').getValue());
 				}
-			}
+        }
+
 	});
 	
 
-	var classeB =  new Ext.form.TextField({
-		id : 'classeB',
-		value: 'ClasseB',
-		style: { margin : '5px 5px 5px 30px'},
-		listeners : {
-			change : function (text,newValue,oldValue){
-				buscarInstancias(newValue,this.id,Ext.getCmp('tipoRelacao').getValue());
-				}
-			}
-	});
+	var classeB =  new Ext.form.ComboBox({
+			id : 'classeB',
+	        store: classes,
+	        hideLabel: true,
+	        width: 149,
+	        displayField: 'classe',
+	        style: { margin : '10px 0px 5px 35px'},
+	        hideTrigger: true,
+	        mode: 'local',
+	        value:'ClasseB',
+	        listeners : {
+				change : function (text,newValue,oldValue){
+	        			buscarInstancias(newValue,this.id,Ext.getCmp('tipoRelacao').getValue());
+					}
+	        }
+
+		});
+		
 	
 	var radioGroup =  new Ext.form.FieldSet({
 		id: 'fieldSetRadioGroup',
@@ -119,15 +134,27 @@ Ext.onReady(function(){
 					parent = graph.getDefaultParent();
 		            try
 		            {
-		               var nomeInstancia = 'i'+Ext.getCmp('classeA').getValue() + qtdInstanciasConjuntoA;
-		               var idInstancia = 'ConjuntoA ' + nomeInstancia;
-		               var nameClass = Ext.getCmp('classeA').getValue();
-		               var instancia1 = criarCellVertex(graph ,idInstancia, nomeInstancia, xLeft, yLeft, widhtInstance, heightInstance,'shape=cloud');
+		            	
+		            	var nameClass = Ext.getCmp('classeA').getValue();
+
+		            	if ( nameClass == ''){
+		            		if(qtdClassesA > 0){
+		            			nameClass = 'ClasseA'+qtdClassesA;
+
+		            		}else{
+		            			nameClass = 'ClasseA';
+
+		            		}
+		            		qtdClassesA ++;
+		            	}
+		            	var nomeInstancia = 'i'+ nameClass +'_'+ qtdInstanciasConjuntoA;
+		            	var idInstancia = 'ConjuntoA ' + nomeInstancia;
+		            	var instancia1 = criarCellVertex(graph ,idInstancia, nomeInstancia, xLeft, yLeft, widhtInstance, heightInstance,'shape=cloud');
 	
-		               instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
-		               qtdInstanciasConjuntoA++;
-		               yLeft = yLeft + 50;
-		               adcionarUmaInstancia(nomeInstancia,'ConjuntoA',nameClass);
+		            	instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
+		            	qtdInstanciasConjuntoA++;
+		            	yLeft = yLeft + 50;
+		            	adcionarUmaInstancia(nomeInstancia,'ConjuntoA',nameClass);
 		               
 		            }
 		            finally
@@ -171,15 +198,27 @@ Ext.onReady(function(){
 				
 	            try
 	            {
-	               var nomeInstancia = 'I'+ Ext.getCmp('classeB').getValue() + qtdInstanciasConjuntoB;
-	               var idInstancia = 'ConjuntoB ' + nomeInstancia;
-	               var nameClass = Ext.getCmp('classeB').getValue();
-	               var instancia1 = criarCellVertex(graph, idInstancia, nomeInstancia, xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
+	            	var nameClass = Ext.getCmp('classeB').getValue();
+
+	            	if ( nameClass == ''){
+	            		if(qtdClassesA > 0){
+	            			nameClass = 'ClasseB'+qtdClassesA;
+
+	            		}else{
+	            			nameClass = 'ClasseB';
+
+	            		}
+	            		qtdClassesA ++;
+	            	}
+	            	var nomeInstancia = 'I'+ nameClass +'_'+ qtdInstanciasConjuntoB;
+	            	var idInstancia = 'ConjuntoB ' + nomeInstancia;
+	            	var nameClass = Ext.getCmp('classeB').getValue();
+	            	var instancia1 = criarCellVertex(graph, idInstancia, nomeInstancia, xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
 	
-	               instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
-	               qtdInstanciasConjuntoB++;
-	               yRight = yRight + 50;
-	               adcionarUmaInstancia(nomeInstancia,'ConjuntoB',nameClass);
+	            	instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
+	            	qtdInstanciasConjuntoB++;
+	            	yRight = yRight + 50;
+	            	adcionarUmaInstancia(nomeInstancia,'ConjuntoB',nameClass);
 	               
 	            }
 	            finally

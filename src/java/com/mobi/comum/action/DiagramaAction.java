@@ -1,6 +1,8 @@
 package com.mobi.comum.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,8 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import mobi.core.Mobi;
 import mobi.core.common.Relation;
+import mobi.core.concept.Class;
 import mobi.core.concept.Instance;
-import mobi.core.relation.InheritanceRelation;
+import mobi.core.relation.GenericRelation;
 import mobi.core.relation.InstanceRelation;
 
 import org.apache.struts.action.ActionForm;
@@ -74,32 +77,50 @@ public class DiagramaAction extends MappingDispatchAction {
 		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
 		
 		String tipoRelacao = request.getParameter("tipoRelacao");
-		String classeA = request.getParameter("classeA");
-		String classeB = request.getParameter("classeB");
+		String classeAUri = request.getParameter("classeA");
+		String classeBUri = request.getParameter("classeB");
 		
-		Relation relation = null;
+		Relation relation = mobi.createGenericRelation(classeAUri + classeBUri);
 		
-		if( tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.HERANCA) ){
-			
-			relation = mobi.createInheritanceRelation(classeA + classeB);
-			relation.setClassA(mobi.getClass(classeA));
-			relation.setClassB(mobi.getClass(classeB));
-			
-			Set<Instance> instancesA =  mobi.getClassInstances(classeA);
-			Set<Instance> instancesB =  mobi.getClassInstances(classeB);
-			
+		Class classeA = mobi.getClass(classeAUri) != null ?  mobi.getClass(classeAUri) : new Class(classeAUri) ;
+		Class classeB = mobi.getClass(classeBUri) != null ?  mobi.getClass(classeBUri) : new Class(classeBUri) ;
+
+		mobi.addConcept(classeA);
+		mobi.addConcept(classeB);
+		
+		relation.setClassA(classeA);
+		relation.setClassB(classeB);
+
+		Set<Instance> instancesA =  mobi.getClassInstances(classeA);
+		Set<Instance> instancesB =  mobi.getClassInstances(classeB);
+		
+		if (instancesA != null ){
 			for(Instance instance : instancesA){
 				
 				relation.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
 				
 			}
-			
+		}
+		if(instancesB != null){
 			for(Instance instance : instancesB){
 				
 				relation.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
 				
 			}
+		}
+		
+		if( tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.HERANCA) ){
 			
+			relation = mobi.convertToInheritanceRelation(relation, classeAUri + classeBUri);
+
+		}
+		
+		if (tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.EQUIVALENCIA)){
+			relation = mobi.convertToEquivalenceRelation(relation, relation.getUri());
+		}
+		
+		if(tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.COMPOSICAO)){
+			//
 		}
 		
 		mobi.addConcept(relation);
@@ -111,6 +132,12 @@ public class DiagramaAction extends MappingDispatchAction {
 		relacionamentos.add(relation);
 		
 		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
+		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
+		//Collections.sort(classes);
+		request.setAttribute("classes", classes );
+		mobi.getAllGenericRelations().put("temp", new GenericRelation());
+
 		
 		
 		return mapping.findForward("success");
@@ -175,71 +202,38 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 		String nomeClasse = request.getParameter("nomeClasse");
 		String conjunto = request.getParameter("conjunto");
-		String tipoRelacao = request.getParameter("tipoRelacao");
 		
-		RelacaoForm diagramaForm = (RelacaoForm)form;
-		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
+		Relation relation = mobi.getAllGenericRelations().get("temp") != null ? mobi.getAllGenericRelations().get("temp") : mobi.createGenericRelation("temp");
 		
-		boolean classeEncontrada = false;
+		Class classe = mobi.getClass(nomeClasse) != null ? mobi.getClass(nomeClasse) : new Class(nomeClasse);
+		Set<Instance> instances  = mobi.getClassInstances(classe);
 		
-		if(relacoes != null){
-			for(RelationDTO relacao : relacoes){
-				
-				if(relacao.getClasseA().equals(nomeClasse)){
-					if("classeA".equals(conjunto)){
-						
-						diagramaForm.getRelacaoDTO().setClasseA(relacao.getClasseA());
-						diagramaForm.getRelacaoDTO().setInstanciasA(relacao.getInstanciasA());
-						
-						for(String instanciaA : relacao.getInstanciasA()){
-							diagramaForm.getRelacaoDTO().getRelacionamentosInstancias().put(CONJUNTO_A + " " + instanciaA, new HashSet<String>());
-						}
-						
-					}else{
-						
-						diagramaForm.getRelacaoDTO().setClasseB(relacao.getClasseA());
-						diagramaForm.getRelacaoDTO().setInstanciasB(relacao.getInstanciasA());
-						
-					}
-					diagramaForm.getRelacaoDTO().setTipoRelacao(tipoRelacao);
-					classeEncontrada = true;
-					
+		if(conjunto.equals("classeA")){
+			relation.setClassA(classe);
+			if(instances != null ){
+				relation.setInstanceRelationMapA(new HashMap<String, InstanceRelation>());
+				for(Instance instance : instances){
+					relation.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
 				}
-				
-				if(relacao.getClasseB().equals(nomeClasse)){
-					if("classeA".equals(conjunto)){
-						
-						diagramaForm.getRelacaoDTO().setClasseA(relacao.getClasseB());
-						diagramaForm.getRelacaoDTO().setInstanciasA(relacao.getInstanciasB());
-						
-						for(String instanciaA : relacao.getInstanciasB()){
-							diagramaForm.getRelacaoDTO().getRelacionamentosInstancias().put(CONJUNTO_A + " " + instanciaA, new HashSet<String>());
-						}
-						
-					}else{
-						
-						diagramaForm.getRelacaoDTO().setClasseB(relacao.getClasseB());
-						diagramaForm.getRelacaoDTO().setInstanciasB(relacao.getInstanciasB());
-						
-					}
-					diagramaForm.getRelacaoDTO().setTipoRelacao(tipoRelacao);
-					classeEncontrada = true;
-				}
-				
-			}
-		}
-		
-		if(!classeEncontrada){
-			if("classeA".equals(conjunto)){
-				diagramaForm.getRelacaoDTO().setClasseA(nomeClasse);
 			}else{
-				diagramaForm.getRelacaoDTO().setClasseB(nomeClasse);
+				relation.setInstanceRelationMapA(new HashMap<String, InstanceRelation>());
 			}
-			diagramaForm.getRelacaoDTO().setTipoRelacao(tipoRelacao);
+		}else{
+			relation.setClassB(classe);
+			if(instances != null ){
+				relation.setInstanceRelationMapB(new HashMap<String, InstanceRelation>());
+				for(Instance instance : instances){
+					relation.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
+				}
+			}else{
+				relation.setInstanceRelationMapB(new HashMap<String, InstanceRelation>());
+			}
 		}
 		
-		request.setAttribute("relacao", diagramaForm.getRelacaoDTO());
 		
+		request.getSession().setAttribute("relacao", relation);
+		mobi.addConcept(relation);
 		return mapping.findForward("success");
 		
 	}

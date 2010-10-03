@@ -17,7 +17,7 @@
     <!-- ExtJS library: base/adapter -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/ext-all.js"></script>
-    
+    <script type="text/javascript" src="${pageContext.request.contextPath}/comum/Ext-States.js""></script>
 	
 
     <!-- overrides to base library -->

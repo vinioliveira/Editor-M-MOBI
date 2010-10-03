@@ -3,7 +3,19 @@
 <!-- Example code -->
 <div id="teste">
 	<script type="text/javascript">
-	
+
+	function carregarStore(componente) {
+		componente.store = new Ext.data.ArrayStore({
+	    	fields: ['abt', 'classe'],
+	    	data : [['','']
+				<c:forEach items="${classes}" var="classe">
+					,['${classe.uri}','${classe.uri}','']
+				</c:forEach>
+		    	]
+		});
+		alert('Carregou Classe');
+	}
+
     var editor2;
 	var graph2;
 	var model2;
@@ -135,15 +147,18 @@
 		{
 		   // Updates the display
 		   graph2.getModel().endUpdate();
-		}
 
+		}
 	}
 	
 		mainDiagrama();
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'zoomIn', '', 'images/zoom_in.png', true);
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'zoomOut', '', 'images/zoom_out.png', true);
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'actualSize', '', 'images/view_1_1.png', true);
-		addToolbarButton(editor2,document.getElementById('statusContainer'), 'fit', '', 'images/fit_to_size.png', true);	
+		addToolbarButton(editor2,document.getElementById('statusContainer'), 'fit', '', 'images/fit_to_size.png', true);
+		carregarStore(Ext.getCmp('classeA'));
+		carregarStore(Ext.getCmp('classeB'));
+			
 	</script>
 </div>
 

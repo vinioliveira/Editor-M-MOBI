@@ -1,4 +1,8 @@
-	
+	var classes =  new Ext.data.ArrayStore({
+			    fields: ['abt', 'classe'],
+			    data : Ext.exampledata.states 
+	});	
+
 	var editor;
 	var graph;
 	var model;

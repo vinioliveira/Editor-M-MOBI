@@ -11,6 +11,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.mockito.internal.verification.NoMoreInteractions;
 
 public class AddInstanceAction extends Action {
 	
@@ -29,8 +30,8 @@ public class AddInstanceAction extends Action {
 		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
 		
 		Instance instance = new Instance(nameInstance);
-		Class clazz = new Class(nameClass);
-		
+		Class clazz = mobi.getClass(nameClass) != null ?  mobi.getClass(nameClass) : new Class(nameClass) ; 
+
 		mobi.addConcept(instance);
 		mobi.addConcept(clazz);
 		mobi.isOneOf(instance, clazz);
