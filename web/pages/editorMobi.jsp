@@ -13,7 +13,7 @@
 
 
     <!-- ** Javascript ** -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/js/prototype.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/jquery-1.4.2.min.js"></script>
     <!-- ExtJS library: base/adapter -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/ext-all.js"></script>

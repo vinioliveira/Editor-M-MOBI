@@ -93,17 +93,9 @@
 		graph2.addListener(mxEvent.LABEL_CHANGED, function(sender, event){
 			cell = event.getArgAt(0);
 
-			params = 'classeAntigo='+ cell.id + '&classeNovo=' + cell.value ;
-				new Ajax.Updater('graphContainerDiagrama', '/EditorM-MOBI/atualizarNomeClasse.do', 
-				{
-					method: 'get',
-					parameters:params,
-					evalScripts : true,
-					onComplete : resetarRelacoes
-				});
-
-			
-			
+			params = { classeAntigo : cell.id , classeNovo :  cell.value } ;
+			ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/atualizarNomeClasse.do', params, resetarRelacoes)
+				
 		});
 
 		

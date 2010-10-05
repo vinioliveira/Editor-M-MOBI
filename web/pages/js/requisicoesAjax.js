@@ -1,22 +1,27 @@
 
 function ajaxDivUpdate(div, action, params, callback){
-	new Ajax.Updater(div, action, 
-				{
-					method: 'post',
-					parameters:params,
-					evalScripts : true,
-					onComplete : callback
-					
-				});
+	
+	
+	$.ajax({
+		type: 'POST',
+		url : action,
+		data: params,
+		success : function (data){ 
+			$('#'+div).html(data);
+			callback();
+		}
+	});
+	
 }
 
 
 
 function ajaxRequest(action, params){
 	
-	new Ajax.Request(action, {
-			method : 'post',
-			parameters : params
-		});
+	$.ajax({
+		type: 'POST',
+		url : action,
+		data : params
+	});
 }
 

@@ -180,7 +180,7 @@
 		}
 
     function atualizarRelacionamento(instanciaA, instanciaB) {
-    	var params = 'instanciaA=' + instanciaA + '&' + 'instanciaB=' + instanciaB;
+    	var params = { instanciaA : instanciaA , instanciaB : instanciaB};
     	ajaxRequest('/EditorM-MOBI/ajaxAddRelacao.do', params);
 
     }
@@ -210,9 +210,11 @@
      * BEGIN - Block of actions from the class 
      */
 	function adcionarUmaInstancia(nomeInstancia,conjunto,nameClass){
-		var params = 'nomeIstancia=' + nomeInstancia + '&' + 'conjunto=' + conjunto;
+		
+		var params = { nomeIstancia : nomeInstancia , conjunto : conjunto};
+		
 		if(nameClass != ''){
-			params = params + '&' + 'nameClass=' + nameClass;
+			params['nameClass']=  nameClass ;
 		}
 	
 		ajaxRequest('/EditorM-MOBI/ajaxAddInstancia.do', params);
@@ -221,7 +223,8 @@
 
 	function editarInstancia(nomeAntigo,nomeNovo,conjunto){
 		
-		var params = 'nomeAntigo=' + nomeAntigo + '&nomeNovo=' + nomeNovo + '&conjunto=' + conjunto;
+		var params = {nomeAntigo : nomeAntigo, nomeNovo :nomeNovo, conjunto : conjunto};
+		
 		ajaxRequest('/EditorM-MOBI/ajaxAddInstancia.do', params);
 		
 	}
@@ -262,12 +265,14 @@
 	}
 	
 	function eliminarRelacionamento(instanciaA,instanciaB){
-		var params = 'instanciaA=' + instanciaA + '&instanciaB=' + instanciaB;
+		var params = { instanciaA: instanciaA , instanciaB : instanciaB};
+		
 		ajaxRequest('/EditorM-MOBI/ajaxEliminarRelacionamento.do', params);
 	}
 	
 	function eliminarInstancia(instancia,classe){
-		var params = 'idClasse=' + classe + '&instancia=' + instancia;
+		var params = { idClasse : classe , instancia : instancia};
+		
 		ajaxRequest('/EditorM-MOBI/ajaxEliminarInstancia.do', params);
 	}
 	
@@ -360,7 +365,8 @@
 
 					graph.startEditingAtCell(ClasseNova);
 					
-					params = 'tipoRelacao=Heranca' + '&classeA=' + cell.id + '&classeB=' + ClasseNova.id ;
+					params = {tipoRelacao : Heranca , classeA : cell.id , classeB : ClasseNova.id };
+					
 					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
 											
 				});
@@ -378,7 +384,7 @@
 
 					graph.startEditingAtCell(ClasseNova);
 					
-					params = 'tipoRelacao=Equivalencia' + '&classeA=' + cell.id + '&classeB=' + ClasseNova.id ;
+					params = { tipoRelacao : Equivalencia , classeA : cell.id , classeB : ClasseNova.id };
 					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
 											
 				});

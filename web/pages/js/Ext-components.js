@@ -175,12 +175,13 @@ Ext.onReady(function(){
 	    		
 	    		if(relacao!= null && classeA != '' && classeB !=  ''){
 	    		
-		    		params = 'tipoRelacao=' + relacao.getId() + '&classeA=' + classeA + '&classeB=' + classeB ;
+		    		params = { tipoRelacao : relacao.getId(), classeA : classeA , classeB: classeB} ;
 		    		
 		    		if (relacao.getId() == 'Composicao'){
 		    			var ida = Ext.getCmp('ida').getValue();
 		    			var volta = Ext.getCmp('volta').getValue();
-		    			params += '&ida=' + ida + '&volta=' + volta;	 
+		    			params['ida']= ida;
+		    			params['volta'] = volta;	 
 		    		}
 
 	    			ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', params, resetarRelacoes); 
@@ -359,7 +360,8 @@ function abrirPopupComposicao(graph, cell){
 						
 						
 						
-						params = 'tipoRelacao=Composicao' + '&classeA=' + cell.id + '&classeB=' + ClasseNova.id + '&ida=' + ida + '&volta=' + volta;;
+						params = { tipoRelacao : Composicao, classeA : cell.id , classeB : ClasseNova.id , ida : ida , volta : volta };
+							 
 						ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
 						
 						win.close();
