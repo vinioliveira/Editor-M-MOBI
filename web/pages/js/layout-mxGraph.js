@@ -180,12 +180,8 @@
 		}
 
     function atualizarRelacionamento(instanciaA, instanciaB) {
-  		var params = 'instanciaA=' + instanciaA + '&' + 'instanciaB=' + instanciaB;
-  		var myAjax = new Ajax.Request('/EditorM-MOBI/ajaxAddRelacao.do', {
-			method : 'get',
-			parameters : params,
-			evalScripts : true
-		});
+    	var params = 'instanciaA=' + instanciaA + '&' + 'instanciaB=' + instanciaB;
+    	ajaxRequest('/EditorM-MOBI/ajaxAddRelacao.do', params);
 
     }
 
@@ -224,8 +220,8 @@
 	}
 
 	function editarInstancia(nomeAntigo,nomeNovo,conjunto){
+		
 		var params = 'nomeAntigo=' + nomeAntigo + '&nomeNovo=' + nomeNovo + '&conjunto=' + conjunto;
-
 		ajaxRequest('/EditorM-MOBI/ajaxAddInstancia.do', params);
 		
 	}
@@ -267,20 +263,12 @@
 	
 	function eliminarRelacionamento(instanciaA,instanciaB){
 		var params = 'instanciaA=' + instanciaA + '&instanciaB=' + instanciaB;
-		
-		var myAjax = new Ajax.Request('/EditorM-MOBI/ajaxEliminarRelacionamento.do', {
-			method : 'post',
-			parameters : params
-		});
+		ajaxRequest('/EditorM-MOBI/ajaxEliminarRelacionamento.do', params);
 	}
 	
 	function eliminarInstancia(instancia,classe){
 		var params = 'idClasse=' + classe + '&instancia=' + instancia;
-		
-		var myAjax = new Ajax.Request('/EditorM-MOBI/ajaxEliminarInstancia.do', {
-			method : 'post',
-			parameters : params
-		});
+		ajaxRequest('/EditorM-MOBI/ajaxEliminarInstancia.do', params);
 	}
 	
 	
@@ -289,6 +277,7 @@
 		var params = 'classeA=' + classeA + '&classeB=' + classeB + '&tipoRelacao=' + tipoRelacao;
 		
 		var panel = Ext.get('relaco-div');
+		
 		panel.getUpdater().update( {
 			url : '/EditorM-MOBI/ajaxCarregarRelacao.do',
 			params : params,

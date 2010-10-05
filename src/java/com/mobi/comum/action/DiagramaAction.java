@@ -1,7 +1,6 @@
 package com.mobi.comum.action;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +16,7 @@ import mobi.core.concept.Class;
 import mobi.core.concept.Instance;
 import mobi.core.relation.GenericRelation;
 import mobi.core.relation.InstanceRelation;
+import mobi.extension.export.owl.Mobi2OWL;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -371,10 +371,12 @@ public class DiagramaAction extends MappingDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		Mobi mobi = (Mobi)request.getSession().getAttribute("mobi");
 		
-		IRelacaoService relacaoService = new RelacaoServiceImpl();
-		relacaoService.processarRelacoes(relacoes);
+		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.edu/", mobi);
+		
+		mobi2OWL.setExportPath("/home/progoz/mobi");
+		mobi2OWL.exportMobiToOWL("mobi.owl");
 		
 		return null;
 		

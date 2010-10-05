@@ -2,7 +2,7 @@
 function ajaxDivUpdate(div, action, params, callback){
 	new Ajax.Updater(div, action, 
 				{
-					method: 'get',
+					method: 'post',
 					parameters:params,
 					evalScripts : true,
 					onComplete : callback
@@ -15,7 +15,8 @@ function ajaxDivUpdate(div, action, params, callback){
 function ajaxRequest(action, params){
 	
 	new Ajax.Request(action, {
-			method : 'get',
+			method : 'post',
 			parameters : params
 		});
 }
+
