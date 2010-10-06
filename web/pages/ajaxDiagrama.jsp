@@ -1,10 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <!-- Example code -->
 <div id="teste">
 	<script type="text/javascript">
-
-	
+		
+	function carregarStore() {
+     	<logic:iterate name="classes" id="classe" indexId="index">
+     	mobi.classes['${index}'] = ['${classe.uri}','${classe.uri}']
+        </logic:iterate>
+	  }
 
     var editor2;
 	var graph2;
@@ -133,8 +138,6 @@
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'zoomOut', '', 'images/zoom_out.png', true);
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'actualSize', '', 'images/view_1_1.png', true);
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'fit', '', 'images/fit_to_size.png', true);
-		carregarStore(Ext.getCmp('classeA'));
-		carregarStore(Ext.getCmp('classeB'));
 			
 	</script>
 </div>

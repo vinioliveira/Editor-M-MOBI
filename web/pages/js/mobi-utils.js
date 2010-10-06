@@ -1,10 +1,6 @@
-var classes =  new Ext.data.ArrayStore({
-			    fields: ['abt', 'classe'],
-			    data : [['','']] 
-});	
-
-
 function mobi(){}
+
+mobi.classes = [];
 mobi.GENERIC_RELATION = 0;
 mobi.BIDIRECIONAL_COMPOSITION = 1;
 mobi.BIDIRECIONAL_COMPOSITION_HAS_BELONGS_TO = 2;
@@ -95,21 +91,17 @@ function resetarRelacoes(){
 	
 	qtdInstanciasConjuntoA = 1;
 	qtdInstanciasConjuntoB = 1;
+
+	carregarStore();
 	
 	Ext.getCmp(mobi.CLASSEA).setValue('');
-	Ext.getCmp("classeB").setValue('');
+	Ext.getCmp(mobi.CLASSEB).setValue('');
+	Ext.getCmp(mobi.CLASSEA).getStore().loadData(mobi.classes, false);
+	Ext.getCmp(mobi.CLASSEB).getStore().loadData(mobi.classes, false);
+
 	Ext.getCmp('fieldSetRadioGroup').remove('form');
 	Ext.getCmp('fieldSetRadioGroup').doLayout();
-	
-	$('#graphContainerDiagrama').ajaxSuccess( function (event, request, settings) {
-		classes = new Ext.data.ArrayStore({
-			fields: ['abt', 'classe'],
-			data : [['','']]
-		});
-		Ext.getCmp(mobi.CLASSEA).store = classes; 
-		Ext.getCmp(mobi.CLASSEB).store = classes; 
-		
-	});
+
 	
 }
 

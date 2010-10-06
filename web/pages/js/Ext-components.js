@@ -14,6 +14,11 @@ Ext.onReady(function(){
 		items: [ start ]
 	});
 	
+	var classes =  new Ext.data.ArrayStore({
+	    fields: ['abt', 'classe'],
+	    data : [] 
+	});	
+	
 	//Inputs 
 	var classeA =  new Ext.form.ComboBox({
 		id : 'classeA',
