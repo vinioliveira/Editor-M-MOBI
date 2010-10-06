@@ -4,29 +4,13 @@
 <div id="teste">
 	<script type="text/javascript">
 
-	function carregarStore(componente) {
-		componente.store = new Ext.data.ArrayStore({
-	    	fields: ['abt', 'classe'],
-	    	data : [['','']
-				<c:forEach items="${classes}" var="classe">
-					,['${classe.uri}','${classe.uri}','']
-				</c:forEach>
-		    	]
-		});
-		alert('Carregou Classe');
-	}
+	
 
     var editor2;
 	var graph2;
 	var model2;
 	var parent2;
 	var layout2;
-	var BIDIRECIONAL_COMPOSITION                = 1;
-	var BIDIRECIONAL_COMPOSITION_HAS_BELONGS_TO = 2;
-	var SYMMETRIC_COMPOSITION                   = 3;
-	var INHERITANCE                             = 4;
-	var UNIDIRECIONAL_COMPOSITION               = 5;
-	var EQUIVALENCE                             = 6;
 	
 	function mainDiagrama(){
 	    var container2 = document.getElementById('teste');
@@ -72,18 +56,19 @@
 		};
 
 		// Edges are not editable
-		graph2.isCellEditable = function(cell)
-		{
+		graph2.isCellEditable = function(cell){
+			
 			return !this.model.isEdge(cell);
-		}
+		};
 
 		//Adicionar evento para gerar as intancias quando clicar na relação
 		graph2.addListener(mxEvent.DOUBLE_CLICK, function(sender, event){
+			
 			cell = event.getArgAt(1);
 						
 			if (graph2.model.isEdge(cell)){
 				if (cell.getStyle() == null){
-					carregarRelacao(cell.target.value,cell.source.value,"Heranca");
+					carregarRelacao(cell.target.value,cell.source.value,mobi.INHERITANCE);
 				}
 			}
 			
@@ -94,7 +79,7 @@
 			cell = event.getArgAt(0);
 
 			params = { classeAntigo : cell.id , classeNovo :  cell.value } ;
-			ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/atualizarNomeClasse.do', params, resetarRelacoes)
+			ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/atualizarNomeClasse.do', params, resetarRelacoes);
 				
 		});
 
@@ -122,7 +107,7 @@
 					};
 			 	}
 
-			 	if('${relacao.type}' == INHERITANCE){
+			 	if('${relacao.type}' == mobi.INHERITANCE){
 			 		var classeB = criarCellVertex(graph2, '${relacao.classB.uri}', '${relacao.classB.uri}', 0, 0, widht, height);
 			 		graph2.insertEdge(parent2, null, '', classeB,classeA);
 			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)

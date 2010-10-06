@@ -24,6 +24,7 @@
 
     <!-- page specific -->
 
+    <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/mobi-utils.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/basic.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/requisicoesAjax.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/layout-mxGraph.js"></script>

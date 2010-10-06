@@ -76,7 +76,7 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 		Mobi mobi =  (Mobi) request.getSession().getAttribute("mobi");
 		
-		String tipoRelacao = request.getParameter("tipoRelacao");
+		int tipoRelacao = Integer.valueOf(request.getParameter("tipoRelacao"));
 		String classeAUri = request.getParameter("classeA");
 		String classeBUri = request.getParameter("classeB");
 		
@@ -109,19 +109,17 @@ public class DiagramaAction extends MappingDispatchAction {
 			}
 		}
 		
-		if( tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.HERANCA) ){
+		if(  tipoRelacao == Relation.INHERITANCE ){
 			
 			relation = mobi.convertToInheritanceRelation(relation, classeAUri + classeBUri);
 
 		}
 		
-		if (tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.EQUIVALENCIA)){
+		if (  tipoRelacao ==  Relation.EQUIVALENCE){
 			relation = mobi.convertToEquivalenceRelation(relation, relation.getUri());
 		}
 		
-		if(tipoRelacao.equalsIgnoreCase(EditorMMobiConstantes.COMPOSICAO)){
-			//
-		}
+		
 		
 		mobi.addConcept(relation);
 		
@@ -132,6 +130,7 @@ public class DiagramaAction extends MappingDispatchAction {
 		relacionamentos.add(relation);
 		
 		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
 		
 		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
 		//Collections.sort(classes);
@@ -152,45 +151,21 @@ public class DiagramaAction extends MappingDispatchAction {
 		String nomeClasseAntigo = request.getParameter("classeAntigo");
 		String nomeClasseNovo = request.getParameter("classeNovo");
 		
-		List<RelacionamentoDTO> todasRelacoes =  (List<RelacionamentoDTO>) request.getSession().getAttribute("relacionamentos");
-		Set<RelationDTO> listaRelacaoNomeClasse =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
+		Mobi mobi = (Mobi) request.getSession().getAttribute("mobi");
 		
-		boolean classeEncontrada = false;
+		Class classe = mobi.getClass(nomeClasseAntigo);
+		classe.setUri(nomeClasseNovo);
 		
-		if(todasRelacoes != null){
-			for(RelacionamentoDTO relacionamento : todasRelacoes){
-				
-				if(relacionamento.getClasseA().equals(nomeClasseAntigo)){
-					
-					relacionamento.setClasseA(nomeClasseNovo);
-				}
-				
-				if(relacionamento.getClasseB().equals(nomeClasseAntigo)){
-				
-					relacionamento.setClasseB(nomeClasseNovo);
-				}
-				
-			}
-			for(RelationDTO relacao : listaRelacaoNomeClasse){
-				
-				if(relacao.getClasseA().equals(nomeClasseAntigo)){
-					
-					relacao.setClasseA(nomeClasseNovo);
-				}
-				
-				if(relacao.getClasseB().equals(nomeClasseAntigo)){
-				
-					relacao.setClasseB(nomeClasseNovo);
-				}
-				
-			}
-			
+		List<Relation> relacionamentos = (List<Relation>)request.getSession().getAttribute("relacionamentos");
+		if(relacionamentos == null){
+			relacionamentos = new ArrayList<Relation>();
 		}
 		
-		if(classeEncontrada){
-			request.getSession().setAttribute("relacionamentos", todasRelacoes);
-			request.getSession().setAttribute("listaNomeRelacoes", listaRelacaoNomeClasse);
-		}
+		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
+		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
+		//Collections.sort(classes);
+		request.setAttribute("classes", classes );
 					
 		return mapping.findForward("success");
 	}
@@ -382,7 +357,16 @@ public class DiagramaAction extends MappingDispatchAction {
 		
 	}
 	
-	
-	
+	public ActionForward obterClasses(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		Mobi mobi = (Mobi) request.getSession().getAttribute("mobi");
+		
+		ArrayList classes = new ArrayList<Class>(mobi.getAllClasses().values());
+		
+		request.setAttribute("classe",classes);
+		return null; 
+	}
 
 }

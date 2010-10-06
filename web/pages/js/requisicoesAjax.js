@@ -25,3 +25,12 @@ function ajaxRequest(action, params){
 	});
 }
 
+
+function ajaxManipularDados(action, params, functions){
+	$.ajax({
+		type: 'POST',
+		url : action,
+		data: params,
+		success: functions
+	});
+}

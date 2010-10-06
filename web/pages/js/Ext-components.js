@@ -62,10 +62,10 @@ Ext.onReady(function(){
 	        hideLabel: true,
 	        id: 'tipoRelacao',
 	        items: [
-				{boxLabel: 'Herança', name: 'rb-auto', id: 'Heranca'},
-				{boxLabel: 'Composição', name: 'rb-auto', id: 'Composicao',
+				{boxLabel: 'Herança', name: 'rb-auto', id: mobi.INHERITANCE },
+				{boxLabel: 'Composição', name: 'rb-auto', id: mobi.COMPOSITION,
 					listeners: {check: function(radio, checked) { if(checked){adcionarFieldTextDaComposicao('fieldSetRadioGroup');}else{removerFieldTextDaComposicao('fieldSetRadioGroup');}  }}},
-				{boxLabel: 'Equivalência', name: 'rb-auto', id: 'Equivalencia'},
+				{boxLabel: 'Equivalência', name: 'rb-auto', id: mobi.EQUIVALENCE},
 	        ]
 	    }]
 	});
@@ -360,7 +360,7 @@ function abrirPopupComposicao(graph, cell){
 						
 						
 						
-						params = { tipoRelacao : Composicao, classeA : cell.id , classeB : ClasseNova.id , ida : ida , volta : volta };
+						params = { tipoRelacao : mobi.COMPOSITION, classeA : cell.id , classeB : ClasseNova.id , ida : ida , volta : volta };
 							 
 						ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
 						
@@ -391,5 +391,19 @@ function detectorTipoComposicao(ida, volta, label){
 			label.setText('Simetrica');
 		}
 	}	
+	
+}
+
+function buscarInstancias(classe,conjunto,tipoRelacao){
+	
+	var params = 'nomeClasse=' + classe + '&conjunto=' + conjunto + '&tipoRelacao=' + tipoRelacao;
+	
+	var panel = Ext.get('relaco-div');
+	panel.getUpdater().update( {
+		url : '/EditorM-MOBI/ajaxBuscarInstancia.do',
+		params : params,
+		scripts : true,
+		loadScripts: true
+	});
 	
 }

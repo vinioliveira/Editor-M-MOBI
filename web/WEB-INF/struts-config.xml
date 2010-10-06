@@ -28,6 +28,10 @@
 				name="relacaoForm" parameter="gerarArquivoOWL" scope="session">
 		</action>
 		
+		<action path="/obterClasses" type="com.mobi.comum.action.DiagramaAction" 
+				name="relacaoForm" parameter="obterClasses" scope="session">
+		</action>
+		
 		<action path="/modelagem" type="com.mobi.comum.action.DiagramaAction" 
 				name="relacaoForm" scope="session" parameter="visualizarRelacoes">
 			<forward name="success" path="/pages/editorMobi.jsp"/>
