@@ -15,60 +15,56 @@
 
     <action-mappings>
             
-		<action path="/ajaxAddRelacao" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/ajaxAddRelacao" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" parameter="addRelacoes" scope="session">
 		</action>
 		
-		<action path="/ajaxDiagrama" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/ajaxDiagrama" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" parameter="salvarRelacoes" scope="session">
 			<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
-		<action path="/gerarArquivoOWL" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/gerarArquivoOWL" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" parameter="gerarArquivoOWL" scope="session">
 		</action>
 		
-		<action path="/obterClasses" type="com.mobi.comum.action.DiagramaAction" 
-				name="relacaoForm" parameter="obterClasses" scope="session">
-		</action>
-		
-		<action path="/modelagem" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/modelagem" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="visualizarRelacoes">
 			<forward name="success" path="/pages/editorMobi.jsp"/>
 		</action>
 		
-		<action path="/ajaxAddInstancia" type="com.mobi.comum.action.AddInstanceAction" 
-				name="relacaoForm" scope="session">
+		<action path="/ajaxAddInstancia" type="com.mobi.comum.action.EditorMMobiAction" 
+				name="relacaoForm" scope="session" parameter="addInstanciaRelacao">
 		</action>
 		
 		<action path="/ajaxEditarInstancia" type="com.mobi.comum.action.EditarInstanciaAction" 
 				name="relacaoForm" scope="session">
 		</action>
 		
-		<action path="/ajaxListarRelacoes" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/ajaxListarRelacoes" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="listarRelacoes">
 				<forward name="success" path="/pages/listarRelacoes.jsp"/>
 		</action>
 		
-		<action path="/ajaxCarregarRelacao" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/ajaxCarregarRelacao" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="carregarRelacao">
 				<forward name="success" path="/pages/ajaxCarregarRelacao.jsp"/>
 		</action>
 		
-		<action path="/ajaxBuscarInstancia" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/ajaxBuscarInstancia" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="atualizarInstancias">
 				<forward name="success" path="/pages/ajaxCarregarRelacao.jsp"/>
 		</action>
 		
-		<action path="/ajaxEliminarRelacionamento" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/ajaxEliminarRelacionamento" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="eliminarRelacionamento" >
 		</action>
 		
-		<action path="/ajaxEliminarInstancia" type="com.mobi.comum.action.DiagramaAction" 
+		<action path="/ajaxEliminarInstancia" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="eliminarInstancia" >
 		</action>
 		
-		<action path="/atualizarNomeClasse" type="com.mobi.comum.action.DiagramaAction"
+		<action path="/atualizarNomeClasse" type="com.mobi.comum.action.EditorMMobiAction"
 				name="relacaoForm" scope="session" parameter="atualizarNomeClasse">
 				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>

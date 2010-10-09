@@ -6,30 +6,26 @@
     <!-- ** CSS ** -->
     <!-- base library -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/comum/extjs/resources/css/ext-all.css" />
-    <!-- overrides to base library -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/pages/css/CenterLayout.css" />
-    <!-- page specific -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/pages/css/layout-browser.css">
 
 
-    <!-- ** Javascript ** -->
+    <!-- jQuery library -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/jquery-1.4.2.min.js"></script>
-    <!-- ExtJS library: base/adapter -->
+    
+    <!-- ExtJS library -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/ext-all.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/comum/Ext-States.js""></script>
 	
-
-    <!-- overrides to base library -->
-
-    <!-- page specific -->
-
+	
+    <!-- custom javascript  -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/mobi-utils.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/basic.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/requisicoesAjax.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/layout-mxGraph.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/Ext-components.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/comum/mxgraph/mxClient.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/ext-components.js"></script>
+
+	<!-- mxGraph library -->
+	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/mxgraph/mxClient.js"></script>
+    
     
     
 </head>

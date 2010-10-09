@@ -1,3 +1,7 @@
+/* 
+ * CONSTANTES JS 
+ * 
+ */
 function mobi(){}
 
 mobi.classes = [];
@@ -8,12 +12,20 @@ mobi.SYMMETRIC_COMPOSITION = 3;
 mobi.INHERITANCE = 4;
 mobi.UNIDIRECIONAL_COMPOSITION = 5;
 mobi.EQUIVALENCE = 6;
-mobi.COMPOSITION = 7;
-
+mobi.COMPOSITION = 7; 
 
 mobi.CLASSEA = 'classeA';
 mobi.CLASSEB = 'classeB';
 
+mobi.CONJUNTO_A = 'conja';
+mobi.CONJUNTO_B = 'conjb';
+
+/*
+ * FIM BLOCO CONSTANTES 
+ */
+/*
+ * VARIAVEIS GLOBAIS JS 
+ */
 var editor;
 var graph;
 var model;
@@ -42,17 +54,12 @@ var heightInstance = 50;
 
 mxBasePath = 'comum/mxgraph';
 
-
-function atualizarRelacionamento(instanciaA, instanciaB) {
-	
-	var params = { instanciaA : instanciaA , instanciaB : instanciaB};
-	ajaxRequest('/EditorM-MOBI/ajaxAddRelacao.do', params);
-
-}
-
+/*
+ * FIM BLOCO VARIAVIES GLOBAIS JS
+ */
 
 /*	
- * BEGIN - Block of actions from the class 
+ * BEGIN - BLOCK  actions of the class 
  */
 
 function adcionarUmaInstancia(nomeInstancia,conjunto,nameClass){
@@ -98,11 +105,19 @@ function resetarRelacoes(){
 	Ext.getCmp(mobi.CLASSEB).setValue('');
 	Ext.getCmp(mobi.CLASSEA).getStore().loadData(mobi.classes, false);
 	Ext.getCmp(mobi.CLASSEB).getStore().loadData(mobi.classes, false);
+	Ext.getCmp('tipoRelacao').reset();
 
 	Ext.getCmp('fieldSetRadioGroup').remove('form');
 	Ext.getCmp('fieldSetRadioGroup').doLayout();
 
 	
+}
+
+function atualizarRelacionamento(instanciaA, instanciaB) {
+	
+	var params = { instanciaA : instanciaA , instanciaB : instanciaB};
+	ajaxRequest('/EditorM-MOBI/ajaxAddRelacao.do', params);
+
 }
 
 function eliminarRelacionamento(instanciaA,instanciaB){
@@ -123,4 +138,45 @@ function criarCellVertex(graph, id, nome, x, y, width, height, shape ){
 	parent = graph.getDefaultParent();
 	return graph.insertVertex(parent, id, nome, x, y, width, height, shape);
 }
+/*
+ * END BLOCK  actions of the class
+ */
+
+/*
+ * BLOCO REQUISIÇÕES AJAX 
+ */
+
+function ajaxDivUpdate(div, action, params, callback){
+	
+	$.ajax({
+		type: 'POST',
+		url : action,
+		data: params,
+		success : function (data){ 
+			$('#'+div).html(data);
+			callback();
+		}
+	});
+	
+}
+
+function ajaxRequest(action, params){
+	
+	$.ajax({
+		type: 'POST',
+		url : action,
+		data : params
+	});
+}
+
+
+function ajaxManipularDados(action, params, functions){
+	$.ajax({
+		type: 'POST',
+		url : action,
+		data: params,
+		success: functions
+	});
+}
+
 

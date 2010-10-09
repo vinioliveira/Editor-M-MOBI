@@ -2,7 +2,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <!-- Example code -->
-<div id="teste">
+<div id="diagramaClasse">
 	<script type="text/javascript">
 		
 	function carregarStore() {
@@ -18,7 +18,7 @@
 	var layout2;
 	
 	function mainDiagrama(){
-	    var container2 = document.getElementById('teste');
+	    var container2 = document.getElementById('diagramaClasse');
         editor2 = new mxEditor();
 		graph2 = editor2.graph;
 		model2 = graph2.model;
@@ -72,8 +72,20 @@
 			cell = event.getArgAt(1);
 						
 			if (graph2.model.isEdge(cell)){
-				if (cell.getStyle() == null){
+
+				var tipo_relacao = cell.id.substring(cell.id.length-1);
+
+				if (tipo_relacao == mobi.INHERITANCE){
 					carregarRelacao(cell.target.value,cell.source.value,mobi.INHERITANCE);
+				}
+				
+				if(tipo_relacao == mobi.EQUIVALENCE){
+					carregarRelacao(cell.target.value,cell.source.value, mobi.EQUIVALENCE);
+				}
+
+				if(tipo_relacao == mobi.UNIDIRECIONAL_COMPOSITION || tipo_relacao == mobi.BIDIRECIONAL_COMPOSITION
+						|| tipo_relacao == mobi.SYMMETRIC_COMPOSITION){
+					carregarRelacao(cell.target.value,cell.source.value, tipo_relacao);
 				}
 			}
 			
@@ -111,17 +123,45 @@
 						return createPopupMenu(graph2, menu, cell, evt, classeB);
 					};
 			 	}
-
-			 	if('${relacao.type}' == mobi.INHERITANCE){
+			 	
+			 	<c:if test="${relacao.type == 4}">
+	
 			 		var classeB = criarCellVertex(graph2, '${relacao.classB.uri}', '${relacao.classB.uri}', 0, 0, widht, height);
-			 		graph2.insertEdge(parent2, null, '', classeB,classeA);
-			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
-					{
+			 		graph2.insertEdge(parent2, '${relacao.classB.uri}'+'_'+'${relacao.type}', '', classeB,classeA);
+			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt){
 						return createPopupMenu(graph2, menu, cell, evt, classeB);
 					};
 			 		
-			 	}
+				</c:if>
+	
+			 	<c:if test="${relacao.type == 6}">
+			 	
+			 		var x1 = classeA.geometry.x + 100;
+			 		var y1 = classeA.geometry.y;
+			 		var classeB = graph2.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+			 		graph2.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+	
+				</c:if>
+			 	<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }"> 
+	
+					var x1 = classeA.geometry.x + 100;
+			 		var y1 = classeA.geometry.y;
+			 		var classeB = graph2.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+			 		graph2.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
+			 				'${relacao.nameA} '+'(${relacao.cardinalityA})'+'  '+'(${relacao.cardinalityB}) '+'${relacao.nameB} ',
+			 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+			 	</c:if>
 
+			 	<c:if test="${relacao.type == 3}"> 
+
+					var x1 = classeA.geometry.x + 100;
+			 		var y1 = classeA.geometry.y;
+			 		var classeB = graph2.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+			 		graph2.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
+			 				'${relacao.name} '+'(${relacao.cardinalityA})'+'  '+'(${relacao.cardinalityB}) '+'${relacao.name} ',
+			 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+		 		</c:if>
+			 	
 			 </c:forEach>
 
 		}

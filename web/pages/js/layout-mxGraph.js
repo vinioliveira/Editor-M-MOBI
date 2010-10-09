@@ -45,10 +45,10 @@ function main(){
 					var conjunto = cell.id.substring(0,9);
 					var classe;
 					
-					if(conjunto == 'ConjuntoA'){
-						classe = Ext.getCmp("classeA").getValue();
+					if(conjunto == mobi.CONJUNTO_A){
+						classe = Ext.getCmp(mobi.CLASSEA).getValue();
 					}else{
-						classe = Ext.getCmp("classeB").getValue();
+						classe = Ext.getCmp(mobi.CLASSEB).getValue();
 					}
 					eliminarInstancia(cell.value,classe);
 				}
@@ -65,12 +65,6 @@ function main(){
 		//Set CSS 
 		configureStylesheet(graph);
 
-		//Draw the line of relation 
-		graph.addEdge = function(edge, parent, source, target, index){
-
-			atualizarRelacionamento(source.value,target.value);
-			return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
-		};
 
 		// Text label changes will go into the name field of the user object
 		graph.model.valueForCellChanged = function(cell, value){
@@ -81,7 +75,7 @@ function main(){
 			
 			var conjunto = cell.id.substring(0,9);
 			//Conjunto (Classe) A
-			if(conjunto == 'ConjuntoA'){
+			if(conjunto == mobi.CONJUNTO_A){
 				for (var name in instanciasConjuntoA){
 					
 					if(value == instanciasConjuntoA[name]){
@@ -95,9 +89,9 @@ function main(){
 					}
 					
 					if(cell.value == instanciasConjuntoA[name]){
-						editarInstancia(cell.value, value,'ConjuntoA');
+						editarInstancia(cell.value, value, mobi.CONJUNTO_A);
 						instanciasConjuntoA[name] = value;
-						cell.id = 'ConjuntoA ' + value;				
+						cell.id = mobi.CONJUNTO_A+' ' + value;				
 					}
 				}
 			}else{
@@ -114,9 +108,9 @@ function main(){
 					}
 					
 					if(instanciasConjuntoB[name] == cell.value){
-						editarInstancia(cell.value,value,'ConjuntoB');
+						editarInstancia(cell.value,value,mobi.CONJUNTO_B);
 						instanciasConjuntoB[name] = value;
-						cell.id = 'ConjuntoB ' + value;				
+						cell.id = mobi.CONJUNTO_B+' ' + value;				
 					}
 				}
 			}
@@ -270,4 +264,5 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 	}
 
 };
+
 

@@ -68,10 +68,10 @@ function carregar(){
 						var conjunto = cell.id.substring(0,9);
 						var classe;
 						
-						if(conjunto == 'ConjuntoA'){
-							classe = Ext.getCmp("classeA").getValue();
+						if(conjunto ==  mobi.CONJUNTO_A){
+							classe = Ext.getCmp(mobi.CLASSEA).getValue();
 						}else{
-							classe = Ext.getCmp("classeB").getValue();
+							classe = Ext.getCmp(mobi.CLASSEB).getValue();
 						}
 						eliminarInstancia(cell.value,classe);
 					}
@@ -88,7 +88,7 @@ function carregar(){
 		
 		var conjunto = cell.id.substring(0,9);
 		//Conjunto A
-		if(conjunto == 'ConjuntoA'){
+		if(conjunto == mobi.CONJUNTO_A){
 			for (var name in instanciasConjuntoA){
 				if(value == instanciasConjuntoA[name]){
 					mxUtils.error('Já Existe uma instancia com este nome',200,true);
@@ -96,9 +96,9 @@ function carregar(){
 				}
 				
 				if(instanciasConjuntoA[name] == cell.value){
-					editarInstancia(cell.value,value,'ConjuntoA');
+					editarInstancia(cell.value,value, mobi.CONJUNTO_A);
 					instanciasConjuntoA[name] = value;
-					cell.id = 'ConjuntoA ' + value;				
+					cell.id = mobi.CONJUNTO_A+' ' + value;				
 				}
 			}
 		}else{
@@ -110,9 +110,9 @@ function carregar(){
 				}
 				
 				if(instanciasConjuntoB[name] == cell.value){
-					editarInstancia(cell.value,value,'ConjuntoB');
+					editarInstancia(cell.value,value,mobi.CONJUNTO_B);
 					instanciasConjuntoB[name] = value;
-					cell.id = 'ConjuntoB ' + value;				
+					cell.id = mobi.CONJUNTO_B+' '+ value;				
 				}
 			}
 		}
@@ -127,11 +127,29 @@ function carregar(){
 	graph.getModel().beginUpdate();
 	try
 	{
-		Ext.getCmp("classeA").setValue('${relacao.classA.uri}');
-		Ext.getCmp("classeB").setValue('${relacao.classB.uri}');
+		Ext.getCmp(mobi.CLASSEA).setValue('${relacao.classA.uri}');
+		Ext.getCmp(mobi.CLASSEB).setValue('${relacao.classB.uri}');
+		
+		if('${relacao.type}' != 0){
+			if('${relacao.type}'== mobi.INHERITANCE || '${relacao.type}' == mobi.EQUIVALENCE){
+				Ext.getCmp('${relacao.type}').setValue(true);
+			}else {
+				Ext.getCmp(mobi.COMPOSITION).setValue(true);
+			}
+			
+			<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }">
+				Ext.getCmp('ida').setValue('${relacao.nameA}');
+				Ext.getCmp('volta').setValue('${relacao.nameB}');
+			</c:if>
+			
+			<c:if test="${relacao.type == 3}">
+				Ext.getCmp('ida').setValue('${relacao.name}');
+				Ext.getCmp('volta').setValue('${relacao.name}');
+			</c:if>
+		}
 
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapA}">
-        	var idInstancia = 'ConjuntoA ' + '${instancia.key}';
+        	var idInstancia = mobi.CONJUNTO_A + ' ${instancia.key}';
         	criarCellVertex(graph, idInstancia, '${instancia.key}',xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
 			instanciasConjuntoA[qtdInstanciasConjuntoA] = '${instancia.key}';
             qtdInstanciasConjuntoA++;
@@ -141,7 +159,7 @@ function carregar(){
 
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapB}">
 			
-			var idInstancia = 'ConjuntoB ' + '${instancia.key}';
+			var idInstancia = mobi.CONJUNTO_B + ' ${instancia.key}';
 			criarCellVertex(graph, idInstancia, '${instancia.key}', xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
 			
 			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB] = '${instancia.key}';
@@ -149,6 +167,19 @@ function carregar(){
 			yRight += 60;
 			
 		</c:forEach>
+		
+		<c:forEach var="instancia" items="${relacao.instanceRelationMapA}">
+		
+			var intanciaA = model.getCell(mobi.CONJUNTO_A +' ${instancia.key}');
+
+			<c:forEach var="relacionado" items="${instancia.value.allInstances}">
+			
+				var idInstancia = mobi.CONJUNTO_B + ' ${relacionado.key}';
+				var intanciaB = model.getCell(idInstancia);
+				graph.insertEdge(parent, intanciaA.value + intanciaB.value +'${relacao.type}' , '', intanciaA, intanciaB);
+
+			</c:forEach>
+	</c:forEach>
 
 	}
 	finally
@@ -160,8 +191,7 @@ function carregar(){
 
 }
 
---></script>
-
+</script>
 <div id="graphContainer">
 
 <script type="text/javascript">
