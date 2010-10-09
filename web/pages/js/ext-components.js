@@ -9,11 +9,7 @@ var start = {
 			scope: this,
 			handler: function(){
     			
-    			new Ajax.Request('/EditorM-MOBI/gerarArquivoOWL.do', 
-  				{
-  					method: 'post',
-  					evalScripts : true
-  				});
+    		ajaxRequest('/EditorM-MOBI/gerarArquivoOWL.do');
     		
     		}
     }]// pull existing content from the page
@@ -104,7 +100,7 @@ Ext.onReady(function(){
     		listeners : {
 				change : function (text,newValue,oldValue){
 					volta = Ext.getCmp('volta').getValue();
-					detectorTipoComposicao(newValue, volta, 'label-type');
+					detectorTipoComposicao(newValue, volta, 'label-type', mobi.COMPOSITION);
 					}
 				}
 	    });
@@ -115,7 +111,7 @@ Ext.onReady(function(){
     		listeners : {
 				change : function (text,newValue,oldValue){
 						ida = Ext.getCmp('ida').getValue();
-						detectorTipoComposicao(ida , newValue, 'label-type');
+						detectorTipoComposicao(ida , newValue, 'label-type', mobi.COMPOSITION);
 						}
 					}
 	    });
@@ -278,6 +274,7 @@ Ext.onReady(function(){
 	    height: 150,
 	    region: 'center', 
 	    bodyStyle: 'padding-bottom:15px',
+	    bodyBorder : false,
 		autoScroll: true,
 		contentEl: 'classes',
 		tbar : panelButtons,
@@ -351,22 +348,24 @@ function abrirPopupComposicao(graph, cell){
         		[new Ext.form.TextField({
         	    	id : 'ida_popup',
         	    	fieldLabel : 'Ida',
+        	    	width : 150,
         	    	hideLabel : false,
         	    	listeners : {
         				change : function (text,newValue,oldValue){
         					volta = Ext.getCmp('volta_popup').getValue();
-        					detectorTipoComposicao(newValue, volta, 'label-popup');
+        					detectorTipoComposicao(newValue, volta, 'label-popup','tipoRelacao-2');
         					}
         				}
         	    }),        		
         		new Ext.form.TextField({
         	    	id : 'volta_popup',
         	    	fieldLabel : 'Volta',
+        	    	width : 150,
     	    		hideLabel : false,
         	    	listeners : {
         				change : function (text,newValue,oldValue){
         					ida = Ext.getCmp('ida_popup').getValue();
-        					detectorTipoComposicao( ida , newValue, 'label-popup');
+        					detectorTipoComposicao( ida , newValue, 'label-popup','tipoRelacao-2');
         					}
         				}
         	    }),
@@ -380,13 +379,14 @@ function abrirPopupComposicao(graph, cell){
 				  handler : function (){
 		        	var ida = Ext.getCmp('ida_popup').getValue();
 					var volta = Ext.getCmp('volta_popup').getValue();
-        			if(ida != '' && volta != ''){
+					var tipo_relacao = Ext.getCmp('tipoRelacao-2').getStateId();
+        			if(ida != ''){
 						parent = graph.getDefaultParent();
 						ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height); 
 						graph.insertEdge(parent, null, '', ClasseNova,cell);
 						graph.startEditingAtCell(ClasseNova);
 													
-						params = { tipoRelacao : mobi.COMPOSITION, classeA : cell.id , classeB : ClasseNova.id , ida : ida , volta : volta };
+						params = { tipoRelacao :tipo_relacao , classeA : cell.id , classeB : ClasseNova.id , ida : ida , volta : volta };
 							 
 						ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
 						
@@ -398,26 +398,26 @@ function abrirPopupComposicao(graph, cell){
 }
 
 
-function detectorTipoComposicao(ida, volta, label){
+function detectorTipoComposicao(ida, volta, label,idComponente){
 	
 	if (ida != '' || volta != ''  ){
 		label  = Ext.getCmp(label); 
 		if(ida != '' && volta == '' || ida == '' && volta != '' ){
 			//uniderecional 
 			label.setText('Unidirecional');
-			Ext.getCmp(mobi.COMPOSITION).stateId = mobi.UNIDIRECIONAL_COMPOSITION;
+			Ext.getCmp(idComponente).stateId = mobi.UNIDIRECIONAL_COMPOSITION;
 		}
 			
 		if(ida != '' && volta != '' && ida != volta ){
 			//bidirecional
 			label.setText('Bidirecional');
-			Ext.getCmp(mobi.COMPOSITION).stateId = mobi.BIDIRECIONAL_COMPOSITION;
+			Ext.getCmp(idComponente).stateId = mobi.BIDIRECIONAL_COMPOSITION;
 		}
 		
 		if(ida != '' && volta != '' && ida == volta ){
 			//simetrica
 			label.setText('Simetrica');
-			Ext.getCmp(mobi.COMPOSITION).stateId = mobi.SYMMETRIC_COMPOSITION;
+			Ext.getCmp(idComponente).stateId = mobi.SYMMETRIC_COMPOSITION;
 		}
 	}	
 	

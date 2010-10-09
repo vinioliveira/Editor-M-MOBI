@@ -14,7 +14,6 @@ import mobi.core.common.Relation;
 import mobi.core.concept.Class;
 import mobi.core.concept.Instance;
 import mobi.core.relation.GenericRelation;
-import mobi.core.relation.InheritanceRelation;
 import mobi.core.relation.InstanceRelation;
 import mobi.extension.export.owl.Mobi2OWL;
 
@@ -154,6 +153,14 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.SYMMETRIC_COMPOSITION);
 			relation = mobi.convertToSymmetricRelation(relation, nomeA);
 		}
+		
+		for(InstanceRelation instancia : relation.getInstanceRelationMapA().values()){
+			mobi.isOneOf(instancia.getInstance(), relation.getClassA());
+		}
+		
+		for(InstanceRelation instancia : relation.getInstanceRelationMapB().values()){
+			mobi.isOneOf(instancia.getInstance(), relation.getClassB());
+		}
 
 		mobi.addConcept(relation);
 		
@@ -233,10 +240,9 @@ public class EditorMMobiAction extends MappingDispatchAction {
 				for(Instance instance : instances){
 					relation.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
 				}
-			}else{
-				relation.setInstanceRelationMapA(new HashMap<String, InstanceRelation>());
 			}
 		}
+		
 		if(conjunto.equals(EditorMMobiConstantes.CONJUNTO_B)){
 			relation.setClassB(classe);
 			if(instances != null ){
@@ -244,11 +250,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 				for(Instance instance : instances){
 					relation.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
 				}
-			}else{
-				relation.setInstanceRelationMapB(new HashMap<String, InstanceRelation>());
 			}
 		}
-		
 		
 		request.getSession().setAttribute("relacao", relation);
 		mobi.addConcept(relation);
@@ -274,6 +277,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		int tipoRelacao = Integer.valueOf(request.getParameter("tipoRelacao"));
 		
 		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, new GenericRelation());
+		
 		Relation relation = null;
 			
 		if(tipoRelacao == Relation.INHERITANCE){
