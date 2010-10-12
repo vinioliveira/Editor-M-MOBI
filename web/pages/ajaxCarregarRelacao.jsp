@@ -46,15 +46,15 @@ function carregar(){
 
 	configureStylesheet(instanceGraph);
 
-	instanceGraph.addEdge = function(edge, parent, source, target, index)
-	{
-		atualizarRelacionamento(source.value,target.value);
-		return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
+	instanceGraph.addEdge = function(edge, parent, source, target, index){
+		if(target != null ){
+			atualizarRelacionamento(source.value,target.value);
+			return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
+		}
 	};
 
 	instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt)
 			{
-				
 				var cells = evt.getArgAt(0);
 				
 				for (var i = 0; i < cells.length; i++)
@@ -144,9 +144,9 @@ function carregar(){
 
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapA}">
         	var idInstancia = mobi.CONJUNTO_A + ' ${instancia.key}';
-        	var vertexA criarCellVertex(instanceGraph, idInstancia, '${instancia.key}',xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
-        	
-			instanciasConjuntoA[qtdInstanciasConjuntoA]= new mobi.Instance('${instancia.key}' , vertexB.getStyle());
+        	var vertexA = criarCellVertex(instanceGraph, idInstancia, '${instancia.key}',xLeft, yLeft, widhtInstance, heightInstance, mobi.colorRandom('${instancia.key}'));
+        	instanciasConjuntoA[qtdInstanciasConjuntoA-1]= new mobi.Instance('${instancia.key}' , vertexA.getStyle());
+
             qtdInstanciasConjuntoA++;
 			yLeft += 60;
 			
@@ -155,9 +155,8 @@ function carregar(){
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapB}">
 			
 			var idInstancia = mobi.CONJUNTO_B + ' ${instancia.key}';
-			var vetexB = criarCellVertex(instanceGraph, idInstancia, '${instancia.key}', xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
-			
-			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB]= new mobi.Instance('${instancia.key}', vetexB.getStyle);
+			var vertexB = criarCellVertex(instanceGraph, idInstancia, '${instancia.key}', xRight, yRight, widhtInstance, heightInstance,mobi.colorRandom('${instancia.key}'));
+			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB-1]= new mobi.Instance('${instancia.key}', vertexB.getStyle());
             qtdInstanciasConjuntoB++;
 			yRight += 60;
 			

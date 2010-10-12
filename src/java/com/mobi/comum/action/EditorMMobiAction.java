@@ -48,7 +48,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		mobi.addConcept(instanceA);
 		mobi.addConcept(instanceB);
 				
-		mobi.infereRelation(relacao);
+		//mobi.infereRelation(relacao);
 		relacao.addInstanceRelation(instanceA, instanceB);
 		
 		return null;

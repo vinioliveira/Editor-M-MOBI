@@ -8,7 +8,7 @@ function main(){
    else
    {
 	   var container = document.getElementById('graphContainer');
-	    // Creates the graph to the relationship inside the given container
+	    // Creates the graph to the instance relationship inside the given container
 	    editor = new mxEditor();
 		instanceGraph = editor.graph;
 		model = instanceGraph.model;
@@ -22,6 +22,9 @@ function main(){
 		instanceGraph.setAllowLoops(false);
 		instanceGraph.setCellsResizable(false);
 
+		var config = mxUtils.load('comum/keyhandler-minimal.xml').getDocumentElement();
+		editor.configure(config);
+	
 		//graph.setBackgroundImage(new mxImage('/EditorM-MOBI/pages/imagem/Ok.png', 360, 200));
 		instanceGraph.cellsMovable = false;
 		
@@ -61,6 +64,14 @@ function main(){
 		//Set CSS 
 		configureStylesheet(instanceGraph);
 
+		instanceGraph.addEdge = function(edge, parent, source, target, index){
+
+			//Validar se já existe uma ligação entre o source e o target
+			if(target != null ){
+				atualizarRelacionamento(source.value,target.value);
+				return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
+			}
+		};
 
 		// Text label changes will go into the name field of the user object
 		instanceGraph.model.valueForCellChanged = function(cell, value){
@@ -168,12 +179,8 @@ function configureStylesheet(instanceGraph){
 		instanceGraph.getStylesheet().putCellStyle('boxstyle', style);
 
 		instanceGraph.getStylesheet().putDefaultEdgeStyle(mxConstants.EDGESTYLE_TOPTOBOTTOM);
-		
 
 	}
-
-
-
 
 
 function configureStylesheetDiagrama(graph){
