@@ -12,7 +12,7 @@
 	  }
 
     var editor2;
-	var graph2;
+	var umlGraph;
 	var model2;
 	var parent2;
 	var layout2;
@@ -20,37 +20,37 @@
 	function mainDiagrama(){
 	    var container2 = document.getElementById('diagramaClasse');
         editor2 = new mxEditor();
-		graph2 = editor2.graph;
-		model2 = graph2.model;
-		parent2 = graph2.getDefaultParent();
+		umlGraph = editor2.graph;
+		model2 = umlGraph.model;
+		parent2 = umlGraph.getDefaultParent();
 		layout2;
 		editor2.setGraphContainer(container2);
 
-		graph2.setConnectable(false);
-		graph2.setCellsDisconnectable(false);
-		graph2.swimlaneNesting = false;
-		graph2.setCellsSelectable(true);
-		graph2.setAllowLoops(false);
-		graph2.setCellsResizable(false);
-		graph.setCellsMovable(false);
-		graph.setAutoSizeCells(true);
-		graph.setPanning(true);
-		graph.panningHandler.useLeftButtonForPanning = true;
+		umlGraph.setConnectable(false);
+		umlGraph.setCellsDisconnectable(false);
+		umlGraph.swimlaneNesting = false;
+		umlGraph.setCellsSelectable(true);
+		umlGraph.setAllowLoops(false);
+		umlGraph.setCellsResizable(false);
+		instanceGraph.setCellsMovable(false);
+		instanceGraph.setAutoSizeCells(true);
+		instanceGraph.setPanning(true);
+		instanceGraph.panningHandler.useLeftButtonForPanning = true;
 
 		  // Enables rubberband selection
-        new mxRubberband(graph2);
+        new mxRubberband(umlGraph);
 
-        var outln = new mxOutline(graph2, document.getElementById('outlineContainer'));
+        var outln = new mxOutline(umlGraph, document.getElementById('outlineContainer'));
 
      	// Enables automatic layout on the graph and installs
 		// a tree layout for all groups who's children are
 		// being changed, added or removed.
-		layout2 = new mxCompactTreeLayout(graph2, false);
+		layout2 = new mxCompactTreeLayout(umlGraph, false);
 		layout2.useBoundingBox = false;
 		layout2.levelDistance = 40;
 		layout2.nodeDistance = 10;
 		layout2.invert = true;
-		var layoutMgr = new mxLayoutManager(graph2);
+		var layoutMgr = new mxLayoutManager(umlGraph);
 		
 		layoutMgr.getLayout = function(cell)
 		{
@@ -61,17 +61,17 @@
 		};
 
 		// Edges are not editable
-		graph2.isCellEditable = function(cell){
+		umlGraph.isCellEditable = function(cell){
 			
 			return !this.model.isEdge(cell);
 		};
 
 		//Adicionar evento para gerar as intancias quando clicar na relação
-		graph2.addListener(mxEvent.DOUBLE_CLICK, function(sender, event){
+		umlGraph.addListener(mxEvent.DOUBLE_CLICK, function(sender, event){
 			
 			cell = event.getArgAt(1);
 						
-			if (graph2.model.isEdge(cell)){
+			if (umlGraph.model.isEdge(cell)){
 
 				var tipo_relacao = cell.id.substring(cell.id.length-1);
 
@@ -92,7 +92,7 @@
 		});
 		
 		//Adicionar evento para quando Atualizar o nome da Label das Classes
-		graph2.addListener(mxEvent.LABEL_CHANGED, function(sender, event){
+		umlGraph.addListener(mxEvent.LABEL_CHANGED, function(sender, event){
 			cell = event.getArgAt(0);
 
 			params = { classeAntigo : cell.id , classeNovo :  cell.value } ;
@@ -101,14 +101,14 @@
 		});
 
 		
-		graph2.getModel().beginUpdate();
+		umlGraph.getModel().beginUpdate();
 		try
 		{
-			 var w = graph.container.offsetWidth;
+			 var w = instanceGraph.container.offsetWidth;
 			 var y = 20;
 			 var x = w - 30;
 
-			 var thing = graph.insertVertex(parent2, 'Thing', 'Thing', w/2 - 30, 20, 80, 30);
+			 var thing = instanceGraph.insertVertex(parent2, 'Thing', 'Thing', w/2 - 30, 20, 80, 30);
 			 
 			 <c:forEach items="${relacionamentos}" var="relacao">
 			 
@@ -116,20 +116,20 @@
 
 			 	if(classeA == null){
 				 	
-			 		classeA = criarCellVertex(graph2, '${relacao.classA.uri}', '${relacao.classA.uri}', 0, 0, widht, height );
-			 		graph2.insertEdge(parent2, null, '', classeA,thing);
-			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt)
+			 		classeA = criarCellVertex(umlGraph, '${relacao.classA.uri}', '${relacao.classA.uri}', 0, 0, widht, height );
+			 		umlGraph.insertEdge(parent2, null, '', classeA,thing);
+			 		umlGraph.panningHandler.factoryMethod = function(menu, cell, evt)
 					{
-						return createPopupMenu(graph2, menu, cell, evt, classeB);
+						return createPopupMenu(umlGraph, menu, cell, evt, classeB);
 					};
 			 	}
 			 	
 			 	<c:if test="${relacao.type == 4}">
 	
-			 		var classeB = criarCellVertex(graph2, '${relacao.classB.uri}', '${relacao.classB.uri}', 0, 0, widht, height);
-			 		graph2.insertEdge(parent2, '${relacao.classB.uri}'+'_'+'${relacao.type}', '', classeB,classeA);
-			 		graph2.panningHandler.factoryMethod = function(menu, cell, evt){
-						return createPopupMenu(graph2, menu, cell, evt, classeB);
+			 		var classeB = criarCellVertex(umlGraph, '${relacao.classB.uri}', '${relacao.classB.uri}', 0, 0, widht, height);
+			 		umlGraph.insertEdge(parent2, '${relacao.classB.uri}'+'_'+'${relacao.type}', '', classeB,classeA);
+			 		umlGraph.panningHandler.factoryMethod = function(menu, cell, evt){
+						return createPopupMenu(umlGraph, menu, cell, evt, classeB);
 					};
 			 		
 				</c:if>
@@ -138,16 +138,16 @@
 			 	
 			 		var x1 = classeA.geometry.x + 100;
 			 		var y1 = classeA.geometry.y;
-			 		var classeB = graph2.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
-			 		graph2.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+			 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+			 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 	
 				</c:if>
 			 	<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }"> 
 	
 					var x1 = classeA.geometry.x + 100;
 			 		var y1 = classeA.geometry.y;
-			 		var classeB = graph2.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
-			 		graph2.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
+			 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+			 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
 			 				'${relacao.nameA} '+'(${relacao.cardinalityA})'+'  '+'(${relacao.cardinalityB}) '+'${relacao.nameB} ',
 			 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 			 	</c:if>
@@ -156,8 +156,8 @@
 
 					var x1 = classeA.geometry.x + 100;
 			 		var y1 = classeA.geometry.y;
-			 		var classeB = graph2.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
-			 		graph2.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
+			 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+			 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
 			 				'${relacao.name} '+'(${relacao.cardinalityA})'+'  '+'(${relacao.cardinalityB}) '+'${relacao.name} ',
 			 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 		 		</c:if>
@@ -168,7 +168,7 @@
 		finally
 		{
 		   // Updates the display
-		   graph2.getModel().endUpdate();
+		   umlGraph.getModel().endUpdate();
 
 		}
 	}

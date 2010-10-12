@@ -20,6 +20,48 @@ mobi.CLASSEB = 'classeB';
 mobi.CONJUNTO_A = 'conja';
 mobi.CONJUNTO_B = 'conjb';
 
+
+mobi.colorRandom = function(){
+	var pickRandom = Math.floor(Math.random()*10);
+
+	var quote= []; 
+    
+	quote[0]='strokeColor= #4B8A08;fillColor=#4B8A08';
+    quote[1]='strokeColor=#A9F5A9;fillColor=#A9F5A9';
+    quote[2]='strokeColor=#D0A9F5;fillColor=#D0A9F5';   
+    quote[3]='strokeColor=#7401DF;fillColor=#7401DF';
+    quote[4]='strokeColor=#F5A9A9;fillColor=#F5A9A9';
+    quote[5]='strokeColor=#FAAC58;fillColor=#FAAC58';
+    quote[6]='strokeColor=#FE2E2E;fillColor=#FE2E2E';
+    quote[7]='strokeColor=#AEB404;fillColor=#AEB404';
+    quote[8]='strokeColor=#A4A4A4;fillColor=#A4A4A4';
+    quote[9]='strokeColor=#0B3861;fillColor=#0B3861;fontColor=#FFFFFF';
+    
+    pick = quote[pickRandom];
+    return isBeenUsed(pick) == true ? mobi.colorRandom() : pick ;
+};
+
+function mobiInstance(name, color){
+	this.name = name;
+	this.color = color;
+}
+
+
+function isBeenUsed(style){
+	
+	instances = instanceGraph.getChildCells();
+	
+	var isUsed = false;
+	
+	for(var i = 0 ; i < instances.length ; i++ ){
+		if (instances[i].getStyle() == style){
+			isUsed = true;
+		}
+	}
+	
+	return isUsed;
+}
+
 /*
  * FIM BLOCO CONSTANTES 
  */
@@ -27,11 +69,17 @@ mobi.CONJUNTO_B = 'conjb';
  * VARIAVEIS GLOBAIS JS 
  */
 var editor;
-var graph;
+var instanceGraph;
 var model;
 var parent;
 var instanciasConjuntoA = new Array();
 var instanciasConjuntoB = new Array();
+
+mobi.Instance = function(name, style){
+	this.name = name; 
+	this.style = style;
+}
+
 
 //Contador de intancias
 var qtdInstanciasConjuntoA = 1;
@@ -49,7 +97,7 @@ var height = 30;
 var widht = 80;
 
 //tamanho nuvens instancias
-var widhtInstance = 70;
+var widhtInstance = 80;
 var heightInstance = 50;
 
 mxBasePath = 'comum/mxgraph';
@@ -57,6 +105,8 @@ mxBasePath = 'comum/mxgraph';
 /*
  * FIM BLOCO VARIAVIES GLOBAIS JS
  */
+
+
 
 /*	
  * BEGIN - BLOCK  actions of the class 
@@ -133,10 +183,10 @@ function eliminarInstancia(instancia,classe){
 }
 
 
-function criarCellVertex(graph, id, nome, x, y, width, height, shape ){
+function criarCellVertex(graph, id, nome, x, y, width, height, style ){
 	
 	parent = graph.getDefaultParent();
-	return graph.insertVertex(parent, id, nome, x, y, width, height, shape);
+	return graph.insertVertex(parent, id, nome, x, y, width, height, style);
 }
 /*
  * END BLOCK  actions of the class

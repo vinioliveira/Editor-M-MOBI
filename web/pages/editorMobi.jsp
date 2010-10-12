@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/comum/extjs/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/pages/css/CenterLayout.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/pages/css/layout-browser.css">
-
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/comum/extjs/resources/css/fileuploadfield.css">
 
     <!-- jQuery library -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/jquery-1.4.2.min.js"></script>
@@ -16,7 +16,7 @@
     <!-- ExtJS library -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/ext-all.js"></script>
-	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/extjs/src/core/FileUploadField.js"></script>
 	
     <!-- custom javascript  -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/mobi-utils.js"></script>

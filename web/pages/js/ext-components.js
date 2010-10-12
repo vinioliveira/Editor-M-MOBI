@@ -12,7 +12,14 @@ var start = {
     		ajaxRequest('/EditorM-MOBI/gerarArquivoOWL.do');
     		
     		}
-    }]// pull existing content from the page
+    	},
+	    
+		new Ext.ux.form.FileUploadField({
+	        id : 'inputFile',
+			width: 300
+	        
+	    })
+    	]// pull existing content from the page
 };
 
 Ext.onReady(function(){
@@ -152,28 +159,22 @@ Ext.onReady(function(){
 	        handler: function(){
 	        	if(qtdInstanciasConjuntoA <= 5)
 				{
-					graph.getModel().beginUpdate();
-					parent = graph.getDefaultParent();
+					instanceGraph.getModel().beginUpdate();
+					parent = instanceGraph.getDefaultParent();
 		            try
 		            {
 		            	
 		            	var nameClass = Ext.getCmp(mobi.CLASSEA).getValue();
 
 		            	if ( nameClass == ''){
-		            		if(qtdClassesA > 0){
-		            			nameClass = 'ClasseA' + qtdClassesA;
+		            			nameClass = 'Instância';
 
-		            		}else{
-		            			nameClass = 'ClasseA';
-
-		            		}
-		            		qtdClassesA ++;
 		            	}
 		            	var nomeInstancia = 'i'+ nameClass +'_'+ qtdInstanciasConjuntoA;
 		            	var idInstancia = mobi.CONJUNTO_A+' ' + nomeInstancia;
-		            	var instancia1 = criarCellVertex(graph ,idInstancia, nomeInstancia, xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
+		            	var instancia1 = criarCellVertex(instanceGraph ,idInstancia, nomeInstancia, xLeft, yLeft, widhtInstance, heightInstance, mobi.colorRandom());
 	
-		            	instanciasConjuntoA[qtdInstanciasConjuntoA] = nomeInstancia;
+		            	instanciasConjuntoA[qtdInstanciasConjuntoA - 1] = new mobi.Instance(nomeInstancia, instancia1.getStyle());
 		            	qtdInstanciasConjuntoA++;
 		            	yLeft = yLeft + 50;
 		            	adcionarUmaInstancia(nomeInstancia,mobi.CONJUNTO_A,nameClass);
@@ -182,13 +183,14 @@ Ext.onReady(function(){
 		            finally
 		            {
 		               // Updates the display
-		               graph.getModel().endUpdate();
+		               instanceGraph.getModel().endUpdate();
 		            }
 				}
 	    	}
 		},{
-	        iconCls:'delete-icon',
+	        name : 'save-realtion',
 	        text:'OK',
+	        //disabled : true,
 	        width: 70,
 	        handler: function(){
 				var relacao = Ext.getCmp('tipoRelacao').getValue();
@@ -220,36 +222,29 @@ Ext.onReady(function(){
 	        handler: function(){
 	    	if(qtdInstanciasConjuntoB <= 5)
 			{
-				graph.getModel().beginUpdate();
+				instanceGraph.getModel().beginUpdate();
 				
 	            try
 	            {
 	            	var nameClass = Ext.getCmp(mobi.CLASSEB).getValue();
 
 	            	if ( nameClass == ''){
-	            		if(qtdClassesA > 0){
-	            			nameClass = 'ClasseB'+qtdClassesA;
-
-	            		}else{
-	            			nameClass = 'ClasseB';
-
-	            		}
-	            		qtdClassesA ++;
+	            			nameClass = 'Instância';
 	            	}
 	            	var nomeInstancia = 'I'+ nameClass +'_'+ qtdInstanciasConjuntoB;
 	            	var idInstancia = mobi.CONJUNTO_B+' ' + nomeInstancia;
 	            	var nameClass = Ext.getCmp(mobi.CLASSEB).getValue();
-	            	var instancia1 = criarCellVertex(graph, idInstancia, nomeInstancia, xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
-	
-	            	instanciasConjuntoB[qtdInstanciasConjuntoB] = nomeInstancia;
+	            	var instancia1 = criarCellVertex(instanceGraph, idInstancia, nomeInstancia, xRight, yRight, widhtInstance, heightInstance, mobi.colorRandom());
+	            	
+	            	instanciasConjuntoB[qtdInstanciasConjuntoB -1] = new mobi.Instance(nomeInstancia, instancia1.getStyle());  
 	            	qtdInstanciasConjuntoB++;
 	            	yRight = yRight + 50;
-	            	adcionarUmaInstancia(nomeInstancia,'mobi.CONJUNTO_B',nameClass);
+	            	adcionarUmaInstancia(nomeInstancia,mobi.CONJUNTO_B,nameClass);
 	               
 	            }
 	            finally
 	            {
-	               graph.getModel().endUpdate();
+	               instanceGraph.getModel().endUpdate();
 	            }
 			}
 		}
@@ -269,16 +264,15 @@ Ext.onReady(function(){
 	
 	
 	var classesPanel = {
-		
+		xtype: 'panel',
 		id: 'classes-panel',
-	    height: 150,
+		height: 150,
 	    region: 'center', 
 	    bodyStyle: 'padding-bottom:15px',
-	    bodyBorder : false,
 		autoScroll: true,
-		contentEl: 'classes',
 		tbar : panelButtons,
-		items: [{
+		items: [{	
+			bodyBorder : false,
 			items:[{
             layout:'column',
             border:false,
@@ -329,7 +323,7 @@ Ext.onReady(function(){
 
 
 
-function abrirPopupComposicao(graph, cell){
+function abrirPopupComposicao(instanceGraph, cell){
 	
 	var win = new Ext.Window({
         title: 'Definição Propriedades',
@@ -381,10 +375,10 @@ function abrirPopupComposicao(graph, cell){
 					var volta = Ext.getCmp('volta_popup').getValue();
 					var tipo_relacao = Ext.getCmp('tipoRelacao-2').getStateId();
         			if(ida != ''){
-						parent = graph.getDefaultParent();
-						ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height); 
-						graph.insertEdge(parent, null, '', ClasseNova,cell);
-						graph.startEditingAtCell(ClasseNova);
+						parent = instanceGraph.getDefaultParent();
+						ClasseNova = criarCellVertex(instanceGraph, 'Novo', 'Novo', 0, 0, widht, height); 
+						instanceGraph.insertEdge(parent, null, '', ClasseNova,cell);
+						instanceGraph.startEditingAtCell(ClasseNova);
 													
 						params = { tipoRelacao :tipo_relacao , classeA : cell.id , classeB : ClasseNova.id , ida : ida , volta : volta };
 							 

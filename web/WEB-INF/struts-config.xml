@@ -60,6 +60,10 @@
 				name="relacaoForm" scope="session" parameter="eliminarRelacionamento" >
 		</action>
 		
+		<action path="/ajaxAlterarNomeInstancia" type="com.mobi.comum.action.EditorMMobiAction" 
+				name="relacaoForm" scope="session" parameter="alterarNomeInstancia" >
+		</action>
+		
 		<action path="/ajaxEliminarInstancia" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="eliminarInstancia" >
 		</action>

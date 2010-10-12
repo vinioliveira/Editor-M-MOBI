@@ -48,12 +48,44 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		mobi.addConcept(instanceA);
 		mobi.addConcept(instanceB);
 				
+		mobi.infereRelation(relacao);
 		relacao.addInstanceRelation(instanceA, instanceB);
 		
 		return null;
 
 	}
 
+	public ActionForward  alterarNomeInstancia(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		
+		String iAntigaUri = request.getParameter("iAntigo");
+		String iNovoUri = request.getParameter("iNovo");
+		String conjunto = request.getParameter("conjunto");
+		
+		Relation relacao = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO) == null ?
+				mobi.createGenericRelation(EditorMMobiConstantes.TEMPORARIO) : mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO);
+		
+		InstanceRelation iRelation = new InstanceRelation();
+		
+		Instance instance =  mobi.getInstance(iNovoUri)== null ? 
+				new Instance(iNovoUri): mobi.getInstance(iNovoUri);
+		iRelation.setInstance(instance);				
+		
+		if(conjunto.equals(EditorMMobiConstantes.CONJUNTO_A)){
+			relacao.getInstanceRelationMapA().remove(iAntigaUri);
+			relacao.getInstanceRelationMapA().put(instance.getUri(), iRelation);
+		}
+		if(conjunto.equals(EditorMMobiConstantes.CONJUNTO_B)){
+			relacao.getInstanceRelationMapB().remove(iAntigaUri);
+			relacao.getInstanceRelationMapB().put(instance.getUri(), iRelation);
+		}
+		
+		return null;
+	}
+	
 	public ActionForward addInstanciaRelacao(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -63,7 +95,9 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
-		Instance instance = new Instance(nameInstance);
+		Instance instance =  mobi.getInstance(nameInstance)== null ? 
+				new Instance(nameInstance): mobi.getInstance(nameInstance);
+				
 		mobi.addConcept(instance);
 		
 		Relation relacao = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO) == null ?
@@ -322,7 +356,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 					instance = new Instance("i" + classeInstancia +'1');
 					
 					mobi.addConcept(instance);
-					
+				//	mobi.isOneOf(instance, relation.getClassA());
+
 					InstanceRelation iRelation = new InstanceRelation();
 					iRelation.setInstance(instance);
 					
@@ -331,7 +366,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 				}
 				
 				Instance instanceB = mobi.getInstance("i"+relation.getClassB().getUri()+ "1");
-
+				
+				
 				relation.addInstanceRelation(instanceB, instanceB);
 				
 			}

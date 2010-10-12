@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
 
-var w = graph.container.offsetWidth;
+var w = instanceGraph.container.offsetWidth;
 
 //Iniciando os valores do gráfico de instancia
 xLeft = 60; 
@@ -19,40 +19,40 @@ function carregar(){
     var container = document.getElementById('graphContainer');
     // Creates the graph inside the given container
     editor = new mxEditor();
-	graph = editor.graph;
-	model = graph.model;
-	parent = graph.getDefaultParent();
+	instanceGraph = editor.graph;
+	model = instanceGraph.model;
+	parent = instanceGraph.getDefaultParent();
 	editor.setGraphContainer(container);
 
-	graph.setConnectable(true);
-	graph.setCellsDisconnectable(false);
-	graph.swimlaneNesting = false;
-	graph.setCellsSelectable(true);
-	graph.setAllowLoops(false);
-	graph.setCellsResizable(false);
+	instanceGraph.setConnectable(true);
+	instanceGraph.setCellsDisconnectable(false);
+	instanceGraph.swimlaneNesting = false;
+	instanceGraph.setCellsSelectable(true);
+	instanceGraph.setAllowLoops(false);
+	instanceGraph.setCellsResizable(false);
 
 	var config = mxUtils.load(
 	'comum/keyhandler-minimal.xml').
 		getDocumentElement();
 	editor.configure(config);
 
-	graph.cellsMovable = false;
+	instanceGraph.cellsMovable = false;
 
 	// Edges are not editable
-	graph.isCellEditable = function(cell)
+	instanceGraph.isCellEditable = function(cell)
 	{
 		return !this.model.isEdge(cell);
 	};
 
-	configureStylesheet(graph);
+	configureStylesheet(instanceGraph);
 
-	graph.addEdge = function(edge, parent, source, target, index)
+	instanceGraph.addEdge = function(edge, parent, source, target, index)
 	{
 		atualizarRelacionamento(source.value,target.value);
 		return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
 	};
 
-	graph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt)
+	instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt)
 			{
 				
 				var cells = evt.getArgAt(0);
@@ -78,40 +78,34 @@ function carregar(){
 				}
 			});
 
+	
 	// Text label changes will go into the name field of the user object
-	graph.model.valueForCellChanged = function(cell, value)
+	instanceGraph.model.valueForCellChanged = function(cell, value)
 	{
 		//Não houve alteração no nome
-  	if(cell.value == value){
-			return;
-  	}
+	  	if(cell.value == value){
+				return;
+	  	}
 		
 		var conjunto = cell.id.substring(0,9);
 		//Conjunto A
 		if(conjunto == mobi.CONJUNTO_A){
 			for (var name in instanciasConjuntoA){
-				if(value == instanciasConjuntoA[name]){
-					mxUtils.error('Já Existe uma instancia com este nome',200,true);
-					return;
-				}
+
 				
-				if(instanciasConjuntoA[name] == cell.value){
+				if(instanciasConjuntoA[name].name == cell.value){
 					editarInstancia(cell.value,value, mobi.CONJUNTO_A);
-					instanciasConjuntoA[name] = value;
+					instanciasConjuntoA[name].name = value;
 					cell.id = mobi.CONJUNTO_A+' ' + value;				
 				}
 			}
 		}else{
 			//Conjunto B
 			for (var name in instanciasConjuntoB){
-				if(value == instanciasConjuntoB[name]){
-					mxUtils.error('Já Existe uma instancia com este nome',200,true);
-					return;
-				}
-				
-				if(instanciasConjuntoB[name] == cell.value){
+
+				if(instanciasConjuntoB[name].name == cell.value){
 					editarInstancia(cell.value,value,mobi.CONJUNTO_B);
-					instanciasConjuntoB[name] = value;
+					instanciasConjuntoB[name].name = value;
 					cell.id = mobi.CONJUNTO_B+' '+ value;				
 				}
 			}
@@ -122,9 +116,9 @@ function carregar(){
 	}
 
 	  // Enables rubberband selection
-    new mxRubberband(graph);
+    new mxRubberband(instanceGraph);
 	
-	graph.getModel().beginUpdate();
+	instanceGraph.getModel().beginUpdate();
 	try
 	{
 		Ext.getCmp(mobi.CLASSEA).setValue('${relacao.classA.uri}');
@@ -150,8 +144,9 @@ function carregar(){
 
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapA}">
         	var idInstancia = mobi.CONJUNTO_A + ' ${instancia.key}';
-        	criarCellVertex(graph, idInstancia, '${instancia.key}',xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
-			instanciasConjuntoA[qtdInstanciasConjuntoA] = '${instancia.key}';
+        	var vertexA criarCellVertex(instanceGraph, idInstancia, '${instancia.key}',xLeft, yLeft, widhtInstance, heightInstance, 'shape=cloud');
+        	
+			instanciasConjuntoA[qtdInstanciasConjuntoA]= new mobi.Instance('${instancia.key}' , vertexB.getStyle());
             qtdInstanciasConjuntoA++;
 			yLeft += 60;
 			
@@ -160,9 +155,9 @@ function carregar(){
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapB}">
 			
 			var idInstancia = mobi.CONJUNTO_B + ' ${instancia.key}';
-			criarCellVertex(graph, idInstancia, '${instancia.key}', xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
+			var vetexB = criarCellVertex(instanceGraph, idInstancia, '${instancia.key}', xRight, yRight, widhtInstance, heightInstance, 'shape=cloud');
 			
-			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB] = '${instancia.key}';
+			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB]= new mobi.Instance('${instancia.key}', vetexB.getStyle);
             qtdInstanciasConjuntoB++;
 			yRight += 60;
 			
@@ -176,7 +171,7 @@ function carregar(){
 			
 				var idInstancia = mobi.CONJUNTO_B + ' ${relacionado.key}';
 				var intanciaB = model.getCell(idInstancia);
-				graph.insertEdge(parent, intanciaA.value + intanciaB.value +'${relacao.type}' , '', intanciaA, intanciaB);
+				instanceGraph.insertEdge(parent, intanciaA.value + intanciaB.value +'${relacao.type}' , '', intanciaA, intanciaB);
 
 			</c:forEach>
 	</c:forEach>
@@ -185,7 +180,7 @@ function carregar(){
 	finally
 	{
 	   // Updates the display
-	   graph.getModel().endUpdate();
+	   instanceGraph.getModel().endUpdate();
 	   
 	}
 
