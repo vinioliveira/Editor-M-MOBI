@@ -51,7 +51,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		mobi.addConcept(instanceA);
 		mobi.addConcept(instanceB);
 				
-		mobi.infereRelation(relacao);
+		//mobi.infereRelation(relacao);
 		relacao.addInstanceRelation(instanceA, instanceB);
 		
 		return null;
@@ -475,17 +475,20 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		/*	Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
 		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.edu/", mobi);
+
+		String path = "/home/progoz/mobi/";
+		String file = "Dominio.owl";
 		
-		mobi2OWL.setExportPath("/home/progoz/mobi");
-		mobi2OWL.exportMobiToOWL("mobi.owl");*/
+		mobi2OWL.setExportPath(path);
+		mobi2OWL.exportMobiToOWL(file);
 		
 		response.setContentType("application/xml");
-		response.setHeader("Content-Disposition", "attachment; filename=" + "eric.owl");
+		response.setHeader("Content-Disposition", "attachment; filename=" + file);
 		
-		FileInputStream arquivo = new FileInputStream("/home/progoz/mobi/eric.owl");
+		FileInputStream arquivo = new FileInputStream(path+file);
 		ServletOutputStream out = response.getOutputStream();
 		 
         byte[] outputByte = new byte[4096];
@@ -493,6 +496,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
         while(arquivo.read(outputByte, 0, 4096) != -1){
         	out.write(outputByte, 0, 4096);
         }
+        
         arquivo.close();
         out.flush();
         out.close();

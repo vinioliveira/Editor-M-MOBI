@@ -21,30 +21,6 @@ mobi.CONJUNTO_A = 'conja';
 mobi.CONJUNTO_B = 'conjb';
 
 
-mobi.colorRandom = function(){
-	var pickRandom = Math.floor(Math.random()*10);
-
-	var quote= []; 
-    
-	quote[0]='strokeColor= #4B8A08;fillColor=#4B8A08';
-    quote[1]='strokeColor=#A9F5A9;fillColor=#A9F5A9';
-    quote[2]='strokeColor=#D0A9F5;fillColor=#D0A9F5';   
-    quote[3]='strokeColor=#7401DF;fillColor=#7401DF';
-    quote[4]='strokeColor=#F5A9A9;fillColor=#F5A9A9';
-    quote[5]='strokeColor=#FAAC58;fillColor=#FAAC58';
-    quote[6]='strokeColor=#FE2E2E;fillColor=#FE2E2E';
-    quote[7]='strokeColor=#AEB404;fillColor=#AEB404';
-    quote[8]='strokeColor=#A4A4A4;fillColor=#A4A4A4';
-    quote[9]='strokeColor=#0B3861;fillColor=#0B3861;fontColor=#FFFFFF';
-    
-    pick = quote[pickRandom];
-    return isBeenUsed(pick) == true ? mobi.colorRandom() : pick ;
-};
-
-function mobiInstance(name, color){
-	this.name = name;
-	this.color = color;
-}
 
 
 function isBeenUsed(style){
@@ -80,7 +56,6 @@ mobi.Instance = function(name, style){
 	this.style = style;
 }
 
-
 //Contador de intancias
 var qtdInstanciasConjuntoA = 1;
 var qtdInstanciasConjuntoB = 1;
@@ -106,6 +81,50 @@ mxBasePath = 'comum/mxgraph';
  * FIM BLOCO VARIAVIES GLOBAIS JS
  */
 
+mobi.colorRandom = function(nameInstancia){
+	var pickRandom = Math.floor(Math.random()*10);
+
+	var quote= []; 
+    
+	quote[0]='strokeColor= #4B8A08;fillColor=#4B8A08';
+    quote[1]='strokeColor=#A9F5A9;fillColor=#A9F5A9';
+    quote[2]='strokeColor=#D0A9F5;fillColor=#D0A9F5';   
+    quote[3]='strokeColor=#7401DF;fillColor=#7401DF';
+    quote[4]='strokeColor=#F5A9A9;fillColor=#F5A9A9';
+    quote[5]='strokeColor=#FAAC58;fillColor=#FAAC58';
+    quote[6]='strokeColor=#FE2E2E;fillColor=#FE2E2E';
+    quote[7]='strokeColor=#AEB404;fillColor=#AEB404';
+    quote[8]='strokeColor=#A4A4A4;fillColor=#A4A4A4';
+    quote[9]='strokeColor=#0B3861;fillColor=#0B3861;fontColor=#FFFFFF';
+
+    var isValid = false;
+    var pick = null; 
+    
+    
+    for(var i=0 ; i < instanciasConjuntoB.length; i++){
+    	if(instanciasConjuntoB[i].name == nameInstancia){
+    		pick= instanciasConjuntoB[i].style;
+    		isValid = true;
+    	}
+    }
+
+    for(var i=0 ; i < instanciasConjuntoA.length; i++){
+    	if(instanciasConjuntoA[i].name == nameInstancia){
+    		pick= instanciasConjuntoA[i].style;
+    		isValid = true;
+    	}
+    }
+    	
+    pick = pick == null ? quote[pickRandom]: pick;
+    return isBeenUsed(pick) ?  
+    		isValid ? pick : mobi.colorRandom()
+    				: pick ;
+};
+
+function mobiInstance(name, color){
+	this.name = name;
+	this.color = color;
+}
 
 
 /*	
