@@ -1,7 +1,6 @@
 package com.mobi.comum.action;
 
 import java.io.FileInputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,16 +31,21 @@ import com.mobi.relacao.form.RelationDTO;
 
 public class EditorMMobiAction extends MappingDispatchAction {
 	
-	public ActionForward addRelacoes(ActionMapping mapping, ActionForm form,
+	public ActionForward addRelacoesInstancia(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
 		Mobi mobi = (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
-		String instanciaUriA = request.getParameter("instanciaA");
-		String instanciaUriB = request.getParameter("instanciaB");
-
 		Relation relacao = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO);
+		
+
+		//validação das instancias em relação ao conjunto
+		String instanciaUriA = relacao.getInstanceRelationMapA().get(request.getParameter("instanciaA")) != null ?
+				request.getParameter("instanciaA") : request.getParameter("instanciaB");
+		String instanciaUriB = relacao.getInstanceRelationMapB().get(request.getParameter("instanciaB")) != null ? 
+				request.getParameter("instanciaB") : request.getParameter("instanciaA");
+		
 		
 		Instance instanceA = mobi.getInstance(instanciaUriA) == null ?
 				new Instance(instanciaUriA): mobi.getInstance(instanciaUriA);
@@ -140,77 +144,53 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ActionForward salvarRelacoes(ActionMapping mapping, ActionForm form,
+	public ActionForward atualizarNomeInstancia(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		Mobi mobi = (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		Relation relationGeneric = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO);
 		
-		int tipoRelacao = Integer.valueOf(request.getParameter("tipoRelacao"));
-		String classeAUri = request.getParameter("classeA");
-		String classeBUri = request.getParameter("classeB");
-		String nomeA = request.getParameter("ida");
-		String nomeB = request.getParameter("volta");
+		String uriAntiga = request.getParameter("nomeAntigo");
+		String uriNovo = request.getParameter("nomeNovo");
 		
+		Instance instnacia = mobi.getInstance(uriNovo) == null ? new Instance(uriNovo) : mobi.getInstance(uriNovo);
 		
-		Relation relation = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO) == null ? 
-				mobi.createGenericRelation(EditorMMobiConstantes.TEMPORARIO): mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO);
-		
-		Class classeA = mobi.getClass(classeAUri) != null ?  mobi.getClass(classeAUri) : new Class(classeAUri) ;
-		Class classeB = mobi.getClass(classeBUri) != null ?  mobi.getClass(classeBUri) : new Class(classeBUri) ;
-
-		mobi.addConcept(classeA);
-		mobi.addConcept(classeB);
-		
-		relation.setClassA(classeA);
-		relation.setClassB(classeB);
-
-		if( tipoRelacao == Relation.INHERITANCE ){
-			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.INHERITANCE);
-			relation = mobi.convertToInheritanceRelation(relation, relation.getUri());
+		InstanceRelation iRelation =  null;
+				
+		if(relationGeneric.getInstanceRelationMapA().get(uriAntiga) != null){
+			//Atualização do nome do conjunto que ela pertence 
+			iRelation = relationGeneric.getInstanceRelationMapA().get(uriAntiga);
+			iRelation.setInstance(instnacia);
+			relationGeneric.getInstanceRelationMapA().remove(uriAntiga);
+			relationGeneric.getInstanceRelationMapA().put(uriNovo, iRelation);
+			
+			//Atualizando nome de suas relações 
+			for(Entry<String, InstanceRelation> relacao : relationGeneric.getInstanceRelationMapB().entrySet()){
+				if( relacao.getValue().getAllInstances().get(uriAntiga) != null){
+					relacao.getValue().getAllInstances().remove(uriAntiga);
+					relacao.getValue().addInstance(instnacia);
+				}
+			}
+			
 		}
 		
-		if( tipoRelacao ==  Relation.EQUIVALENCE ){
-			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.EQUIVALENCE);
-			relation = mobi.convertToEquivalenceRelation(relation, relation.getUri());
+		if(relationGeneric.getInstanceRelationMapB().get(uriAntiga) != null){
+			//Atualização do nome do conjunto que ela pertence 
+			iRelation = relationGeneric.getInstanceRelationMapB().get(uriAntiga);
+			iRelation.setInstance(instnacia);
+			relationGeneric.getInstanceRelationMapB().remove(uriAntiga);
+			relationGeneric.getInstanceRelationMapB().put(uriNovo, iRelation);
+			
+			for(Entry<String, InstanceRelation> relacao : relationGeneric.getInstanceRelationMapA().entrySet()){
+				if( relacao.getValue().getAllInstances().get(uriAntiga) != null){
+					relacao.getValue().getAllInstances().remove(uriAntiga);
+					relacao.getValue().addInstance(instnacia);
+				}
+			}
+			
 		}
-		
-		if( tipoRelacao == Relation.BIDIRECIONAL_COMPOSITION){
-			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.BIDIRECIONAL_COMPOSITION);
-			relation = mobi.convertToBidirecionalCompositionRelationship(relation,nomeA ,nomeB );
-		}
-		
-		if( tipoRelacao == Relation.UNIDIRECIONAL_COMPOSITION ){
-			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.UNIDIRECIONAL_COMPOSITION);
-			relation = mobi.convertToUnidirecionalCompositionRelationship(relation, nomeA);
-		}
-		
-		if( tipoRelacao == Relation.SYMMETRIC_COMPOSITION){
-			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.SYMMETRIC_COMPOSITION);
-			relation = mobi.convertToSymmetricRelation(relation, nomeA);
-		}
-		
-		for(InstanceRelation instancia : relation.getInstanceRelationMapA().values()){
-			mobi.isOneOf(instancia.getInstance(), relation.getClassA());
-		}
-		
-		for(InstanceRelation instancia : relation.getInstanceRelationMapB().values()){
-			mobi.isOneOf(instancia.getInstance(), relation.getClassB());
-		}
-
-		mobi.addConcept(relation);
-		
-		List relacionamentos = new ArrayList(mobi.getAllRelations().values());
-		request.getSession().setAttribute("relacionamentos", relacionamentos);
-		
-		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
-		request.setAttribute("classes", classes );
-
-		mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, new GenericRelation());
-		
-		return mapping.findForward("success");
-		
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -423,22 +403,22 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 	}
 	
-	public ActionForward eliminarRelacionamento(ActionMapping mapping, ActionForm form,
+	public ActionForward eliminarRelacionamentoInstancia(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		RelacaoForm relacaoForm = (RelacaoForm)form;
+		Mobi mobi = (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
-		String instanciaA = request.getParameter("instanciaA");
-		String instanciaB = request.getParameter("instanciaB");
-		
-		for(Entry<String, Set<String>> entry : relacaoForm.getRelacaoDTO().getRelacionamentosInstancias().entrySet()){
+		String instanciaUriA = request.getParameter("instanciaA");
+		String instanciaUriB = request.getParameter("instanciaB");
 
-			if(entry.getKey().contains(instanciaA)){
-				entry.getValue().remove(instanciaB);
-			}
-			
-		}
+		Relation relacao = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO);
+		
+		InstanceRelation iRelation = relacao.getInstanceRelationMapA().get(instanciaUriA);
+		iRelation.getAllInstances().remove(instanciaUriB);
+		
+		iRelation = relacao.getInstanceRelationMapB().get(instanciaUriB);
+		iRelation.getAllInstances().remove(instanciaUriB);		
 		
 		return null;
 	}
@@ -470,6 +450,80 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		return null;
 	}
+
+	@SuppressWarnings("unchecked")
+	public ActionForward salvarRelacoes(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		
+		int tipoRelacao = Integer.valueOf(request.getParameter("tipoRelacao"));
+		String classeAUri = request.getParameter("classeA");
+		String classeBUri = request.getParameter("classeB");
+		String nomeA = request.getParameter("ida");
+		String nomeB = request.getParameter("volta");
+		
+		
+		Relation relation = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO) == null ? 
+				mobi.createGenericRelation(EditorMMobiConstantes.TEMPORARIO): mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO);
+		
+		Class classeA = mobi.getClass(classeAUri) != null ?  mobi.getClass(classeAUri) : new Class(classeAUri) ;
+		Class classeB = mobi.getClass(classeBUri) != null ?  mobi.getClass(classeBUri) : new Class(classeBUri) ;
+
+		mobi.addConcept(classeA);
+		mobi.addConcept(classeB);
+		
+		relation.setClassA(classeA);
+		relation.setClassB(classeB);
+
+		if( tipoRelacao == Relation.INHERITANCE ){
+			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.INHERITANCE);
+			relation = mobi.convertToInheritanceRelation(relation, relation.getUri());
+		}
+		
+		if( tipoRelacao ==  Relation.EQUIVALENCE ){
+			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.EQUIVALENCE);
+			relation = mobi.convertToEquivalenceRelation(relation, relation.getUri());
+		}
+		
+		if( tipoRelacao == Relation.BIDIRECIONAL_COMPOSITION){
+			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.BIDIRECIONAL_COMPOSITION);
+			relation = mobi.convertToBidirecionalCompositionRelationship(relation,nomeA ,nomeB );
+		}
+		
+		if( tipoRelacao == Relation.UNIDIRECIONAL_COMPOSITION ){
+			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.UNIDIRECIONAL_COMPOSITION);
+			relation = mobi.convertToUnidirecionalCompositionRelationship(relation, nomeA);
+		}
+		
+		if( tipoRelacao == Relation.SYMMETRIC_COMPOSITION){
+			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.SYMMETRIC_COMPOSITION);
+			relation = mobi.convertToSymmetricRelation(relation, nomeA);
+		}
+		
+		for(InstanceRelation instancia : relation.getInstanceRelationMapA().values()){
+			mobi.isOneOf(instancia.getInstance(), relation.getClassA());
+		}
+		
+		for(InstanceRelation instancia : relation.getInstanceRelationMapB().values()){
+			mobi.isOneOf(instancia.getInstance(), relation.getClassB());
+		}
+
+		mobi.addConcept(relation);
+		
+		List relacionamentos = new ArrayList(mobi.getAllRelations().values());
+		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
+		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
+		request.setAttribute("classes", classes );
+
+		mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, new GenericRelation());
+		
+		return mapping.findForward("success");
+		
+	}
+
 	
 	public ActionForward gerarArquivoOWL(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)

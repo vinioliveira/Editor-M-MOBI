@@ -16,7 +16,7 @@
     <action-mappings>
             
 		<action path="/ajaxAddRelacao" type="com.mobi.comum.action.EditorMMobiAction" 
-				name="relacaoForm" parameter="addRelacoes" scope="session">
+				name="relacaoForm" parameter="addRelacoesInstancia" scope="session">
 		</action>
 		
 		<action path="/ajaxDiagrama" type="com.mobi.comum.action.EditorMMobiAction" 
@@ -37,8 +37,8 @@
 				name="relacaoForm" scope="session" parameter="addInstanciaRelacao">
 		</action>
 		
-		<action path="/ajaxEditarInstancia" type="com.mobi.comum.action.EditarInstanciaAction" 
-				name="relacaoForm" scope="session">
+		<action path="/ajaxEditarNomeInstancia" type="com.mobi.comum.action.EditorMMobiAction" 
+				name="relacaoForm" scope="session" parameter="atualizarNomeInstancia">
 		</action>
 		
 		<action path="/ajaxListarRelacoes" type="com.mobi.comum.action.EditorMMobiAction" 
@@ -57,7 +57,7 @@
 		</action>
 		
 		<action path="/ajaxEliminarRelacionamento" type="com.mobi.comum.action.EditorMMobiAction" 
-				name="relacaoForm" scope="session" parameter="eliminarRelacionamento" >
+				name="relacaoForm" scope="session" parameter="eliminarRelacionamentoInstancia" >
 		</action>
 		
 		<action path="/ajaxAlterarNomeInstancia" type="com.mobi.comum.action.EditorMMobiAction" 

@@ -143,13 +143,13 @@ function adcionarUmaInstancia(nomeInstancia,conjunto,nameClass){
 
 }
 
-function editarInstancia(nomeAntigo,nomeNovo,conjunto){
+
+function atualizarNomeInstancia(nomeAntigo, nomeNovo){
 	
-	var params = {nomeAntigo : nomeAntigo, nomeNovo :nomeNovo, conjunto : conjunto};
-	
-	ajaxRequest('/EditorM-MOBI/ajaxAddInstancia.do', params);
-	
+	var params = { nomeAntigo : nomeAntigo , nomeNovo : nomeNovo}; 
+	ajaxRequest('/EditorM-MOBI/ajaxEditarNomeInstancia.do', params);
 }
+
 
 function resetarRelacoes(){
 	

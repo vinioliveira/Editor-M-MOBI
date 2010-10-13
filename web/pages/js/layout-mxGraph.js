@@ -68,14 +68,16 @@ function main(){
 
 			//Validar se já existe uma ligação entre o source e o target
 			if(target != null ){
-				atualizarRelacionamento(source.value,target.value);
+				
+				atualizarRelacionamento(source.value, target.value);
 				return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
 			}
 		};
 
 		// Text label changes will go into the name field of the user object
 		instanceGraph.model.valueForCellChanged = function(cell, value){
-    		//If do not was change
+
+			//If do not was change
     	  	if(cell.value == value){
     				return;
     	  	}
@@ -84,6 +86,7 @@ function main(){
 			//Conjunto (Classe) A
 			if(conjunto == mobi.CONJUNTO_A){
 				
+				//Validação da cor Existente da Instancia no outro conjunto
 				var temOutro = false;
 				var hadChanged = false;
 				for (i =0; i < instanciasConjuntoB.length ; i++){
@@ -99,6 +102,7 @@ function main(){
 					cell.setStyle(mobi.colorRandom());
 				}
 			
+				// Validação do nome Existente no mesmo conjunto
 				for (i =0; i < instanciasConjuntoA.length ; i++){
 					
 					if(value == instanciasConjuntoA[i].name){
@@ -112,13 +116,16 @@ function main(){
 					}
 					
 					if(cell.value == instanciasConjuntoA[i].name){
-						editarInstancia(cell.value, value, mobi.CONJUNTO_A);
+						atualizarNomeInstancia(cell.value, value);
 						instanciasConjuntoA[i].name = value;
-						cell.id = mobi.CONJUNTO_A+' ' + value;				
+						cell.id = mobi.CONJUNTO_A+' ' + value;
+
 					}
 				}
 			}else{
 				//Conjunto (Classe) B
+				
+				//Validação da cor Existente da Instancia no outro conjunto
 				var temOutro = false;
 				var hadChanged = false;
 				for (var i =0; i < instanciasConjuntoA.length ; i++){
@@ -134,8 +141,8 @@ function main(){
 					cell.setStyle(mobi.colorRandom());
 				}
 
+				// Validação do nome Existente no mesmo conjunto
 				for (var i =0; i < instanciasConjuntoB.length; i++ ){
-					
 					if(value == instanciasConjuntoB[i].name){
 						Ext.MessageBox.show({
 					           title: 'Erro',
@@ -145,11 +152,11 @@ function main(){
 					       });
 						return;
 					}
-					
 					if(instanciasConjuntoB[i].name == cell.value){
-						editarInstancia(cell.value,value,mobi.CONJUNTO_B);
+						atualizarNomeInstancia(cell.value, value);
 						instanciasConjuntoB[i].name = value;
-						cell.id = mobi.CONJUNTO_B+' ' + value;				
+						cell.id = mobi.CONJUNTO_B+' ' + value;
+						
 					}
 				}
 			}

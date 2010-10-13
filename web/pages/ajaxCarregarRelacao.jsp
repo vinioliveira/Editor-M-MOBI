@@ -94,7 +94,7 @@ function carregar(){
 
 				
 				if(instanciasConjuntoA[name].name == cell.value){
-					editarInstancia(cell.value,value, mobi.CONJUNTO_A);
+					atualizarNomeInstancia(cell.value, value);
 					instanciasConjuntoA[name].name = value;
 					cell.id = mobi.CONJUNTO_A+' ' + value;				
 				}
@@ -104,7 +104,7 @@ function carregar(){
 			for (var name in instanciasConjuntoB){
 
 				if(instanciasConjuntoB[name].name == cell.value){
-					editarInstancia(cell.value,value,mobi.CONJUNTO_B);
+					atualizarNomeInstancia(cell.value, value);
 					instanciasConjuntoB[name].name = value;
 					cell.id = mobi.CONJUNTO_B+' '+ value;				
 				}
