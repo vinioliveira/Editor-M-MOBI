@@ -1,11 +1,14 @@
 package com.mobi.comum.action;
 
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -472,13 +475,28 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		/*	Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
 		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.edu/", mobi);
 		
 		mobi2OWL.setExportPath("/home/progoz/mobi");
-		mobi2OWL.exportMobiToOWL("mobi.owl");
+		mobi2OWL.exportMobiToOWL("mobi.owl");*/
 		
+		response.setContentType("application/xml");
+		response.setHeader("Content-Disposition", "attachment; filename=" + "eric.owl");
+		
+		FileInputStream arquivo = new FileInputStream("/home/progoz/mobi/eric.owl");
+		ServletOutputStream out = response.getOutputStream();
+		 
+        byte[] outputByte = new byte[4096];
+        //copy binary content to output stream
+        while(arquivo.read(outputByte, 0, 4096) != -1){
+        	out.write(outputByte, 0, 4096);
+        }
+        arquivo.close();
+        out.flush();
+        out.close();
+        
 		return null;
 		
 	}

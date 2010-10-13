@@ -8,18 +8,9 @@ var start = {
 			text:'Gerar OWL',
 			scope: this,
 			handler: function(){
-    			
-    		ajaxRequest('/EditorM-MOBI/gerarArquivoOWL.do');
-    		
+    			window.location.href='/EditorM-MOBI/gerarArquivoOWL.do';	
     		}
-    	},
-	    
-		new Ext.ux.form.FileUploadField({
-	        id : 'inputFile',
-			width: 300
-	        
-	    })
-    	]// pull existing content from the page
+    	}]
 };
 
 Ext.onReady(function(){
