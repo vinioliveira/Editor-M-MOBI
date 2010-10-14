@@ -53,66 +53,17 @@ function carregar(){
 		}
 	};
 
-	instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt)
-			{
+	instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt){
 				var cells = evt.getArgAt(0);
-				
-				for (var i = 0; i < cells.length; i++)
-				{
-					var cell = cells[i];
-					if (this.model.isEdge(cell))
-					{
-						eliminarRelacionamento(cell.source.value,cell.target.value);
-						this.model.remove(cell);
-					}else{
-						var conjunto = cell.id.substring(0,9);
-						var classe;
-						
-						if(conjunto ==  mobi.CONJUNTO_A){
-							classe = Ext.getCmp(mobi.CLASSEA).getValue();
-						}else{
-							classe = Ext.getCmp(mobi.CLASSEB).getValue();
-						}
-						eliminarInstancia(cell.value,classe);
-					}
-				}
-			});
+				removerRelacionamentos(cells);});
 
 	
 	// Text label changes will go into the name field of the user object
-	instanceGraph.model.valueForCellChanged = function(cell, value)
-	{
-		//Não houve alteração no nome
-	  	if(cell.value == value){
-				return;
-	  	}
-		
-		var conjunto = cell.id.substring(0,9);
-		//Conjunto A
-		if(conjunto == mobi.CONJUNTO_A){
-			for (var name in instanciasConjuntoA){
+	instanceGraph.model.valueForCellChanged = function(cell, value){
 
-				
-				if(instanciasConjuntoA[name].name == cell.value){
-					atualizarNomeInstancia(cell.value, value);
-					instanciasConjuntoA[name].name = value;
-					cell.id = mobi.CONJUNTO_A+' ' + value;				
-				}
-			}
-		}else{
-			//Conjunto B
-			for (var name in instanciasConjuntoB){
-
-				if(instanciasConjuntoB[name].name == cell.value){
-					atualizarNomeInstancia(cell.value, value);
-					instanciasConjuntoB[name].name = value;
-					cell.id = mobi.CONJUNTO_B+' '+ value;				
-				}
-			}
+		if(atualizacaoLabelRotina(cell, value)){		
+			return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
 		}
-
-		
-		return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
 	}
 
 	  // Enables rubberband selection

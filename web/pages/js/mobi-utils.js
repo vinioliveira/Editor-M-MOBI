@@ -82,6 +82,7 @@ mxBasePath = 'comum/mxgraph';
  */
 
 mobi.colorRandom = function(nameInstancia){
+	
 	var pickRandom = Math.floor(Math.random()*10);
 
 	var quote= []; 
@@ -116,16 +117,11 @@ mobi.colorRandom = function(nameInstancia){
     }
     	
     pick = pick == null ? quote[pickRandom]: pick;
+    
     return isBeenUsed(pick) ?  
     		isValid ? pick : mobi.colorRandom()
     				: pick ;
 };
-
-function mobiInstance(name, color){
-	this.name = name;
-	this.color = color;
-}
-
 
 /*	
  * BEGIN - BLOCK  actions of the class 
@@ -249,3 +245,129 @@ function ajaxManipularDados(action, params, functions){
 }
 
 
+/*
+ * FIM BLOCO REQUISIÇÕES AJAX 
+ */
+
+/*
+ * FUNCOES MXGRAPH   
+ */
+
+function atualizacaoLabelRotina(cell, value){
+	
+	var valide = true;
+	
+	//If do not was change
+  	if(cell.value == value){
+			return;
+  	}
+	
+	var conjunto = cell.id.substring(0,5);
+	//Conjunto (Classe) A
+	if(conjunto == mobi.CONJUNTO_A){
+		
+		//Validação da cor Existente da Instancia no outro conjunto
+		var temOutro = false;
+		var hadChanged = false;
+		for (i =0; i < instanciasConjuntoB.length ; i++){
+			if(instanciasConjuntoB[i].style == cell.getStyle()){
+				hadChanged = true;
+			}
+			if(value == instanciasConjuntoB[i].name){
+				cell.setStyle(instanciasConjuntoB[i].style);
+				 temOutro = true;
+			}
+		}
+		if(!temOutro && hadChanged){
+			cell.setStyle(mobi.colorRandom());
+		}
+	
+		// Validação do nome Existente no mesmo conjunto
+		for (i =0; i < instanciasConjuntoA.length ; i++){
+			
+			if(value == instanciasConjuntoA[i].name){
+		        Ext.MessageBox.show({
+		           title: 'Erro',
+		           msg: 'Já Existe uma instancia com este nome para essa Classe.',
+		           buttons: Ext.MessageBox.ERROR,
+		           icon: Ext.MessageBox.ERROR
+		        });
+		        valide = false;
+			}
+			
+			if(cell.value == instanciasConjuntoA[i].name){
+				atualizarNomeInstancia(cell.value, value);
+				instanciasConjuntoA[i].name = value;
+				instanciasConjuntoA[i].style = cell.getStyle();
+				cell.id = mobi.CONJUNTO_A+' ' + value;
+
+			}
+		}
+	}else{
+		//Conjunto (Classe) B
+		
+		//Validação da cor Existente da Instancia no outro conjunto
+		var temOutro = false;
+		var hadChanged = false;
+		for (var i =0; i < instanciasConjuntoA.length ; i++){
+			if(instanciasConjuntoA[i].style == cell.getStyle()){
+				hadChanged = true;
+			}
+			if(value == instanciasConjuntoA[i].name){
+				cell.setStyle(instanciasConjuntoA[i].style);
+				 temOutro = true;
+			}
+		}
+		if(!temOutro && hadChanged){
+			cell.setStyle(mobi.colorRandom());
+		}
+
+		// Validação do nome Existente no mesmo conjunto
+		for (var i =0; i < instanciasConjuntoB.length; i++ ){
+			if(value == instanciasConjuntoB[i].name){
+				Ext.MessageBox.show({
+			           title: 'Erro',
+			           msg: 'Já Existe uma instancia com este nome para essa Classe.',
+			           buttons: Ext.MessageBox.ERROR,
+			           icon: Ext.MessageBox.ERROR
+			       });
+				valide = false;
+			}
+			if(instanciasConjuntoB[i].name == cell.value){
+				atualizarNomeInstancia(cell.value, value);
+				instanciasConjuntoB[i].name = value;
+				instanciasConjuntoB[i].style = cell.getStyle();
+				cell.id = mobi.CONJUNTO_B+' ' + value;
+				
+			}
+		}
+	}
+
+	valide ? instanceGraph.refresh() : null;
+	return valide;
+	
+}
+
+
+function removerRelacionamentos(cell){
+
+	for (var i = 0; i < cells.length; i++){
+		
+		var cell = cells[i];
+		if (this.model.isEdge(cell))
+		{
+			eliminarRelacionamento(cell.source.value,cell.target.value);
+			this.model.remove(cell);
+		}else{
+			var conjunto = cell.id.substring(0,9);
+			var classe;
+			
+			if(conjunto ==  mobi.CONJUNTO_A){
+				classe = Ext.getCmp(mobi.CLASSEA).getValue();
+			}else{
+				classe = Ext.getCmp(mobi.CLASSEB).getValue();
+			}
+			eliminarInstancia(cell.value,classe);
+		}
+	}
+}

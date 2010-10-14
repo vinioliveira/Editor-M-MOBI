@@ -30,34 +30,12 @@ function main(){
 		
 		// Removes the source vertex if edges are removed and destroy the relation 
 		instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt){
-			
-			var cells = evt.getArgAt(0);
-			
-			for (var i = 0; i < cells.length; i++)
-			{
-				var cell = cells[i];
-				if (this.model.isEdge(cell))
-				{
-					eliminarRelacionamento(cell.source.value,cell.target.value);
-					this.model.remove(cell);
-				}else{
-					var conjunto = cell.id.substring(0,9);
-					var classe;
-					
-					if(conjunto == mobi.CONJUNTO_A){
-						classe = Ext.getCmp(mobi.CLASSEA).getValue();
-					}else{
-						classe = Ext.getCmp(mobi.CLASSEB).getValue();
-					}
-					eliminarInstancia(cell.value,classe);
-				}
-			}
-		});
+				var cells = evt.getArgAt(0);
+				removerRelacionamentos(cells);});
 
 		
 		//Set edges are not editable
 		instanceGraph.isCellEditable = function(cell){
-			
 			return !this.model.isEdge(cell);
 		};
 
@@ -65,104 +43,19 @@ function main(){
 		configureStylesheet(instanceGraph);
 
 		instanceGraph.addEdge = function(edge, parent, source, target, index){
-
 			//Validar se já existe uma ligação entre o source e o target
 			if(target != null ){
-				
 				atualizarRelacionamento(source.value, target.value);
 				return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
+				
 			}
 		};
 
 		// Text label changes will go into the name field of the user object
 		instanceGraph.model.valueForCellChanged = function(cell, value){
-
-			//If do not was change
-    	  	if(cell.value == value){
-    				return;
-    	  	}
-			
-			var conjunto = cell.id.substring(0,5);
-			//Conjunto (Classe) A
-			if(conjunto == mobi.CONJUNTO_A){
-				
-				//Validação da cor Existente da Instancia no outro conjunto
-				var temOutro = false;
-				var hadChanged = false;
-				for (i =0; i < instanciasConjuntoB.length ; i++){
-					if(instanciasConjuntoB[i].style == cell.getStyle()){
-						hadChanged = true;
-					}
-					if(value == instanciasConjuntoB[i].name){
-						cell.setStyle(instanciasConjuntoB[i].style);
-						 temOutro = true;
-					}
-				}
-				if(!temOutro && hadChanged){
-					cell.setStyle(mobi.colorRandom());
-				}
-			
-				// Validação do nome Existente no mesmo conjunto
-				for (i =0; i < instanciasConjuntoA.length ; i++){
-					
-					if(value == instanciasConjuntoA[i].name){
-				        Ext.MessageBox.show({
-				           title: 'Erro',
-				           msg: 'Já Existe uma instancia com este nome para essa Classe.',
-				           buttons: Ext.MessageBox.ERROR,
-				           icon: Ext.MessageBox.ERROR
-				        });
-						return;
-					}
-					
-					if(cell.value == instanciasConjuntoA[i].name){
-						atualizarNomeInstancia(cell.value, value);
-						instanciasConjuntoA[i].name = value;
-						cell.id = mobi.CONJUNTO_A+' ' + value;
-
-					}
-				}
-			}else{
-				//Conjunto (Classe) B
-				
-				//Validação da cor Existente da Instancia no outro conjunto
-				var temOutro = false;
-				var hadChanged = false;
-				for (var i =0; i < instanciasConjuntoA.length ; i++){
-					if(instanciasConjuntoA[i].style == cell.getStyle()){
-						hadChanged = true;
-					}
-					if(value == instanciasConjuntoA[i].name){
-						cell.setStyle(instanciasConjuntoA[i].style);
-						 temOutro = true;
-					}
-				}
-				if(!temOutro && hadChanged){
-					cell.setStyle(mobi.colorRandom());
-				}
-
-				// Validação do nome Existente no mesmo conjunto
-				for (var i =0; i < instanciasConjuntoB.length; i++ ){
-					if(value == instanciasConjuntoB[i].name){
-						Ext.MessageBox.show({
-					           title: 'Erro',
-					           msg: 'Já Existe uma instancia com este nome para essa Classe.',
-					           buttons: Ext.MessageBox.ERROR,
-					           icon: Ext.MessageBox.ERROR
-					       });
-						return;
-					}
-					if(instanciasConjuntoB[i].name == cell.value){
-						atualizarNomeInstancia(cell.value, value);
-						instanciasConjuntoB[i].name = value;
-						cell.id = mobi.CONJUNTO_B+' ' + value;
-						
-					}
-				}
+			if(atualizacaoLabelRotina(cell, value)){
+				return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
 			}
-
-			instanceGraph.refresh();
-			return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
 		};
 
 		  // Enables rubberband selection
@@ -300,7 +193,7 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 								return true;
 							},null,new Array(), true);
 
-					graph.removeCells(cells);
+					graph.removeCells(cells);		
 										
 				});
 			}*/
