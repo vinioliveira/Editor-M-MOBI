@@ -32,10 +32,15 @@
 		umlGraph.setCellsSelectable(true);
 		umlGraph.setAllowLoops(false);
 		umlGraph.setCellsResizable(false);
+		
 		instanceGraph.setCellsMovable(false);
 		instanceGraph.setAutoSizeCells(true);
 		instanceGraph.setPanning(true);
 		instanceGraph.panningHandler.useLeftButtonForPanning = true;
+		instanceGraph.panningHandler.selectOnPopup = false;
+		instanceGraph.panningHandler.useLeftButtonForPopup = true;
+
+		var keyHandler = new mxKeyHandler(instanceGraph);
 
 		  // Enables rubberband selection
         new mxRubberband(umlGraph);
@@ -100,6 +105,10 @@
 				
 		});
 
+		umlGraph.panningHandler.factoryMethod = function(menu, cell, evt)
+		{
+			return createPopupMenu(umlGraph, menu, cell, evt);
+		};
 		
 		umlGraph.getModel().beginUpdate();
 		try
@@ -142,6 +151,7 @@
 			 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 	
 				</c:if>
+				
 			 	<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }"> 
 	
 					var x1 = classeA.geometry.x + 100;

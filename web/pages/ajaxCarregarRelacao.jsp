@@ -53,6 +53,11 @@ function carregar(){
 		}
 	};
 
+	instanceGraph.panningHandler.factoryMethod = function(menu, cell, evt)
+	{
+		return createPopupMenu(instanceGraph, menu, cell, evt);
+	};
+	
 	instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt){
 				var cells = evt.getArgAt(0);
 				removerRelacionamentos(cells);});

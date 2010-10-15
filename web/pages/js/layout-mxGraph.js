@@ -32,7 +32,11 @@ function main(){
 		instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt){
 				var cells = evt.getArgAt(0);
 				removerRelacionamentos(cells);});
-
+		
+		instanceGraph.panningHandler.factoryMethod = function(menu, cell, evt)
+		{
+			return createPopupMenu(instanceGraph, menu, cell, evt);
+		};
 		
 		//Set edges are not editable
 		instanceGraph.isCellEditable = function(cell){
@@ -142,7 +146,7 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 	{
 		if (model.isVertex(cell))
 		{
-			menu.addItem('Adicionar Herança', 'comum/mxgraph/images/check.png', function(){
+			menu.addItem('Adicionar Herança', 'images/add_48.png', function(){
 				
 				ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
 				graph.insertEdge(parent, null, '', ClasseNova,cell);
@@ -155,13 +159,13 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 										
 			});
 			
-			menu.addItem('Adicionar Composicao', 'comum/mxgraph/images/check.png', function(){
+			menu.addItem('Adicionar Composicao', 'images/add_48.png', function(){
 				
 				abrirPopupComposicao(graph, cell);
 
 			});
 			
-			menu.addItem('Adicionar Equivalência', 'comum/mxgraph/images/check.png', function(){
+			menu.addItem('Adicionar Equivalência', 'images/add_48.png', function(){
 				
 				ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
 				graph.insertEdge(parent, null, '', ClasseNova,cell);
@@ -198,9 +202,10 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 				});
 			}*/
 		}
-				
+	}else{
+		menu.addItem('Limpar','images/refresh_48.png',function(){
+			resetarRelacoes();});
 	}
-
 };
 
 
