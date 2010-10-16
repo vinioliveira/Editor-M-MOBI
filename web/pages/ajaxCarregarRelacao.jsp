@@ -49,6 +49,8 @@ function carregar(){
 	instanceGraph.addEdge = function(edge, parent, source, target, index){
 		if(target != null ){
 			atualizarRelacionamento(source.value,target.value);
+			mobi.RELATION.addRelacaoInstancia(source.value, target.value);
+			validarRelacionamentos();
 			return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
 		}
 	};
@@ -80,24 +82,6 @@ function carregar(){
 		Ext.getCmp(mobi.CLASSEA).setValue('${relacao.classA.uri}');
 		Ext.getCmp(mobi.CLASSEB).setValue('${relacao.classB.uri}');
 		
-		if('${relacao.type}' != 0){
-			if('${relacao.type}'== mobi.INHERITANCE || '${relacao.type}' == mobi.EQUIVALENCE){
-				Ext.getCmp('${relacao.type}').setValue(true);
-			}else {
-				Ext.getCmp(mobi.COMPOSITION).setValue(true);
-			}
-			
-			<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }">
-				Ext.getCmp('ida').setValue('${relacao.nameA}');
-				Ext.getCmp('volta').setValue('${relacao.nameB}');
-			</c:if>
-			
-			<c:if test="${relacao.type == 3}">
-				Ext.getCmp('ida').setValue('${relacao.name}');
-				Ext.getCmp('volta').setValue('${relacao.name}');
-			</c:if>
-		}
-
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapA}">
         	var idInstancia = mobi.CONJUNTO_A + ' ${instancia.key}';
         	var vertexA = criarCellVertex(instanceGraph, idInstancia, '${instancia.key}',xLeft, yLeft, widhtInstance, heightInstance, mobi.colorRandom('${instancia.key}'));
@@ -130,6 +114,26 @@ function carregar(){
 
 			</c:forEach>
 	</c:forEach>
+
+	if('${relacao.type}' != 0){
+
+		if('${relacao.type}'== mobi.INHERITANCE || '${relacao.type}' == mobi.EQUIVALENCE){
+			Ext.getCmp('${relacao.type}').setValue(true);
+			removerFieldTextDaComposicao('fieldSetRadioGroup');
+		}else {
+			Ext.getCmp(mobi.COMPOSITION).setValue(true);
+		}
+		
+		<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }">
+			Ext.getCmp('ida').setValue('${relacao.nameA}');
+			Ext.getCmp('volta').setValue('${relacao.nameB}');
+		</c:if>
+		
+		<c:if test="${relacao.type == 3}">
+			Ext.getCmp('ida').setValue('${relacao.name}');
+			Ext.getCmp('volta').setValue('${relacao.name}');
+		</c:if>
+	}
 
 	}
 	finally

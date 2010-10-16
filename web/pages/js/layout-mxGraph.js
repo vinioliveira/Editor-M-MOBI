@@ -33,8 +33,8 @@ function main(){
 				var cells = evt.getArgAt(0);
 				removerRelacionamentos(cells);});
 		
-		instanceGraph.panningHandler.factoryMethod = function(menu, cell, evt)
-		{
+		// Menu de limpar na tela.
+		instanceGraph.panningHandler.factoryMethod = function(menu, cell, evt){
 			return createPopupMenu(instanceGraph, menu, cell, evt);
 		};
 		
@@ -50,6 +50,8 @@ function main(){
 			//Validar se já existe uma ligação entre o source e o target
 			if(target != null ){
 				atualizarRelacionamento(source.value, target.value);
+				mobi.RELATION.addRelacaoInstancia(source.value, target.value);
+				validarRelacionamentos();
 				return mxGraph.prototype.addEdge.apply(this, arguments); // "supercall"
 				
 			}
@@ -67,6 +69,7 @@ function main(){
 		  
 	//    graph.setBackgroundImage(new mxImage('../imagem/Ok.png', 100, 100));
    }
+   
 }
 
 function configureStylesheet(instanceGraph){
@@ -153,15 +156,22 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 
 				graph.startEditingAtCell(ClasseNova);
 				
-				params = {tipoRelacao : mobi.INHERITANCE , classeA : cell.id , classeB : ClasseNova.id };
-				
-				ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
-										
+				if(cell.id != 'Thing'){
+					params = {tipoRelacao : mobi.INHERITANCE , classeA : cell.id , classeB : ClasseNova.id };
+					
+					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
+				}else{
+
+					params = {nomeClasse : ClasseNova.id };
+					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/addClass.do',params, resetarRelacoes);
+				}
 			});
 			
 			menu.addItem('Adicionar Composicao', 'images/add_48.png', function(){
 				
-				abrirPopupComposicao(graph, cell);
+				if(cell.id != 'Thing'){
+					abrirPopupComposicao(graph, cell);
+				}
 
 			});
 			
@@ -172,8 +182,13 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 
 				graph.startEditingAtCell(ClasseNova);
 				
-				params = { tipoRelacao : mobi.EQUIVALENCE , classeA : cell.id , classeB : ClasseNova.id };
-				ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
+				if(cell.id != 'Thing'){
+					params = { tipoRelacao : mobi.EQUIVALENCE , classeA : cell.id , classeB : ClasseNova.id };
+					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
+				}else{
+					params = {nomeClasse : ClasseNova.id };
+					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/addClass.do',params, resetarRelacoes);
+				}
 										
 			});
 		

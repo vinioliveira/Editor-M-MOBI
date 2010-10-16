@@ -1,43 +1,3 @@
-/* 
- * CONSTANTES JS 
- * 
- */
-function mobi(){}
-
-mobi.classes = [];
-mobi.GENERIC_RELATION = 0;
-mobi.BIDIRECIONAL_COMPOSITION = 1;
-mobi.BIDIRECIONAL_COMPOSITION_HAS_BELONGS_TO = 2;
-mobi.SYMMETRIC_COMPOSITION = 3;
-mobi.INHERITANCE = 4;
-mobi.UNIDIRECIONAL_COMPOSITION = 5;
-mobi.EQUIVALENCE = 6;
-mobi.COMPOSITION = 7; 
-
-mobi.CLASSEA = 'classeA';
-mobi.CLASSEB = 'classeB';
-
-mobi.CONJUNTO_A = 'conja';
-mobi.CONJUNTO_B = 'conjb';
-
-
-
-
-function isBeenUsed(style){
-	
-	instances = instanceGraph.getChildCells();
-	
-	var isUsed = false;
-	
-	for(var i = 0 ; i < instances.length ; i++ ){
-		if (instances[i].getStyle() == style){
-			isUsed = true;
-		}
-	}
-	
-	return isUsed;
-}
-
 /*
  * FIM BLOCO CONSTANTES 
  */
@@ -50,11 +10,6 @@ var model;
 var parent;
 var instanciasConjuntoA = new Array();
 var instanciasConjuntoB = new Array();
-
-mobi.Instance = function(name, style){
-	this.name = name; 
-	this.style = style;
-}
 
 //Contador de intancias
 var qtdInstanciasConjuntoA = 1;
@@ -81,51 +36,7 @@ mxBasePath = 'comum/mxgraph';
  * FIM BLOCO VARIAVIES GLOBAIS JS
  */
 
-mobi.colorRandom = function(nameInstancia){
-	
-	var pickRandom = Math.floor(Math.random()*10);
 
-	var quote= []; 
-    
-	quote[0]='strokeColor= #4B8A08;fillColor=#4B8A08';
-    quote[1]='strokeColor=#A9F5A9;fillColor=#A9F5A9';
-    quote[2]='strokeColor=#D0A9F5;fillColor=#D0A9F5';   
-    quote[3]='strokeColor=#7401DF;fillColor=#7401DF';
-    quote[4]='strokeColor=#F5A9A9;fillColor=#F5A9A9';
-    quote[5]='strokeColor=#FAAC58;fillColor=#FAAC58';
-    quote[6]='strokeColor=#FE2E2E;fillColor=#FE2E2E';
-    quote[7]='strokeColor=#AEB404;fillColor=#AEB404';
-    quote[8]='strokeColor=#A4A4A4;fillColor=#A4A4A4';
-    quote[9]='strokeColor=#0B3861;fillColor=#0B3861;fontColor=#FFFFFF';
-
-    var isValid = false;
-    var pick = null; 
-    
-    
-    for(var i=0 ; i < instanciasConjuntoB.length; i++){
-    	if(instanciasConjuntoB[i].name == nameInstancia){
-    		pick= instanciasConjuntoB[i].style;
-    		isValid = true;
-    	}
-    }
-
-    for(var i=0 ; i < instanciasConjuntoA.length; i++){
-    	if(instanciasConjuntoA[i].name == nameInstancia){
-    		pick= instanciasConjuntoA[i].style;
-    		isValid = true;
-    	}
-    }
-    	
-    pick = pick == null ? quote[pickRandom]: pick;
-    
-    return isBeenUsed(pick) ?  
-    		isValid ? pick : mobi.colorRandom()
-    				: pick ;
-};
-
-/*	
- * BEGIN - BLOCK  actions of the class 
- */
 
 function adcionarUmaInstancia(nomeInstancia,conjunto,nameClass){
 	
@@ -163,19 +74,26 @@ function resetarRelacoes(){
 	
 	qtdInstanciasConjuntoA = 1;
 	qtdInstanciasConjuntoB = 1;
-
-	carregarStore();
 	
 	Ext.getCmp(mobi.CLASSEA).setValue('');
 	Ext.getCmp(mobi.CLASSEB).setValue('');
-	Ext.getCmp(mobi.CLASSEA).getStore().loadData(mobi.classes, false);
-	Ext.getCmp(mobi.CLASSEB).getStore().loadData(mobi.classes, false);
-	Ext.getCmp('tipoRelacao').reset();
 
 	Ext.getCmp('fieldSetRadioGroup').remove('form');
 	Ext.getCmp('fieldSetRadioGroup').doLayout();
-
 	
+	instanciasConjuntoA = new Array();
+	instanciasConjuntoB = new Array();
+	
+	mobi.RELATION = new Relation();
+	
+	ajaxRequest('/EditorM-MOBI/cleanRelation.do');
+	
+	disabledAll();
+	
+	carregarStore();
+	Ext.getCmp(mobi.CLASSEA).getStore().loadData(mobi.classes, false);
+	Ext.getCmp(mobi.CLASSEB).getStore().loadData(mobi.classes, false);
+	Ext.getCmp('tipoRelacao').reset();	
 }
 
 function atualizarRelacionamento(instanciaA, instanciaB) {
@@ -343,6 +261,7 @@ function atualizacaoLabelRotina(cell, value){
 		}
 	}
 
+	validarRelacionamentos();
 	valide ? instanceGraph.refresh() : null;
 	return valide;
 	
@@ -370,4 +289,100 @@ function removerRelacionamentos(cell){
 			eliminarInstancia(cell.value,classe);
 		}
 	}
+}
+
+function isBeenUsed(style){
+	
+	instances = instanceGraph.getChildCells();
+	
+	var isUsed = false;
+	
+	for(var i = 0 ; i < instances.length ; i++ ){
+		if (instances[i].getStyle() == style){
+			isUsed = true;
+		}
+	}
+	
+	return isUsed;
+};
+
+function validarRelacionamentos(){
+	inferenciaRelacao();
+	disabledAll()
+	if(mobi.RELATION.type.length == 0){
+		//Desabilitar também
+
+	}else{
+		if(mobi.RELATION.type.length == 1){
+			removerFieldTextDaComposicao('fieldSetRadioGroup');
+			Ext.getCmp(mobi.RELATION.type[0]).setDisabled(false);
+			Ext.getCmp(mobi.RELATION.type[0]).setValue(true);
+		}else{
+			
+			for(var i=0; i< mobi.RELATION.type.length; i++){
+				Ext.getCmp(mobi.RELATION.type[i]).setDisabled(false);
+			}
+		}
+	}
+}
+
+function disabledAll(){
+	
+	Ext.getCmp(mobi.COMPOSITION).setDisabled(true);
+	Ext.getCmp(mobi.EQUIVALENCE).setDisabled(true);
+	Ext.getCmp(mobi.INHERITANCE).setDisabled(true);
+	Ext.getCmp(mobi.INHERITANCE).setValue(false);
+	Ext.getCmp(mobi.EQUIVALENCE).setValue(false);
+	Ext.getCmp(mobi.COMPOSITION).setValue(false);
+	removerFieldTextDaComposicao('fieldSetRadioGroup');
+}
+
+function adcionarFieldTextDaComposicao(){
+	
+	var ida =  new Ext.form.TextField({
+    	id : 'ida',
+    	fieldLabel : 'Ida',
+		listeners : {
+			change : function (text,newValue,oldValue){
+				volta = Ext.getCmp('volta').getValue();
+				detectorTipoComposicao(newValue, volta, 'label-type', mobi.COMPOSITION);
+				}
+			}
+    });
+	
+	var volta =  new Ext.form.TextField({
+    	id : 'volta',
+    	fieldLabel : 'Volta',
+		listeners : {
+			change : function (text,newValue,oldValue){
+					ida = Ext.getCmp('ida').getValue();
+					detectorTipoComposicao(ida , newValue, 'label-type', mobi.COMPOSITION);
+					}
+				}
+    });
+	
+	var label = new Ext.form.Label({
+		id: 'label-type',
+		text: '',
+		  style: {
+				width: '50px' 
+			}
+	});
+	
+	var fp = new Ext.FormPanel({
+				id: 'form',
+				bodyBorder : false,
+				items: [ida,volta,label]
+	});
+	
+	Ext.getCmp('fieldSetRadioGroup').add(fp);
+	Ext.getCmp('fieldSetRadioGroup').doLayout();
+	
+}
+
+function removerFieldTextDaComposicao(componete){
+	
+	Ext.getCmp('fieldSetRadioGroup').remove('form');
+	Ext.getCmp('fieldSetRadioGroup').doLayout();
+	
 }

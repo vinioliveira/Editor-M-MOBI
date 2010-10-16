@@ -48,6 +48,7 @@ Ext.onReady(function(){
         listeners : {
 			change : function (text,newValue,oldValue){
 				buscarInstancias(newValue, mobi.CONJUNTO_A, Ext.getCmp('tipoRelacao').getValue());
+				mobi.RELATION.classeA = newValue;
 				}
         }
 
@@ -67,6 +68,7 @@ Ext.onReady(function(){
 	        listeners : {
 				change : function (text,newValue,oldValue){
 	        			buscarInstancias(newValue, mobi.CONJUNTO_B, Ext.getCmp('tipoRelacao').getValue());
+	        			mobi.RELATION.classeB = newValue;
 					}
 	        }
 
@@ -82,64 +84,14 @@ Ext.onReady(function(){
 	        hideLabel: true,
 	        id: 'tipoRelacao',
 	        items: [
-				{boxLabel: 'Herança', name: 'rb-auto', id: mobi.INHERITANCE, stateId :mobi.INHERITANCE },
-				{boxLabel: 'Composição', name: 'rb-auto', id: mobi.COMPOSITION, stateId : mobi.COMPOSITION,
+				{boxLabel: 'Herança', name: 'rb-auto', id: mobi.INHERITANCE, stateId :mobi.INHERITANCE, disabled: true},
+				{boxLabel: 'Composição', name: 'rb-auto', id: mobi.COMPOSITION, stateId : mobi.COMPOSITION, disabled: true,
 					listeners: {check: function(radio, checked) { if(checked){adcionarFieldTextDaComposicao('fieldSetRadioGroup');}else{removerFieldTextDaComposicao('fieldSetRadioGroup');}  }}},
-				{boxLabel: 'Equivalência', name: 'rb-auto', id: mobi.EQUIVALENCE, stateId : mobi.EQUIVALENCE},
+				{boxLabel: 'Equivalência', name: 'rb-auto', id: mobi.EQUIVALENCE, stateId : mobi.EQUIVALENCE, disabled: true},
 	        ]
 	    }]
 	});
 	
-	function adcionarFieldTextDaComposicao(){
-		
-		var ida =  new Ext.form.TextField({
-	    	id : 'ida',
-	    	fieldLabel : 'Ida',
-    		listeners : {
-				change : function (text,newValue,oldValue){
-					volta = Ext.getCmp('volta').getValue();
-					detectorTipoComposicao(newValue, volta, 'label-type', mobi.COMPOSITION);
-					}
-				}
-	    });
-		
-		var volta =  new Ext.form.TextField({
-	    	id : 'volta',
-	    	fieldLabel : 'Volta',
-    		listeners : {
-				change : function (text,newValue,oldValue){
-						ida = Ext.getCmp('ida').getValue();
-						detectorTipoComposicao(ida , newValue, 'label-type', mobi.COMPOSITION);
-						}
-					}
-	    });
-		
-		var label = new Ext.form.Label({
-			id: 'label-type',
-			text: '',
-			  style: {
-					width: '50px' 
-				}
-		});
-		
-		var fp = new Ext.FormPanel({
-					id: 'form',
-					bodyBorder : false,
-					items: [ida,volta,label]
-		});
-		
-		Ext.getCmp('fieldSetRadioGroup').add(fp);
-		Ext.getCmp('fieldSetRadioGroup').doLayout();
-		
-	}
-
-	function removerFieldTextDaComposicao(componete){
-		
-		Ext.getCmp('fieldSetRadioGroup').remove('form');
-		Ext.getCmp('fieldSetRadioGroup').doLayout();
-		
-	}
-		
 	
 	//Buttons 
 	var panelButtons = [{
@@ -169,6 +121,7 @@ Ext.onReady(function(){
 		            	qtdInstanciasConjuntoA++;
 		            	yLeft = yLeft + 50;
 		            	adcionarUmaInstancia(nomeInstancia,mobi.CONJUNTO_A,nameClass);
+		            	validarRelacionamentos();
 		               
 		            }
 		            finally
@@ -231,6 +184,7 @@ Ext.onReady(function(){
 	            	qtdInstanciasConjuntoB++;
 	            	yRight = yRight + 50;
 	            	adcionarUmaInstancia(nomeInstancia,mobi.CONJUNTO_B,nameClass);
+	            	validarRelacionamentos();
 	               
 	            }
 	            finally
@@ -308,6 +262,7 @@ Ext.onReady(function(){
 			],
         renderTo: Ext.getBody()
     });
+    ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/diagramaInit.do',null,function(){});
 });
 
 

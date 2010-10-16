@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,6 +21,7 @@
 	
     <!-- custom javascript  -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/mobi-utils.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/mobi-class.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/layout-mxGraph.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/ext-components.js"></script>
 
@@ -37,6 +39,7 @@
         <!-- Start page content -->
         <div id="start-div">
             <div>
+            
             	<div id="graphContainerDiagrama"></div>
             </div>
         </div>

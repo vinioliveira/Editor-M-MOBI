@@ -68,8 +68,19 @@
 				name="relacaoForm" scope="session" parameter="eliminarInstancia" >
 		</action>
 		
+		<action path="/cleanRelation" type="com.mobi.comum.action.EditorMMobiAction" 
+				name="relacaoForm" scope="session" parameter="cleanRelationGeneric" >
+		</action>
+		
+		<action path="/diagramaInit" forward="/pages/ajaxDiagrama.jsp"/>
+		
 		<action path="/atualizarNomeClasse" type="com.mobi.comum.action.EditorMMobiAction"
 				name="relacaoForm" scope="session" parameter="atualizarNomeClasse">
+				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
+		</action>
+		
+		<action path="/addClass" type="com.mobi.comum.action.EditorMMobiAction"
+				name="relacaoForm" scope="session" parameter="addClasse">
 				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
