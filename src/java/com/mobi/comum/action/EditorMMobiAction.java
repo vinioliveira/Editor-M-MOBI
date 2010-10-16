@@ -26,7 +26,6 @@ import org.apache.struts.actions.MappingDispatchAction;
 
 import com.mobi.comum.util.EditorMMobiConstantes;
 import com.mobi.relacao.form.RelacaoForm;
-import com.mobi.relacao.form.RelationDTO;
 
 
 public class EditorMMobiAction extends MappingDispatchAction {
@@ -228,6 +227,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		}
 		
 		List relacionamentos = new ArrayList(mobi.getAllRelations().values());
+		relacionamentos = relacionamentos.size() > 0 ? relacionamentos : null;
 		request.getSession().setAttribute("relacionamentos", relacionamentos);
 		
 		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
@@ -417,46 +417,58 @@ public class EditorMMobiAction extends MappingDispatchAction {
 				request.getParameter("instanciaB") : request.getParameter("instanciaA");
 				
 	
-		Instance instanceA = mobi.getInstance(instanciaUriA);
-		Instance instanceB = mobi.getInstance(instanciaUriB);
+		/*Instance instanceA = mobi.getInstance(instanciaUriA);
+		Instance instanceB = mobi.getInstance(instanciaUriB);*/
 		
-		mobi.removeInstanceRelation(relacao, instanceA, instanceB);
+		//		mobi.removeInstanceRelation(relacao, instanceA, instanceB);
 		
-		/*	InstanceRelation iRelation = .getInstanceRelationMapA().get();
+		InstanceRelation iRelation = relacao.getInstanceRelationMapA().get(instanciaUriA);
 		iRelation.getAllInstances().remove(instanciaUriB);
 		
 		iRelation = relacao.getInstanceRelationMapB().get(instanciaUriB);
-		iRelation.getAllInstances().remove(instanciaUriA);*/		
+		iRelation.getAllInstances().remove(instanciaUriA);		
 
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ActionForward eliminarInstancia(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
+		Mobi mobi = (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
-		RelacaoForm relacaoForm = (RelacaoForm)form;
+		Relation relationGeneric = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO);
+		
 		String instancia = request.getParameter("instancia");
-		String classe = request.getParameter("idClasse");
-		RelationDTO relacaoDTO = relacaoForm.getRelacaoDTO();
+		String conjunto = request.getParameter("conjunto");
 		
-		if(relacaoDTO.getClasseA().equals(classe)){
-			relacaoDTO.getInstanciasA().remove(instancia);
+		
+		if(conjunto.equals(EditorMMobiConstantes.CONJUNTO_A)){
+			//Remover do nome do conjunto que ela pertence 
+			relationGeneric.getInstanceRelationMapA().remove(instancia);
+			//Remover  de suas relações 
+			for(Entry<String, InstanceRelation> relacao : relationGeneric.getInstanceRelationMapB().entrySet()){
+				if( relacao.getValue().getAllInstances().get(instancia) != null){
+					relacao.getValue().getAllInstances().remove(instancia);
+				}
+			}
+			
 		}
 		
-		if(relacaoDTO.getClasseB().equals(classe)){
-			relacaoDTO.getInstanciasB().remove(instancia);
+		if(conjunto.equals(EditorMMobiConstantes.CONJUNTO_B)){
+			//Remover do nome do conjunto que ela pertence 
+			relationGeneric.getInstanceRelationMapB().remove(instancia);
+			// Remover  de suas relações
+			for(Entry<String, InstanceRelation> relacao : relationGeneric.getInstanceRelationMapA().entrySet()){
+				if( relacao.getValue().getAllInstances().get(instancia) != null){
+					relacao.getValue().getAllInstances().remove(instancia);
+				}
+			}
+			
 		}
-		
-		Set<RelationDTO> relacoes =  (Set<RelationDTO>) request.getSession().getAttribute("listaNomeRelacoes");
-		if(relacoes != null){
-			relacoes.remove(relacaoDTO);
-			relacoes.add(relacaoDTO);
-		}
-		
-		return null;
+
+		request.getSession().setAttribute("relacao", relationGeneric);
+		return mapping.findForward("success");
 	}
 
 	@SuppressWarnings("unchecked")

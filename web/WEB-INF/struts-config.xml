@@ -66,6 +66,7 @@
 		
 		<action path="/ajaxEliminarInstancia" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="eliminarInstancia" >
+				<forward name="success" path="/pages/ajaxCarregarRelacao.jsp"/>
 		</action>
 		
 		<action path="/cleanRelation" type="com.mobi.comum.action.EditorMMobiAction" 

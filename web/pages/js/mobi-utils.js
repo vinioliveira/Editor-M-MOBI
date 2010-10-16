@@ -109,10 +109,9 @@ function eliminarRelacionamento(instanciaA,instanciaB){
 	ajaxRequest('/EditorM-MOBI/ajaxEliminarRelacionamento.do', params);
 }
 
-function eliminarInstancia(instancia,classe){
-	var params = { idClasse : classe , instancia : instancia};
-	
-	ajaxRequest('/EditorM-MOBI/ajaxEliminarInstancia.do', params);
+function eliminarInstancia(instancia,conjunto){
+	var params = { conjunto : conjunto , instancia : instancia};
+	ajaxDivUpdate('relaco-div','/EditorM-MOBI/ajaxEliminarInstancia.do', params, function(){});
 }
 
 
@@ -268,7 +267,7 @@ function atualizacaoLabelRotina(cell, value){
 }
 
 
-function removerRelacionamentos(cell){
+function removerRelacionamentos(cells){
 
 	for (var i = 0; i < cells.length; i++){
 		
@@ -276,19 +275,20 @@ function removerRelacionamentos(cell){
 		if (this.model.isEdge(cell))
 		{
 			eliminarRelacionamento(cell.source.value,cell.target.value);
+			mobi.RELATION.removeRelacaoInstancia(cell.source.value,cell.target.value);
 			this.model.remove(cell);
-		}else{
-			var conjunto = cell.id.substring(0,9);
-			var classe;
 			
-			if(conjunto ==  mobi.CONJUNTO_A){
-				classe = Ext.getCmp(mobi.CLASSEA).getValue();
-			}else{
-				classe = Ext.getCmp(mobi.CLASSEB).getValue();
-			}
-			eliminarInstancia(cell.value,classe);
+		}else{
+			var conjunto = cell.id.substring(0,5);
+			eliminarInstancia(cell.value,conjunto);
+			instanciasConjuntoA = new Array();
+			instanciasConjuntoB = new Array();
+			mobi.RELATION.instanciasA = instanciasConjuntoA;
+			mobi.RELATION.instanciasB = instanciasConjuntoB;
 		}
 	}
+	
+	validarRelacionamentos();
 }
 
 function isBeenUsed(style){

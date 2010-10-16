@@ -45,6 +45,28 @@ Relation = function(){
 		return false;
 	};
 	
+	this.removeRelacaoInstancia = function(source, target){
+		//Validação dos lados que podem está invertido source ser B e não A e vice-versa
+		for(var i=0;i< this.instanciasA.length;i++){
+			if(this.instanciasA[i].name == source){
+				for(var x=0;x< this.instanciasB.length;x++){
+					if(this.instanciasB[x].name == target){
+						this.instanciasA[i].relacoes.remove(x);
+						return;
+					}
+				}
+			}
+			if(this.instanciasA[i].name == target){
+				for(var x=0;x< this.instanciasB.length;x++){
+					if(this.instanciasB[x].name == source){
+						this.instanciasA[i].relacoes.remove(x);
+						return;
+					}
+				}
+			}
+		}
+	};
+	
 	this.addRelacaoInstancia = function(source, target){
 		//Validação dos lados que podem está invertido source ser B e não A e vice-versa
 		for(var i=0;i< this.instanciasA.length;i++){

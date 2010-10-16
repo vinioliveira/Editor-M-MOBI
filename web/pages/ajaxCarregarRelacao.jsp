@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 
 var w = instanceGraph.container.offsetWidth;
 
@@ -31,6 +31,7 @@ function carregar(){
 	instanceGraph.setAllowLoops(false);
 	instanceGraph.setCellsResizable(false);
 
+	
 	var config = mxUtils.load(
 	'comum/keyhandler-minimal.xml').
 		getDocumentElement();
@@ -57,7 +58,7 @@ function carregar(){
 
 	instanceGraph.panningHandler.factoryMethod = function(menu, cell, evt)
 	{
-		return createPopupMenu(instanceGraph, menu, cell, evt);
+		return optionsRelation(instanceGraph, menu, cell, evt);
 	};
 	
 	instanceGraph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt){
@@ -71,7 +72,7 @@ function carregar(){
 		if(atualizacaoLabelRotina(cell, value)){		
 			return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
 		}
-	}
+	};
 
 	  // Enables rubberband selection
     new mxRubberband(instanceGraph);
@@ -145,7 +146,7 @@ function carregar(){
 
 }
 
-</script>
+--></script>
 <div id="graphContainer">
 
 <script type="text/javascript">

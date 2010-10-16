@@ -35,7 +35,7 @@ function main(){
 		
 		// Menu de limpar na tela.
 		instanceGraph.panningHandler.factoryMethod = function(menu, cell, evt){
-			return createPopupMenu(instanceGraph, menu, cell, evt);
+			return optionsRelation(instanceGraph, menu, cell, evt);
 		};
 		
 		//Set edges are not editable
@@ -46,6 +46,7 @@ function main(){
 		//Set CSS 
 		configureStylesheet(instanceGraph);
 
+		//Vincular instancias
 		instanceGraph.addEdge = function(edge, parent, source, target, index){
 			//Validar se já existe uma ligação entre o source e o target
 			if(target != null ){
@@ -69,7 +70,6 @@ function main(){
 		  
 	//    graph.setBackgroundImage(new mxImage('../imagem/Ok.png', 100, 100));
    }
-   
 }
 
 function configureStylesheet(instanceGraph){
@@ -77,7 +77,6 @@ function configureStylesheet(instanceGraph){
 		var style = new Object();
 		
 		style = instanceGraph.stylesheet.getDefaultVertexStyle();
-		
 		style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_CLOUD;
 		style[mxConstants.STYLE_STROKECOLOR] = '#64A8C6';
 		style[mxConstants.STYLE_FONTCOLOR] = '#000000';
@@ -141,8 +140,7 @@ function addToolbarButton(editor,toolbar, action, label, image, isTransparent){
 }
 
 
-function createPopupMenu(graph, menu, cell, evt, classe)
-	{
+function createPopupMenu(graph, menu, cell, evt, classe){
 	var model = graph.getModel();
 
 	if (cell != null)
@@ -199,28 +197,62 @@ function createPopupMenu(graph, menu, cell, evt, classe)
 				
 			});
 
-			/*if (cell.id != 'Thing' &&
+			if (cell.id != 'Thing' &&
 				model.isVertex(cell))
 			{
-				menu.addItem('Excluir Classe', 'comum/mxgraph/images/delete.gif', function()
+				menu.addItem('Excluir Classe', 'images/cross_48.png', function()
 				{
-					var cells = [];								
+					var cells = [];			
+					cells.push(cell);
 						
-					graph.traverse(cell, true, function(vertex)
+					/*graph.traverse(cell, true, function(vertex)
 							{
 								cells.push(vertex);					
 								return true;
-							},null,new Array(), true);
+							},null,new Array(), true);*/
 
 					graph.removeCells(cells);		
 										
 				});
-			}*/
+			}
 		}
 	}else{
 		menu.addItem('Limpar','images/refresh_48.png',function(){
 			resetarRelacoes();});
 	}
 };
+
+function optionsRelation(graph, menu, cell, evt, classe){
+	
+	var model = graph.getModel();
+
+	if (cell != null)
+	{
+		menu.addItem('Excluir Classe', 'images/cross_48.png', function()
+		{
+			var cells = [];			
+			if (model.isVertex(cell)){
+				if(cell.getEdgeCount()==0){
+					cells.push(cell);
+				}
+			}else{
+				cells.push(cell);
+			}
+			
+			graph.removeCells(cells);			
+
+			/*graph.traverse(cell, true, function(vertex)
+					{
+						cells.push(vertex);					
+						return true;
+					},null,new Array(), true);*/
+								
+		});
+	}else{
+		menu.addItem('Limpar','images/refresh_48.png',function(){
+			resetarRelacoes();});
+	}
+	
+}
 
 

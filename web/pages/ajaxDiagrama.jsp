@@ -3,7 +3,7 @@
 
 <!-- Example code -->
 <div id="diagramaClasse">
-	<script type="text/javascript">
+	<script type="text/javascript"><!--
 		
 	function carregarStore() {
 		<c:if test="${classes != null}">
@@ -29,17 +29,19 @@
 		editor2.setGraphContainer(container2);
 
 		umlGraph.setConnectable(false);
+		umlGraph.setCellsDisconnectable(false);
 		umlGraph.swimlaneNesting = false;
 		umlGraph.setCellsSelectable(true);
 		umlGraph.setAllowLoops(false);
 		umlGraph.setCellsResizable(false);
-		
+
+		/* Casso ocorrer algum erro no graph relacao descomentar 
 		instanceGraph.setCellsMovable(false);
 		instanceGraph.setAutoSizeCells(true);
 		instanceGraph.setPanning(true);
-		instanceGraph.panningHandler.useLeftButtonForPanning = true;
+		instanceGraph.panningHandler.useLeftButtonForPanning = false;
 		instanceGraph.panningHandler.selectOnPopup = false;
-		instanceGraph.panningHandler.useLeftButtonForPopup = true;
+		instanceGraph.panningHandler.useLeftButtonForPopup = false;*/
 
 		var keyHandler = new mxKeyHandler(instanceGraph);
 
@@ -121,8 +123,7 @@
 			 var thing = criarCellVertex(umlGraph, 'Thing', 'Thing', w/2 - 30, 20, widht, height );
 			 
 			 <c:if test="${relacionamentos != null || classes != null}">
-
-			 <c:if test="${relacionamentos == null && classes != null}">
+				 <c:if test="${relacionamentos == null && classes != null}">
 				 
 			 	 	<c:forEach items="${classes}" var="classe">
 			 	 		classeA = criarCellVertex(umlGraph, '${classe.uri}', '${classe.uri}', 0, 0, widht, height );
@@ -205,7 +206,7 @@
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'actualSize', '', 'images/view_1_1.png', true);
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'fit', '', 'images/fit_to_size.png', true);
 			
-	</script>
+	--></script>
 </div>
 
 <div id="outlineContainer"
