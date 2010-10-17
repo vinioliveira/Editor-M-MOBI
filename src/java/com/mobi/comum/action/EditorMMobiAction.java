@@ -127,6 +127,52 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ActionForward addClasse (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		String nomeClass = request.getParameter("nomeClasse");
+		
+		Class classe = new Class(nomeClass);
+		
+		mobi.addConcept(classe);
+		
+		ArrayList classes = new ArrayList(mobi.getAllClasses().values());;
+		request.setAttribute("classes", classes );
+		
+		return mapping.findForward("success");
+
+	}
+	
+	public ActionForward cleanRelationGeneric(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+	
+		Mobi mobi = (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		
+		mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, new GenericRelation());
+
+		return null;
+
+	}
+	
+	public ActionForward initDiagrama(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		return mapping.findForward("success");
+	}
+	public ActionForward cleanSession(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+		
+		request.getSession().invalidate();
+		request.getSession().setAttribute(EditorMMobiConstantes.MOBI, new Mobi("Dominio"));
+		request.setAttribute("relacionamentos", null);
+		
+		return mapping.findForward("success");
+	}
+
 	public ActionForward visualizarRelacoes(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -345,7 +391,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 				 List<Relation> relationsInheritance = mobi.getAllClassInheritanceRelations(relation.getClassA());
 
 				Instance instance = null; 
-				
+
 				for(Relation relaionTemp : relationsInheritance){
 					
 					String classeInstancia =  relaionTemp.getClassA().getUri().equals( relation.getClassA().getUri()) 
@@ -586,6 +632,14 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
+		//limpar instancias exemplos 
+		List<Instance> listInstances = new ArrayList<Instance>(mobi.getAllInstances().values());
+		for(Instance instance : listInstances){
+			if(mobi.getInstanceClasses(instance) == null){
+				mobi.destroyConcept(instance);
+			}
+		}
+		
 		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.edu/", mobi);
 
 		String path = "/home/progoz/mobi/";
@@ -614,40 +668,6 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ActionForward addClasse (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
-		String nomeClass = request.getParameter("nomeClasse");
-		
-		Class classe = new Class(nomeClass);
-		
-		mobi.addConcept(classe);
-		
-		ArrayList classes = new ArrayList(mobi.getAllClasses().values());;
-		request.setAttribute("classes", classes );
-		
-		return mapping.findForward("success");
-
-	}
 	
-	public ActionForward cleanRelationGeneric(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-	
-		Mobi mobi = (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
-		
-		mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, new GenericRelation());
-
-		return null;
-
-	}
-	
-	public ActionForward initDiagrama(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		return mapping.findForward("success");
-	}
 }
 	

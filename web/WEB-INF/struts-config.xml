@@ -91,6 +91,12 @@
 				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
+		<action path="/cleanSession" type="com.mobi.comum.action.EditorMMobiAction"
+				name="relacaoForm" scope="session" parameter="cleanSession">
+				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
+		</action>
+		
+		
     </action-mappings>
 
 

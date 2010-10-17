@@ -217,6 +217,21 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 	}else{
 		menu.addItem('Limpar','images/refresh_48.png',function(){
 			resetarRelacoes();});
+
+		menu.addItem('Reset Modelagem','images/clean_16.png',function(){
+			Ext.Msg.show({
+				   title:'Começar de novo?',
+				   msg: 'Você está prestes a perder tudo que foi feito até agora está certo disso ?',
+				   buttons: Ext.Msg.YESNO,
+				   fn: function(btn){
+				    	if (btn == 'yes'){
+				    		ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/cleanSession.do',null, resetarRelacoes);
+				    	}
+					},
+				   animEl: 'elId',
+				   icon: Ext.MessageBox.QUESTION
+				});
+			});
 	}
 };
 
@@ -251,7 +266,25 @@ function optionsRelation(graph, menu, cell, evt, classe){
 	}else{
 		menu.addItem('Limpar','images/refresh_48.png',function(){
 			resetarRelacoes();});
+		
+		menu.addItem('Reset Modelagem','images/clean_16.png',function(){
+			Ext.Msg.show({
+				   title:'Começar de novo?',
+				   msg: 'Você está prestes a perder tudo que foi feito até agora está certo disso ?',
+				   buttons: Ext.Msg.YESNO,
+				   fn: function(btn){
+				    	if (btn == 'yes'){
+				    		ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/cleanSession.do',null, resetarRelacoes);
+				    	}
+					},
+				   animEl: 'elId',
+				   icon: Ext.MessageBox.QUESTION
+				});
+			});
 	}
+	
+	
+	
 	
 }
 

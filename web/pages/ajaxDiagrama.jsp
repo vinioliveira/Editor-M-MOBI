@@ -3,7 +3,7 @@
 
 <!-- Example code -->
 <div id="diagramaClasse">
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
 		
 	function carregarStore() {
 		<c:if test="${classes != null}">
@@ -208,7 +208,7 @@
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'actualSize', '', 'images/view_1_1.png', true);
 		addToolbarButton(editor2,document.getElementById('statusContainer'), 'fit', '', 'images/fit_to_size.png', true);
 			
-	--></script>
+	</script>
 </div>
 
 <div id="outlineContainer"
