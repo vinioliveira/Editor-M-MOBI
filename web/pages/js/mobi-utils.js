@@ -117,8 +117,15 @@ function eliminarInstancia(instancia,conjunto){
 
 function criarCellVertex(graph, id, nome, x, y, width, height, style ){
 	
-	parent = graph.getDefaultParent();
-	return graph.insertVertex(parent, id, nome, x, y, width, height, style);
+	var parent = graph.getDefaultParent();
+	/*var model = umlGraph.model;
+	var vertex = model2.getCell(id);
+	
+	if(vertex == null || id == 'Novo'){*/
+		return graph.insertVertex(parent, id, nome, x, y, width, height, style);
+//	}
+//	
+//	return vertex; 
 }
 /*
  * END BLOCK  actions of the class
@@ -169,6 +176,18 @@ function ajaxManipularDados(action, params, functions){
 /*
  * FUNCOES MXGRAPH   
  */
+
+function getCellGraph(graph, cellId){
+	
+	var listOfCells = graph.getChildCells();
+	
+	for(var i=0; i < listOfCells.length; i++){
+		if(listOfCells[i].getId() == cellId){
+			return listOfCells[i]; 
+		}
+	}
+	return null;
+}
 
 function atualizacaoLabelRotina(cell, value){
 	

@@ -35,7 +35,7 @@
 		umlGraph.setAllowLoops(false);
 		umlGraph.setCellsResizable(false);
 
-		/* Casso ocorrer algum erro no graph relacao descomentar 
+		/* Casso ocorrer algum erro no graph relacao descomentars 
 		instanceGraph.setCellsMovable(false);
 		instanceGraph.setAutoSizeCells(true);
 		instanceGraph.setPanning(true);
@@ -123,20 +123,19 @@
 			 var thing = criarCellVertex(umlGraph, 'Thing', 'Thing', w/2 - 30, 20, widht, height );
 			 
 			 <c:if test="${relacionamentos != null || classes != null}">
-				 <c:if test="${relacionamentos == null && classes != null}">
+			 
+			 	<c:if test="${relacionamentos == null && classes != null}">
 				 
 			 	 	<c:forEach items="${classes}" var="classe">
 			 	 		classeA = criarCellVertex(umlGraph, '${classe.uri}', '${classe.uri}', 0, 0, widht, height );
 			 			umlGraph.insertEdge(parent2, null, '', classeA, thing);
-			 			umlGraph.panningHandler.factoryMethod = function(menu, cell, evt)
-						{
-							return createPopupMenu(umlGraph, menu, cell, evt, classeB);
+			 			umlGraph.panningHandler.factoryMethod = function(menu, cell, evt){
+							return createPopupMenu(umlGraph, menu, cell, evt, classeA);
 						};
 			 	 	</c:forEach>
 
-			 	 </c:if>
-
-				 <c:forEach items="${relacionamentos}" var="relacao">
+		 	 	</c:if>
+			 	<c:forEach items="${relacionamentos}" var="relacao">
 				 
 				 	var classeA = model2.getCell('${relacao.classA.uri}');
 				 	if(classeA == null){
@@ -145,13 +144,16 @@
 				 		umlGraph.insertEdge(parent2, null, '', classeA, thing);
 				 		umlGraph.panningHandler.factoryMethod = function(menu, cell, evt)
 						{
-							return createPopupMenu(umlGraph, menu, cell, evt, classeB);
+							return createPopupMenu(umlGraph, menu, cell, evt, classeA);
 						};
 				 	}
 				 	
 				 	<c:if test="${relacao.type == 4}">
-		
 				 		var classeB = criarCellVertex(umlGraph, '${relacao.classB.uri}', '${relacao.classB.uri}', 0, 0, widht, height);
+				 		if(classeB.getEdgeCount()>0){
+					 		var edge = classeB.getEdgeAt(0);
+					 		classeB.removeEdge(edge);
+				 		}
 				 		umlGraph.insertEdge(parent2, '${relacao.classB.uri}'+'_'+'${relacao.type}', '', classeB,classeA);
 				 		umlGraph.panningHandler.factoryMethod = function(menu, cell, evt){
 							return createPopupMenu(umlGraph, menu, cell, evt, classeB);
@@ -163,7 +165,7 @@
 				 	
 				 		var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
-				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, widht, height);
 				 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 		
 					</c:if>
@@ -172,7 +174,7 @@
 		
 						var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
-				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, widht, height);
 				 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
 				 				'${relacao.nameA} '+'(${relacao.cardinalityA})'+'  '+'(${relacao.cardinalityB}) '+'${relacao.nameB} ',
 				 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
@@ -188,7 +190,7 @@
 				 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 			 		</c:if>
 				 	
-				 </c:forEach>
+			 	</c:forEach>
 			 </c:if>
 
 		}

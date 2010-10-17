@@ -250,12 +250,15 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		Class classe = mobi.getClass(nomeClasse) != null ? mobi.getClass(nomeClasse) : new Class(nomeClasse);
 		Set<Instance> instances  = mobi.getClassInstances(classe);
 		
+		InstanceRelation iRelation = null;
 		if(conjunto.equals(EditorMMobiConstantes.CONJUNTO_A)){
 			relation.setClassA(classe);
 			if(instances != null ){
 				relation.setInstanceRelationMapA(new HashMap<String, InstanceRelation>());
 				for(Instance instance : instances){
-					relation.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
+					iRelation = new InstanceRelation();
+					iRelation.setInstance(instance);
+					relation.getInstanceRelationMapA().put(instance.getUri(), iRelation);
 				}
 			}
 		}
@@ -265,7 +268,9 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			if(instances != null ){
 				relation.setInstanceRelationMapB(new HashMap<String, InstanceRelation>());
 				for(Instance instance : instances){
-					relation.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
+					iRelation = new InstanceRelation();
+					iRelation.setInstance(instance);
+					relation.getInstanceRelationMapB().put(instance.getUri(), iRelation);
 				}
 			}
 		}
@@ -316,16 +321,25 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		//mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, relation);
 		
-		criarInstanciasRelacacao(relation, mobi);
+		Relation genericRelation = criarInstanciasRelacacao(relation, mobi);
+		
+		if(genericRelation != null){
+			mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, (GenericRelation)genericRelation);
+		}
+		
 		request.getSession().setAttribute("relacao", relation);
 		return mapping.findForward("success");
 		
 	}
 	
-	private void criarInstanciasRelacacao(Relation relation, Mobi mobi){
+	private Relation criarInstanciasRelacacao(Relation relation, Mobi mobi){
 		
 		if(relation.getInstanceRelationMapB().isEmpty()){
-		
+			
+			Relation relacaoGenerica = mobi.createGenericRelation(EditorMMobiConstantes.TEMPORARIO);
+			relacaoGenerica.setClassA(relation.getClassA());
+			relacaoGenerica.setClassB(relation.getClassB());
+			
 			if(relation.getType() == Relation.INHERITANCE){
 
 				 List<Relation> relationsInheritance = mobi.getAllClassInheritanceRelations(relation.getClassA());
@@ -345,6 +359,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 					iRelation.setInstance(instance);
 					
 					relation.getInstanceRelationMapA().put(instance.getUri(), iRelation );
+					relacaoGenerica.getInstanceRelationMapA().put(instance.getUri(), iRelation );
 					
 				}
 				
@@ -352,6 +367,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 				
 				
 				relation.addInstanceRelation(instanceB, instanceB);
+				relacaoGenerica.addInstanceRelation(instanceB, instanceB);
 				
 			}
 			
@@ -364,6 +380,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 						new Instance("i"+relation.getClassB().getUri()+ "1") : mobi.getInstance("i"+relation.getClassB().getUri()+ "1");
 						
 				relation.addInstanceRelation(instanceA, instanceB);
+				relacaoGenerica.addInstanceRelation(instanceA, instanceB);
 				
 			}
 			if(relation.getType() == Relation.UNIDIRECIONAL_COMPOSITION || relation.getType() == Relation.BIDIRECIONAL_COMPOSITION
@@ -373,13 +390,15 @@ public class EditorMMobiAction extends MappingDispatchAction {
 					for( int i=0; i < 3; i++){
 						Instance instanceA = mobi.getInstance("i"+relation.getClassA().getUri() + i) == null ?
 								new Instance("i"+relation.getClassA().getUri()+ i)  : mobi.getInstance("i"+relation.getClassA().getUri()+ i);
-						
 						relation.getInstanceRelationMapA().put(instanceA.getUri(), new InstanceRelation());
+						relacaoGenerica.getInstanceRelationMapA().put(instanceA.getUri(), new InstanceRelation());
+						
 
 					}
 				}else{
 					for(Instance instance : mobi.getClassInstances(relation.getClassA())){
 						relation.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
+						relacaoGenerica.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
 					}
 				}
 				
@@ -389,20 +408,29 @@ public class EditorMMobiAction extends MappingDispatchAction {
 								new Instance("i"+relation.getClassB().getUri()+ i)  : mobi.getInstance("i"+relation.getClassB().getUri()+ i);
 						
 						relation.getInstanceRelationMapB().put(instanceB.getUri(), new InstanceRelation());
+						relacaoGenerica.getInstanceRelationMapB().put(instanceB.getUri(), new InstanceRelation());
 
 					}
 				}else{
 					for(Instance instance : mobi.getClassInstances(relation.getClassB())){
 						relation.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
+						relacaoGenerica.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
 					}
 				}
 			}
 			
-			
+			return relacaoGenerica;
 		}
-		
+		return null;
 	}
 	
+	public ActionForward eliminarRelacionamentoClasse(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		return mapping.findForward("success");
+	}
+		
 	public ActionForward eliminarRelacionamentoInstancia(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -522,12 +550,19 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			relation = mobi.convertToSymmetricRelation(relation, nomeA);
 		}
 		
+		
 		for(InstanceRelation instancia : relation.getInstanceRelationMapA().values()){
-			mobi.isOneOf(instancia.getInstance(), relation.getClassA());
+			Set classes = mobi.getInstanceClasses(instancia.getInstance());
+			if(( classes == null ) || (! classes.contains(relation.getClassA()) )){
+				mobi.isOneOf(instancia.getInstance(), relation.getClassA());
+			}
 		}
 		
 		for(InstanceRelation instancia : relation.getInstanceRelationMapB().values()){
-			mobi.isOneOf(instancia.getInstance(), relation.getClassB());
+			Set classes = mobi.getInstanceClasses(instancia.getInstance());
+			if(( classes == null ) || (! classes.contains(relation.getClassB()))){
+				mobi.isOneOf(instancia.getInstance(), relation.getClassB());
+			}
 		}
 
 		mobi.addConcept(relation);

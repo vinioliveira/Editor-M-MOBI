@@ -150,10 +150,9 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 			menu.addItem('Adicionar Herança', 'images/add_48.png', function(){
 				
 				ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
+				
 				graph.insertEdge(parent, null, '', ClasseNova,cell);
 
-				graph.startEditingAtCell(ClasseNova);
-				
 				if(cell.id != 'Thing'){
 					params = {tipoRelacao : mobi.INHERITANCE , classeA : cell.id , classeB : ClasseNova.id };
 					
@@ -178,7 +177,6 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 				ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
 				graph.insertEdge(parent, null, '', ClasseNova,cell);
 
-				graph.startEditingAtCell(ClasseNova);
 				
 				if(cell.id != 'Thing'){
 					params = { tipoRelacao : mobi.EQUIVALENCE , classeA : cell.id , classeB : ClasseNova.id };
@@ -205,11 +203,11 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 					var cells = [];			
 					cells.push(cell);
 						
-					/*graph.traverse(cell, true, function(vertex)
+					graph.traverse(cell, true, function(vertex)
 							{
 								cells.push(vertex);					
 								return true;
-							},null,new Array(), true);*/
+							},null,new Array(), true);
 
 					graph.removeCells(cells);		
 										
@@ -240,12 +238,14 @@ function optionsRelation(graph, menu, cell, evt, classe){
 			}
 			
 			graph.removeCells(cells);			
+			
+			//var tipo_relacao = cell.id.substring(cell.id.length-1);
 
-			/*graph.traverse(cell, true, function(vertex)
+			graph.traverse(cell, true, function(vertex)
 					{
 						cells.push(vertex);					
 						return true;
-					},null,new Array(), true);*/
+					},null,new Array(), true);
 								
 		});
 	}else{
