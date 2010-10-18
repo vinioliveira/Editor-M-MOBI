@@ -715,7 +715,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			mobi =(Mobi) objectIn.readObject();
 			objectIn.close();
 		}catch(Exception e){
-			System.out.println("Email não encontrado!");
+			throw new Exception("Email não encontrado!");
 		}
 
 		

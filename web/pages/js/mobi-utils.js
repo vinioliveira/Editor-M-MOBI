@@ -159,13 +159,13 @@ function ajaxRequest(action, params){
 }
 
 
-function ajaxManipularDados(action, params){
+function ajaxManipularDados(action, params, functions){
 	
 	$.ajax({
 		type: 'POST',
 		url : action,
-		data: params
-	//	complete: functions
+		data: params,
+		complete: functions
 	});
 	
 	
@@ -330,15 +330,14 @@ function isBeenUsed(style){
 
 function validarRelacionamentos(){
 	inferenciaRelacao();
-	disabledAll()
-	if(mobi.RELATION.type.length == 0){
-		//Desabilitar também
-
-	}else{
+	disabledAll();
+	if(mobi.RELATION.type.length != 0){
 		if(mobi.RELATION.type.length == 1){
 			removerFieldTextDaComposicao('fieldSetRadioGroup');
 			Ext.getCmp(mobi.RELATION.type[0]).setDisabled(false);
 			Ext.getCmp(mobi.RELATION.type[0]).setValue(true);
+			Ext.getCmp('ida').setValue(mobi.RELATION.nomeA);
+			Ext.getCmp('volta').setValue(mobi.RELATION.nomeB);
 		}else{
 			
 			for(var i=0; i< mobi.RELATION.type.length; i++){

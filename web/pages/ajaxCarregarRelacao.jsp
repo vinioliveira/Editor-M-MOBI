@@ -82,6 +82,8 @@ function carregar(){
 	{
 		Ext.getCmp(mobi.CLASSEA).setValue('${relacao.classA.uri}');
 		Ext.getCmp(mobi.CLASSEB).setValue('${relacao.classB.uri}');
+		mobi.RELATION.classeA = '${relacao.classA.uri}';
+		mobi.RELATION.classeB = '${relacao.classB.uri}';
 		
 		<c:forEach var="instancia" items="${relacao.instanceRelationMapA}">
         	var idInstancia = mobi.CONJUNTO_A + ' ${instancia.key}';
@@ -122,18 +124,21 @@ function carregar(){
 			Ext.getCmp('${relacao.type}').setValue(true);
 			removerFieldTextDaComposicao('fieldSetRadioGroup');
 		}else {
-			Ext.getCmp(mobi.COMPOSITION).setValue(true);
+			<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }">
+				Ext.getCmp('ida').setValue('${relacao.nameA}');
+				Ext.getCmp('volta').setValue('${relacao.nameB}');
+				mobi.RELATION.nomeA = '${relacao.nameA}';
+				mobi.RELATION.nomeB = '${relacao.nameB}';
+			</c:if>
+			
+			<c:if test="${relacao.type == 3}">
+				Ext.getCmp('ida').setValue('${relacao.name}');
+				Ext.getCmp('volta').setValue('${relacao.name}');
+				mobi.RELATION.nomeA = '${relacao.name}';
+				mobi.RELATION.nomeB = '${relacao.name}';
+			</c:if>
+			validarRelacionamentos();
 		}
-		
-		<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }">
-			Ext.getCmp('ida').setValue('${relacao.nameA}');
-			Ext.getCmp('volta').setValue('${relacao.nameB}');
-		</c:if>
-		
-		<c:if test="${relacao.type == 3}">
-			Ext.getCmp('ida').setValue('${relacao.name}');
-			Ext.getCmp('volta').setValue('${relacao.name}');
-		</c:if>
 	}
 
 	}

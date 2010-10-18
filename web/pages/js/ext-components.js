@@ -28,9 +28,9 @@ var start = {
     				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email Para poder Salvar o Estado.');
     			}else {
     				 Ext.MessageBox.show({
-				           title: 'Please wait',
-				           msg: 'Loading items...',
-				           progressText: 'Initializing...',
+				           title: 'Por favor Aguarde',
+				           msg: 'Salvando Estado...',
+				           progressText: 'Salvando...',
 				           width:300,
 				           progress:true,
 				           closable:false,
@@ -40,20 +40,17 @@ var start = {
 				       // this hideous block creates the bogus progress
 				       var f = function(v){
 				            return function(){
-				                if(v == 12 || v == -1){
+				                if(v == 12){
 				                    Ext.MessageBox.hide();
+				                    Ext.MessageBox.alert('Salvar',  'Estado Salvo com Sucesso!');
 				                }else{
 				                    var i = v/11;
-				                    Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+				                    Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% salvo ...');
 				                }
 				           };
 				       };
 				       params = {email : email};
-				       ajaxManipularDados('/EditorM-MOBI/salvarEstadoMobi.do',params , function(response, status){
-				    			  if (status == 'success') {
-		    							alert('Carregado com sucesso');
-				    			  }
-				       });
+				       ajaxManipularDados('/EditorM-MOBI/salvarEstadoMobi.do',params , function(){});
 				       
 				       for(var i = 1; i < 13; i++){
 				          setTimeout(f(i), i*500);
@@ -71,9 +68,9 @@ var start = {
     				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email Para poder Salvar o Estado.');
     			}else {
     				 Ext.MessageBox.show({
-				           title: 'Please wait',
-				           msg: 'Loading items...',
-				           progressText: 'Initializing...',
+    					   title: 'Por favor Aguarde',
+				           msg: 'Recuperando Estado...',
+				           progressText: 'Recuperando...',
 				           width:300,
 				           progress:true,
 				           closable:false,
@@ -83,21 +80,33 @@ var start = {
 				       // this hideous block creates the bogus progress
 				       var f = function(v){
 				            return function(){
-				                if(v == 12 || v == -1){
+				                if(v == 12){
 				                    Ext.MessageBox.hide();
+				                    Ext.MessageBox.alert('Email',  'Estado Recuperado com Sucesso!');
+				                }else if(v == 'erro'){
+				                	Ext.MessageBox.hide();
+				                	Ext.MessageBox.alert('Erro', 'O E-Mail fornecido não foi encontrado no sistema.'); 
 				                }else{
 				                    var i = v/11;
-				                    Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+				                    Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% Recuperado ...');
 				                }
 				           };
 				       };
 				       params = {email : email};
 				       
-				       ajaxDivUpdate('graphContainerDiagrama','recuperarMobi.do',params, function(){});
+				       ajaxManipularDados('recuperarMobi.do',params, function(response, status){
+				    	   if(status != 'success'){
+				    		   f('erro')();
+			                   
+				    	   }else {
+				    		   for(var i = 1; i < 13; i++){
+					    		   setTimeout(f(i), i*500);
+						       }
+				    		   $('#graphContainerDiagrama').html(response.responseText);
+				    	   }
+				       });
 				       
-				       for(var i = 1; i < 13; i++){
-				          setTimeout(f(i), i*500);
-				       }
+				    
     				    
     			}	
     			}
