@@ -1,6 +1,9 @@
 package com.mobi.comum.action;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -436,15 +439,20 @@ public class EditorMMobiAction extends MappingDispatchAction {
 					for( int i=0; i < 3; i++){
 						Instance instanceA = mobi.getInstance("i"+relation.getClassA().getUri() + i) == null ?
 								new Instance("i"+relation.getClassA().getUri()+ i)  : mobi.getInstance("i"+relation.getClassA().getUri()+ i);
-						relation.getInstanceRelationMapA().put(instanceA.getUri(), new InstanceRelation());
-						relacaoGenerica.getInstanceRelationMapA().put(instanceA.getUri(), new InstanceRelation());
+						InstanceRelation iRelation = new InstanceRelation();
+						iRelation.setInstance(instanceA);
+						relation.getInstanceRelationMapA().put(instanceA.getUri(), iRelation);
+						relacaoGenerica.getInstanceRelationMapA().put(instanceA.getUri(), iRelation);
 						
 
 					}
 				}else{
 					for(Instance instance : mobi.getClassInstances(relation.getClassA())){
-						relation.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
-						relacaoGenerica.getInstanceRelationMapA().put(instance.getUri(), new InstanceRelation());
+						
+						InstanceRelation iRelation = new InstanceRelation();
+						iRelation.setInstance(instance);
+						relation.getInstanceRelationMapA().put(instance.getUri(), iRelation);
+						relacaoGenerica.getInstanceRelationMapA().put(instance.getUri(), iRelation);
 					}
 				}
 				
@@ -453,14 +461,18 @@ public class EditorMMobiAction extends MappingDispatchAction {
 						Instance instanceB = mobi.getInstance("i"+relation.getClassB().getUri() + i) == null ?
 								new Instance("i"+relation.getClassB().getUri()+ i)  : mobi.getInstance("i"+relation.getClassB().getUri()+ i);
 						
-						relation.getInstanceRelationMapB().put(instanceB.getUri(), new InstanceRelation());
-						relacaoGenerica.getInstanceRelationMapB().put(instanceB.getUri(), new InstanceRelation());
+						InstanceRelation iRelation = new InstanceRelation();
+						iRelation.setInstance(instanceB);		
+						relation.getInstanceRelationMapB().put(instanceB.getUri(),iRelation);
+						relacaoGenerica.getInstanceRelationMapB().put(instanceB.getUri(), iRelation);
 
 					}
 				}else{
 					for(Instance instance : mobi.getClassInstances(relation.getClassB())){
-						relation.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
-						relacaoGenerica.getInstanceRelationMapB().put(instance.getUri(), new InstanceRelation());
+						InstanceRelation iRelation = new InstanceRelation();
+						iRelation.setInstance(instance);
+						relation.getInstanceRelationMapB().put(instance.getUri(), iRelation);
+						relacaoGenerica.getInstanceRelationMapB().put(instance.getUri(), iRelation);
 					}
 				}
 			}
@@ -574,6 +586,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		if( tipoRelacao == Relation.INHERITANCE ){
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.INHERITANCE);
 			relation = mobi.convertToInheritanceRelation(relation, relation.getUri());
+			
 		}
 		
 		if( tipoRelacao ==  Relation.EQUIVALENCE ){
@@ -611,6 +624,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			}
 		}
 
+		
+		mobi.destroyConcept(relation);
 		mobi.addConcept(relation);
 		
 		List relacionamentos = new ArrayList(mobi.getAllRelations().values());
@@ -666,6 +681,56 @@ public class EditorMMobiAction extends MappingDispatchAction {
         
 		return null;
 		
+	}
+	
+	public ActionForward salvarEstadoMobi(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		String email = request.getParameter("email");
+		
+		try{
+			FileOutputStream out = new FileOutputStream(email);
+		    ObjectOutputStream objectOut = new ObjectOutputStream(out);
+	        objectOut.writeObject(mobi); 
+	        objectOut.close();
+       }
+	   catch(Exception e){e.printStackTrace();}    
+			
+	   return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ActionForward recuperarEstado(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		Mobi mobi = null; 
+		String email = request.getParameter("email");
+		
+		try{
+			FileInputStream in = new FileInputStream(email);
+			ObjectInputStream objectIn = new ObjectInputStream(in);
+			mobi =(Mobi) objectIn.readObject();
+			objectIn.close();
+		}catch(Exception e){
+			System.out.println("Email não encontrado!");
+		}
+
+		
+		request.getSession().setAttribute(EditorMMobiConstantes.MOBI, mobi);
+
+		List relacionamentos = new ArrayList(mobi.getAllRelations().values());
+		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
+		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
+		request.setAttribute("classes", classes );
+
+		mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, new GenericRelation());
+		
+		
+		return mapping.findForward("success");
 	}
 	
 	

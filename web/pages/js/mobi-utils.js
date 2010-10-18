@@ -159,13 +159,16 @@ function ajaxRequest(action, params){
 }
 
 
-function ajaxManipularDados(action, params, functions){
+function ajaxManipularDados(action, params){
+	
 	$.ajax({
 		type: 'POST',
 		url : action,
-		data: params,
-		success: functions
+		data: params
+	//	complete: functions
 	});
+	
+	
 }
 
 
@@ -364,6 +367,7 @@ function adcionarFieldTextDaComposicao(){
 		listeners : {
 			change : function (text,newValue,oldValue){
 				volta = Ext.getCmp('volta').getValue();
+				mobi.RELATION.nomeA = newValue;
 				detectorTipoComposicao(newValue, volta, 'label-type', mobi.COMPOSITION);
 				}
 			}
@@ -375,6 +379,7 @@ function adcionarFieldTextDaComposicao(){
 		listeners : {
 			change : function (text,newValue,oldValue){
 					ida = Ext.getCmp('ida').getValue();
+					mobi.RELATION.nomeB = newValue;
 					detectorTipoComposicao(ida , newValue, 'label-type', mobi.COMPOSITION);
 					}
 				}

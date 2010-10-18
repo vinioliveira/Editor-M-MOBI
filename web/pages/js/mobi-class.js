@@ -34,6 +34,9 @@ Relation = function(){
 	this.classeA = 'ClasseA';
 	this.classeB = 'ClasseB';
 	
+	this.nomeA = '';
+	this.nomeB = '';
+	
 	this.type = new Array();
 	
 	this.haveSomeRelation = function(conjunto){

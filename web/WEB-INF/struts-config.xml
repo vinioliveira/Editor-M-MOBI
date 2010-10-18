@@ -96,6 +96,15 @@
 				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
+		<action path="/salvarEstadoMobi" type="com.mobi.comum.action.EditorMMobiAction"
+				name="relacaoForm" scope="session" parameter="salvarEstadoMobi">
+		</action>
+		
+		<action path="/recuperarMobi" type="com.mobi.comum.action.EditorMMobiAction"
+				name="relacaoForm" scope="session" parameter="recuperarEstado">
+				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
+		</action>
+		
 		
     </action-mappings>
 

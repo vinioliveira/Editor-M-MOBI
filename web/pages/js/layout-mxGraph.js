@@ -163,41 +163,40 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/addClass.do',params, resetarRelacoes);
 				}
 			});
+			if (cell.id != 'Thing' && model.isVertex(cell)) {
+				
+				menu.addItem('Adicionar Composicao', 'images/add_48.png', function(){
+					
+					if(cell.id != 'Thing'){
+						abrirPopupComposicao(graph, cell);
+					}
+				
+				});
+				
+				menu.addItem('Adicionar Equivalência', 'images/add_48.png', function(){
+					
+					ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
+					graph.insertEdge(parent, null, '', ClasseNova,cell);
+				
+					
+					if(cell.id != 'Thing'){
+						params = { tipoRelacao : mobi.EQUIVALENCE , classeA : cell.id , classeB : ClasseNova.id };
+						ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
+					}else{
+						params = {nomeClasse : ClasseNova.id };
+						ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/addClass.do',params, resetarRelacoes);
+					}
+											
+				});
+				
+				
+				menu.addItem('Editar Nome Classe', 'comum/mxgraph/images/text.gif', function()
+				{
+					graph.startEditingAtCell(cell);
+					
+			});
+
 			
-			menu.addItem('Adicionar Composicao', 'images/add_48.png', function(){
-				
-				if(cell.id != 'Thing'){
-					abrirPopupComposicao(graph, cell);
-				}
-
-			});
-			
-			menu.addItem('Adicionar Equivalência', 'images/add_48.png', function(){
-				
-				ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
-				graph.insertEdge(parent, null, '', ClasseNova,cell);
-
-				
-				if(cell.id != 'Thing'){
-					params = { tipoRelacao : mobi.EQUIVALENCE , classeA : cell.id , classeB : ClasseNova.id };
-					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/ajaxDiagrama.do',params, resetarRelacoes);
-				}else{
-					params = {nomeClasse : ClasseNova.id };
-					ajaxDivUpdate('graphContainerDiagrama','/EditorM-MOBI/addClass.do',params, resetarRelacoes);
-				}
-										
-			});
-		
-
-			menu.addItem('Editar Nome Classe', 'comum/mxgraph/images/text.gif', function()
-			{
-				graph.startEditingAtCell(cell);
-				
-			});
-
-			if (cell.id != 'Thing' &&
-				model.isVertex(cell))
-			{
 				menu.addItem('Excluir Classe', 'images/cross_48.png', function()
 				{
 					var cells = [];			
@@ -208,7 +207,7 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 								cells.push(vertex);					
 								return true;
 							},null,new Array(), true);
-
+	
 					graph.removeCells(cells);		
 										
 				});

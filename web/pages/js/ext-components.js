@@ -1,16 +1,108 @@
 var start = {
     id: 'start-panel',
-    title: 'Diagrama',
     layout: 'fit',
     bodyStyle: 'padding:25px',
     contentEl: 'start-div',
     tbar: [{
 			text:'Gerar OWL',
-			scope: this,
+			xtype: 'button',
+			icon : 'images/box_downloa.png',
 			handler: function(){
     			window.location.href='/EditorM-MOBI/gerarArquivoOWL.do';	
+    			}
+    		},
+    		{
+    		xtype : 'textfield',
+    		id : 'email',
+    		fieldLabel: 'Email',
+            name: 'email',
+            vtype:'email',
+            style : {margin : '0px 0px 0px 400px'}
+    		},
+    		{
+			text:'Salvar Mobi',
+			icon : 'images/arrow_down.png',
+			handler: function(){
+    			var email = Ext.getCmp('email').getValue();
+    			if(email == ''){
+    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email Para poder Salvar o Estado.');
+    			}else {
+    				 Ext.MessageBox.show({
+				           title: 'Please wait',
+				           msg: 'Loading items...',
+				           progressText: 'Initializing...',
+				           width:300,
+				           progress:true,
+				           closable:false,
+				           animEl: 'mb6'
+				       });
+	
+				       // this hideous block creates the bogus progress
+				       var f = function(v){
+				            return function(){
+				                if(v == 12 || v == -1){
+				                    Ext.MessageBox.hide();
+				                }else{
+				                    var i = v/11;
+				                    Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+				                }
+				           };
+				       };
+				       params = {email : email};
+				       ajaxManipularDados('/EditorM-MOBI/salvarEstadoMobi.do',params , function(response, status){
+				    			  if (status == 'success') {
+		    							alert('Carregado com sucesso');
+				    			  }
+				       });
+				       
+				       for(var i = 1; i < 13; i++){
+				          setTimeout(f(i), i*500);
+				       }
+    				    
+    			}
+			}
+    		},
+    		{
+			text:'Recuperar Mobi',
+			icon : 'images/arrow_up.png',
+			handler: function(){
+    			var email = Ext.getCmp('email').getValue();
+    			if(email == ''){
+    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email Para poder Salvar o Estado.');
+    			}else {
+    				 Ext.MessageBox.show({
+				           title: 'Please wait',
+				           msg: 'Loading items...',
+				           progressText: 'Initializing...',
+				           width:300,
+				           progress:true,
+				           closable:false,
+				           animEl: 'mb6'
+				       });
+	
+				       // this hideous block creates the bogus progress
+				       var f = function(v){
+				            return function(){
+				                if(v == 12 || v == -1){
+				                    Ext.MessageBox.hide();
+				                }else{
+				                    var i = v/11;
+				                    Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% completed');
+				                }
+				           };
+				       };
+				       params = {email : email};
+				       
+				       ajaxDivUpdate('graphContainerDiagrama','recuperarMobi.do',params, function(){});
+				       
+				       for(var i = 1; i < 13; i++){
+				          setTimeout(f(i), i*500);
+				       }
+    				    
+    			}	
+    			}
     		}
-    	}]
+    ]
 };
 
 Ext.onReady(function(){
