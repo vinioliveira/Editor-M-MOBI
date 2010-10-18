@@ -372,10 +372,17 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		Relation genericRelation = criarInstanciasRelacacao(relation, mobi);
 		
-		if(genericRelation != null){
-			mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, (GenericRelation)genericRelation);
+		if(genericRelation == null){
+		
+			genericRelation = new GenericRelation();
+			genericRelation.setClassA(relation.getClassA());
+			genericRelation.setClassB(relation.getClassB());
+			genericRelation.setInstanceRelationMapA(relation.getInstanceRelationMapA());
+			genericRelation.setInstanceRelationMapB(relation.getInstanceRelationMapB());
+			
 		}
 		
+		mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, (GenericRelation)genericRelation);
 		request.getSession().setAttribute("relacao", relation);
 		return mapping.findForward("success");
 		

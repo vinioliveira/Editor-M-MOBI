@@ -103,6 +103,7 @@ var start = {
 					    		   setTimeout(f(i), i*500);
 						       }
 				    		   $('#graphContainerDiagrama').html(response.responseText);
+				    		   resetarRelacoes();
 				    	   }
 				       });
 				       

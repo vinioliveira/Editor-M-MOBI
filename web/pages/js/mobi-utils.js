@@ -336,8 +336,10 @@ function validarRelacionamentos(){
 			removerFieldTextDaComposicao('fieldSetRadioGroup');
 			Ext.getCmp(mobi.RELATION.type[0]).setDisabled(false);
 			Ext.getCmp(mobi.RELATION.type[0]).setValue(true);
-			Ext.getCmp('ida').setValue(mobi.RELATION.nomeA);
-			Ext.getCmp('volta').setValue(mobi.RELATION.nomeB);
+			if(mobi.RELATION.type[0] == mobi.COMPOSITION){
+				Ext.getCmp('ida').setValue(mobi.RELATION.nomeA);
+				Ext.getCmp('volta').setValue(mobi.RELATION.nomeB);
+			}
 		}else{
 			
 			for(var i=0; i< mobi.RELATION.type.length; i++){
