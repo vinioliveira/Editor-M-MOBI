@@ -1,10 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <!-- Example code -->
 <div id="diagramaClasse">
 	<script type="text/javascript">
-		
+
 	function carregarStore() {
 		<c:if test="${classes != null}">
 	     	<logic:iterate name="classes" id="classe" indexId="index">
@@ -55,7 +56,7 @@
 		// being changed, added or removed.
 		layout2 = new mxCompactTreeLayout(umlGraph, false);
 		layout2.useBoundingBox = false;
-		layout2.levelDistance = 40;
+		layout2.levelDistance = 55;
 		layout2.nodeDistance = 10;
 		layout2.invert = true;
 		var layoutMgr = new mxLayoutManager(umlGraph);
@@ -171,22 +172,32 @@
 					</c:if>
 					
 				 	<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }"> 
-		
+
+				 		var cardinalityA =	mobi.PorcessCardinality('${relacao.cardinalityA}');
+				 		var cardinalityB =	mobi.PorcessCardinality('${relacao.cardinalityB}');
+				 		var propriedadeA = '${relacao.nameA}'.split('_')[1];
+				 		var propriedadeB = '${relacao.nameB}'.split('_')[1];
+
+				 		var stringA = '('+ cardinalityA +')'+propriedadeA;
+					 	var stringB = propriedadeB == null ? '' : '\n(' + cardinalityB +')' + propriedadeB;
+				 		
 						var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
 				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, widht, height);
 				 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
-				 				'${relacao.nameA} '+'(${relacao.cardinalityA})'+'  '+'(${relacao.cardinalityB}) '+'${relacao.nameB} ',
-				 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+				 				stringA + stringB , classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 				 	</c:if>
 	
 				 	<c:if test="${relacao.type == 3}"> 
-	
+
+				 		var cardinalityA =	mobi.PorcessCardinality('${relacao.cardinalityA}');
+			 			var cardinalityB =	mobi.PorcessCardinality('${relacao.cardinalityB}');
+			 			var propriedade = '${relacao.name}'.split('_')[2];
 						var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
 				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
 				 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
-				 				'${relacao.name} '+'(${relacao.cardinalityA})'+'  '+'(${relacao.cardinalityB}) '+'${relacao.name} ',
+				 				'('+cardinalityA +')'+propriedade +'\n ('+cardinalityB+')'+ propriedade,
 				 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 			 		</c:if>
 				 	

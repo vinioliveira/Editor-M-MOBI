@@ -4,28 +4,42 @@ var start = {
     bodyStyle: 'padding:25px',
     contentEl: 'start-div',
     tbar: [{
-			text:'Gerar OWL',
+			text:'Baixar OWL',
 			xtype: 'button',
 			icon : 'images/box_downloa.png',
 			handler: function(){
-    			window.location.href='/EditorM-MOBI/gerarArquivoOWL.do';	
+    			var dominio = Ext.getCmp('dominio').getValue();
+    			var email = Ext.getCmp('email').getValue();
+    			if(dominio != '' && email != ''){
+    				window.location.href='/EditorM-MOBI/gerarArquivoOWL.do?dominio='+dominio+'&email='+email;
+    			}else {
+    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e Dominio para efetuar o download do OWL.');
     			}
+    			}
+    		},
+    		{
+        		xtype : 'textfield',
+        		id : 'dominio',
+        		emptyText  : 'Dominio Modelado',
+                name: 'domonio',
+                style : {margin : '0px 0px 0px 20px'}
     		},
     		{
     		xtype : 'textfield',
     		id : 'email',
-    		fieldLabel: 'Email',
+    		emptyText  : 'Email',
             name: 'email',
             vtype:'email',
-            style : {margin : '0px 0px 0px 400px'}
+            style : {margin : '0px 0px 0px 20px'}
     		},
     		{
 			text:'Salvar Mobi',
 			icon : 'images/arrow_down.png',
 			handler: function(){
     			var email = Ext.getCmp('email').getValue();
-    			if(email == ''){
-    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email Para poder Salvar o Estado.');
+    			var dominio = Ext.getCmp('dominio').getValue();
+    			if(email == ''&& dominio != ''){
+    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e o Domínio Para poder Salvar o Estado.');
     			}else {
     				 Ext.MessageBox.show({
 				           title: 'Por favor Aguarde',
@@ -49,7 +63,7 @@ var start = {
 				                }
 				           };
 				       };
-				       params = {email : email};
+				       params = {email : email, dominio : dominio};
 				       ajaxManipularDados('/EditorM-MOBI/salvarEstadoMobi.do',params , function(){});
 				       
 				       for(var i = 1; i < 13; i++){
@@ -64,8 +78,9 @@ var start = {
 			icon : 'images/arrow_up.png',
 			handler: function(){
     			var email = Ext.getCmp('email').getValue();
-    			if(email == ''){
-    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email Para poder Salvar o Estado.');
+    			var dominio = Ext.getCmp('dominio').getValue();
+    			if(email == '' && dominio != ''){
+    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e o Domínio Para poder Salvar o Estado.');
     			}else {
     				 Ext.MessageBox.show({
     					   title: 'Por favor Aguarde',
@@ -92,7 +107,7 @@ var start = {
 				                }
 				           };
 				       };
-				       params = {email : email};
+				       params = {email : email, dominio : dominio};
 				       
 				       ajaxManipularDados('recuperarMobi.do',params, function(response, status){
 				    	   if(status != 'success'){
@@ -212,10 +227,14 @@ Ext.onReady(function(){
 		            	var nameClass = Ext.getCmp(mobi.CLASSEA).getValue();
 
 		            	if ( nameClass == ''){
-		            			nameClass = 'Instância';
+		            			nameClass = 'ClasseA';
 
 		            	}
 		            	var nomeInstancia = 'i'+ nameClass +'_'+ qtdInstanciasConjuntoA;
+		            	var index = 0;
+		            	/*while(validarInstanciaExistente(nomeInstancia)){
+		            		nomeInstancia  = 'i'+ nameClass +'_'+index;
+		            	}*/
 		            	var idInstancia = mobi.CONJUNTO_A+' ' + nomeInstancia;
 		            	var instancia1 = criarCellVertex(instanceGraph ,idInstancia, nomeInstancia, xLeft, yLeft, widhtInstance, heightInstance, mobi.colorRandom());
 	
@@ -248,22 +267,29 @@ Ext.onReady(function(){
 		    		params = { tipoRelacao : relacao.getId(), classeA : classeA , classeB: classeB} ;
 		    		
 		    		if (relacao.getId() == mobi.COMPOSITION){
-		    			
 		    			var ida = Ext.getCmp('ida').getValue();
 		    			var volta = Ext.getCmp('volta').getValue();
 		    			
-		    			params['tipoRelacao'] = relacao.getStateId();
-		    			params['ida']= ida;
-		    			params['volta'] = volta;	 
+		    			if(ida != ''){
+			    			params['tipoRelacao'] = relacao.getStateId();
+			    			params['ida']= ida;
+			    			params['volta'] = volta;
+			    			
+			    			ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', params, resetarRelacoes);
+		    			}
+		    			else {
+		    				Ext.MessageBox.alert('Erro',  'Classe/Relacao deve estar preenchida');
+		    			}
+		    		}else {
+		    			
+		    			ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', params, resetarRelacoes); 
 		    		}
-
-	    			ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/ajaxDiagrama.do', params, resetarRelacoes); 
-	        		
 	    		}else { Ext.MessageBox.alert('Erro',  'Classe/Relacao deve estar preenchida');}
 			}
 	    },{
 	        iconCls:'add',
 	        width: 170,
+	        scope: this,
 	        text:'Add Instancia B',
 	        handler: function(){
 	    	if(qtdInstanciasConjuntoB <= 5)
@@ -275,11 +301,14 @@ Ext.onReady(function(){
 	            	var nameClass = Ext.getCmp(mobi.CLASSEB).getValue();
 
 	            	if ( nameClass == ''){
-	            			nameClass = 'Instância';
+	            			nameClass = 'ClasseB';
 	            	}
-	            	var nomeInstancia = 'I'+ nameClass +'_'+ qtdInstanciasConjuntoB;
+	            	var nomeInstancia = 'i'+ nameClass +'_'+ qtdInstanciasConjuntoB;
+	            	var index = 0;
+	            	/*while(validarInstanciaExistente(nomeInstancia)){
+	            		nomeInstancia  = 'i'+ nameClass +'_'+index;
+	            	}*/
 	            	var idInstancia = mobi.CONJUNTO_B+' ' + nomeInstancia;
-	            	var nameClass = Ext.getCmp(mobi.CLASSEB).getValue();
 	            	var instancia1 = criarCellVertex(instanceGraph, idInstancia, nomeInstancia, xRight, yRight, widhtInstance, heightInstance, mobi.colorRandom());
 	            	
 	            	instanciasConjuntoB[qtdInstanciasConjuntoB -1] = new mobi.Instance(nomeInstancia, instancia1.getStyle());  
@@ -303,7 +332,14 @@ Ext.onReady(function(){
 		height: 300,
 		minSize: 150,
 		autoScroll: true,
-		tbar:panelButtons ,
+		tbar:[{
+			text:'Nova Relação',
+			xtype: 'button',
+			icon : 'images/paper_48.png',
+			handler: function(){
+			resetarRelacoes();
+    		}
+		}],
 		contentEl: 'relaco-div'
 	});
 	

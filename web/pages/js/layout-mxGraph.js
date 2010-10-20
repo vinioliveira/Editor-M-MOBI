@@ -81,6 +81,8 @@ function configureStylesheet(instanceGraph){
 		style[mxConstants.STYLE_STROKECOLOR] = '#64A8C6';
 		style[mxConstants.STYLE_FONTCOLOR] = '#000000';
 		style[mxConstants.STYLE_FILLCOLOR] = '#64A8C6';
+		style[mxConstants.STYLE_IMAGE_WIDTH] = '200px';
+		style[mxConstants.STYLE_IMAGE_HEIGHT] = '500px';
 		
 		instanceGraph.getStylesheet().putCellStyle('boxstyle', style);
 
@@ -240,7 +242,7 @@ function optionsRelation(graph, menu, cell, evt, classe){
 
 	if (cell != null)
 	{
-		menu.addItem('Excluir Classe', 'images/cross_48.png', function()
+		menu.addItem('Excluir', 'images/cross_48.png', function()
 		{
 			var cells = [];			
 			if (model.isVertex(cell)){

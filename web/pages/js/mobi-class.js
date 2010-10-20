@@ -15,6 +15,34 @@ mobi.UNIDIRECIONAL_COMPOSITION = 5;
 mobi.EQUIVALENCE = 6;
 mobi.COMPOSITION = 7; 
 
+mobi.ZERO_ONE = 'ZERO_ONE';
+mobi.ONE_ONE  = 'ONE_ONE';
+mobi.ZERO_N   = 'ZERO_N';
+mobi.ONE_N    = 'ONE_N';
+
+mobi.NUM_ZERO_ONE = '0,1';
+mobi.NUM_ONE_ONE = '1,1'; 
+mobi.NUM_ZERO_N = '0,N';
+mobi.NUM_ONE_N = '1,N';
+
+
+mobi.PorcessCardinality = function(cardinalidade){
+	if(cardinalidade == mobi.ZERO_ONE){
+		return mobi.NUM_ZERO_ONE;
+	}
+	if(cardinalidade == mobi.ONE_ONE){
+		return mobi.NUM_ONE_ONE;
+	}
+	if(cardinalidade == mobi.ZERO_N){
+		return mobi.NUM_ZERO_N;
+	}
+	if(cardinalidade == mobi.ONE_N){
+		return mobi.NUM_ONE_N;
+	}
+	return 'erro';
+};
+
+
 mobi.CLASSEA = 'classeA';
 mobi.CLASSEB = 'classeB';
 
@@ -171,8 +199,9 @@ function inferenciaRelacao(){
 	};
 	
 	function instanciasRelacionadasDiferentes(){
+		
 		for(var i=0; i < mobi.RELATION.instanciasA.length;i++){
-			if(mobi.RELATION.instanciasA[i].relacoes.length == 1){
+			if(mobi.RELATION.instanciasA[i].relacoes.length > 0){
 				var index = mobi.RELATION.instanciasA[i].relacoes[0];
 				if(mobi.RELATION.instanciasA[i].name == mobi.RELATION.instanciasB[index].name){
 					return false;

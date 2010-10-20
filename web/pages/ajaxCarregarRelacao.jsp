@@ -1,14 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 var w = instanceGraph.container.offsetWidth;
 
 //Iniciando os valores do gráfico de instancia
 xLeft = 60; 
 xRight = 280;
-yLeft = 20;
-yRight = 20;
+yLeft = 10;
+yRight = 10;
 height = 30;
 widht = 80;
 qtdInstanciasConjuntoA = 1;
@@ -91,7 +92,7 @@ function carregar(){
         	instanciasConjuntoA[qtdInstanciasConjuntoA-1]= new mobi.Instance('${instancia.key}' , vertexA.getStyle());
 
             qtdInstanciasConjuntoA++;
-			yLeft += 60;
+			yLeft += 50;
 			
 		</c:forEach>
 
@@ -101,7 +102,7 @@ function carregar(){
 			var vertexB = criarCellVertex(instanceGraph, idInstancia, '${instancia.key}', xRight, yRight, widhtInstance, heightInstance,mobi.colorRandom('${instancia.key}'));
 			var nomeInstancia =	instanciasConjuntoB[qtdInstanciasConjuntoB-1]= new mobi.Instance('${instancia.key}', vertexB.getStyle());
             qtdInstanciasConjuntoB++;
-			yRight += 60;
+			yRight += 50;
 			
 		</c:forEach>
 		
@@ -152,7 +153,7 @@ function carregar(){
 
 }
 
---></script>
+</script>
 <div id="graphContainer">
 
 <script type="text/javascript">

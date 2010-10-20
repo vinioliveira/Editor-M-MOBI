@@ -90,6 +90,8 @@ function resetarRelacoes(){
 	
 	disabledAll();
 	
+	mobi.classes = [];
+	
 	carregarStore();
 	Ext.getCmp(mobi.CLASSEA).getStore().loadData(mobi.classes, false);
 	Ext.getCmp(mobi.CLASSEB).getStore().loadData(mobi.classes, false);
@@ -410,4 +412,22 @@ function removerFieldTextDaComposicao(componete){
 	Ext.getCmp('fieldSetRadioGroup').remove('form');
 	Ext.getCmp('fieldSetRadioGroup').doLayout();
 	
+}
+
+function validarInstanciaExistente(value){
+	
+	for (i =0; i < instanciasConjuntoA.length ; i++){
+		
+		if(value == instanciasConjuntoA[i].name){
+	        return true;
+		}
+	}
+		
+	for (var i =0; i < instanciasConjuntoB.length; i++ ){
+		if(value == instanciasConjuntoB[i].name){
+			return true;
+		}
+	}
+	
+	return false;
 }

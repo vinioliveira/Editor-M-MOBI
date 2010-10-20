@@ -1,7 +1,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Editor M-MOBI</title>
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Editor M-MOBI b_1.0.2</title>
 
     <!-- ** CSS ** -->
     <!-- base library -->
@@ -31,7 +32,7 @@
     
 </head>
 <body onload="main()">
-    <div id="header"><h1>Editor M-MOBI</h1></div>
+    <div id="header"><h1>Editor M-MOBI b_1.0.2</h1></div>
 
     <div style="display:none;">
 

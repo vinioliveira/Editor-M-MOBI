@@ -172,6 +172,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		request.getSession().invalidate();
 		request.getSession().setAttribute(EditorMMobiConstantes.MOBI, new Mobi("Dominio"));
 		request.setAttribute("relacionamentos", null);
+		request.setAttribute("classes", null );
 		
 		return mapping.findForward("success");
 	}
@@ -203,6 +204,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		String uriNovo = request.getParameter("nomeNovo");
 		
 		Instance instnacia = mobi.getInstance(uriNovo) == null ? new Instance(uriNovo) : mobi.getInstance(uriNovo);
+		
+		mobi.addConcept(instnacia);
 		
 		InstanceRelation iRelation =  null;
 				
@@ -603,17 +606,17 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		if( tipoRelacao == Relation.BIDIRECIONAL_COMPOSITION){
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.BIDIRECIONAL_COMPOSITION);
-			relation = mobi.convertToBidirecionalCompositionRelationship(relation,nomeA ,nomeB );
+			relation = mobi.convertToBidirecionalCompositionRelationship(relation, classeAUri+"_"+nomeA ,classeBUri+"_"+nomeB );
 		}
 		
 		if( tipoRelacao == Relation.UNIDIRECIONAL_COMPOSITION ){
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.UNIDIRECIONAL_COMPOSITION);
-			relation = mobi.convertToUnidirecionalCompositionRelationship(relation, nomeA);
+			relation = mobi.convertToUnidirecionalCompositionRelationship(relation, classeAUri+"_"+nomeA);
 		}
 		
 		if( tipoRelacao == Relation.SYMMETRIC_COMPOSITION){
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.SYMMETRIC_COMPOSITION);
-			relation = mobi.convertToSymmetricRelation(relation, nomeA);
+			relation = mobi.convertToSymmetricRelation(relation, classeAUri+"_"+classeBUri+"_"+nomeA);
 		}
 		
 		
@@ -631,8 +634,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			}
 		}
 
-		
-		mobi.destroyConcept(relation);
+		relation.processCardinality();
 		mobi.addConcept(relation);
 		
 		List relacionamentos = new ArrayList(mobi.getAllRelations().values());
@@ -654,6 +656,10 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		
+		String email = request.getParameter("email");
+		String dominio = request.getParameter("dominio");
+		
+		
 		//limpar instancias exemplos 
 		List<Instance> listInstances = new ArrayList<Instance>(mobi.getAllInstances().values());
 		for(Instance instance : listInstances){
@@ -664,8 +670,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.edu/", mobi);
 
-		String path = "/home/progoz/mobi/";
-		String file = "Dominio.owl";
+		String path = "/tmp/";
+		String file = email+"-"+dominio+".owl";
 		
 		mobi2OWL.setExportPath(path);
 		mobi2OWL.exportMobiToOWL(file);
@@ -696,9 +702,10 @@ public class EditorMMobiAction extends MappingDispatchAction {
 
 		Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
 		String email = request.getParameter("email");
+		String dominio = request.getParameter("dominio");
 		
 		try{
-			FileOutputStream out = new FileOutputStream(email);
+			FileOutputStream out = new FileOutputStream(email+"_"+dominio);
 		    ObjectOutputStream objectOut = new ObjectOutputStream(out);
 	        objectOut.writeObject(mobi); 
 	        objectOut.close();
@@ -715,9 +722,10 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		Mobi mobi = null; 
 		String email = request.getParameter("email");
+		String dominio = request.getParameter("dominio");
 		
 		try{
-			FileInputStream in = new FileInputStream(email);
+			FileInputStream in = new FileInputStream(email+"_"+dominio);
 			ObjectInputStream objectIn = new ObjectInputStream(in);
 			mobi =(Mobi) objectIn.readObject();
 			objectIn.close();
