@@ -105,6 +105,15 @@
 				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
+		<action path="/recuperarMobi" type="com.mobi.comum.action.EditorMMobiAction"
+				name="relacaoForm" scope="session" parameter="recuperarEstado">
+				<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
+		</action>
+		
+		<action path="/uploadOWL" type="com.mobi.comum.action.EditorMMobiAction"
+				name="relacaoForm" scope="session" parameter="uploadOWL">
+				<forward name="success" path="/modelagem.do"/>
+		</action>
 		
     </action-mappings>
 

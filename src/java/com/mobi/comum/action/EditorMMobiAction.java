@@ -1,5 +1,6 @@
 package com.mobi.comum.action;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -26,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.MappingDispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import com.mobi.comum.util.EditorMMobiConstantes;
 import com.mobi.relacao.form.RelacaoForm;
@@ -606,17 +608,17 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		if( tipoRelacao == Relation.BIDIRECIONAL_COMPOSITION){
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.BIDIRECIONAL_COMPOSITION);
-			relation = mobi.convertToBidirecionalCompositionRelationship(relation, classeAUri+"_"+nomeA ,classeBUri+"_"+nomeB );
+			relation = mobi.convertToBidirecionalCompositionRelationship(relation, nomeA , nomeB );
 		}
 		
 		if( tipoRelacao == Relation.UNIDIRECIONAL_COMPOSITION ){
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.UNIDIRECIONAL_COMPOSITION);
-			relation = mobi.convertToUnidirecionalCompositionRelationship(relation, classeAUri+"_"+nomeA);
+			relation = mobi.convertToUnidirecionalCompositionRelationship(relation, nomeA);
 		}
 		
 		if( tipoRelacao == Relation.SYMMETRIC_COMPOSITION){
 			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.SYMMETRIC_COMPOSITION);
-			relation = mobi.convertToSymmetricRelation(relation, classeAUri+"_"+classeBUri+"_"+nomeA);
+			relation = mobi.convertToSymmetricRelation(relation, nomeA);
 		}
 		
 		
@@ -748,6 +750,35 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		return mapping.findForward("success");
 	}
 	
+	public ActionForward uploadOWL(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		RelacaoForm fileImportForm = (RelacaoForm)form;
+		// Process the FormFile
+        FormFile myFile = fileImportForm.getFile();
+        String contentType = myFile.getContentType();
+        //Get the file name
+        String fileName    = myFile.getFileName();
+        //int fileSize       = myFile.getFileSize();
+        byte[] fileData    = myFile.getFileData();
+        //Get the servers upload directory real path name
+        String filePath = getServlet().getServletContext().getRealPath("/") +"upload";
+        /* Save file on the server */
+        if(!fileName.equals("")){  
+        	System.out.println("Server path:" +filePath);
+        	//Create file
+        	File fileToCreate = new File(filePath, fileName);
+        	//If file does not exists create file                      
+        	if(!fileToCreate.exists()){
+        		FileOutputStream fileOutStream = new FileOutputStream(fileToCreate);
+        		fileOutStream.write(myFile.getFileData());
+        		fileOutStream.flush();
+        		fileOutStream.close();
+        	}  
+        }
+		return mapping.findForward("success");
+	}
 	
 }
 	

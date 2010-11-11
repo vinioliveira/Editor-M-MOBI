@@ -16,6 +16,13 @@ var start = {
     				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e Dominio para efetuar o download do OWL.');
     			}
     			}
+    		},{
+    		text:'Importar OWL',
+			xtype: 'button',
+			icon : 'images/box_downloa.png',
+			handler: function(){
+    				uploadOWLPopUp();
+    			}
     		},
     		{
         		xtype : 'textfield',
@@ -525,4 +532,73 @@ function carregarRelacao(classeA,classeB,tipoRelacao){
       scripts : true,
       loadScripts: true
     });
+}
+
+
+function uploadOWLPopUp(){
+	
+	var fileUploadFormPanel = new Ext.FormPanel({
+    	fileUpload : true,
+        frame : true,
+        layout : 'fit',
+        bodyStyle : 'padding:25px',
+        title : 'File Upload Form',
+        autoHeight : true,
+        labelWidth : 50,
+        defaults : {
+            anchor : '85%',
+            allowBlank : false,
+            msgTarget : 'side'
+        },
+        items : [ {
+            xtype : 'fileuploadfield',
+            id : 'form-file',
+            emptyText : 'Select an file',
+            fieldLabel : 'file',
+            name : 'file',
+            buttonCfg : {
+                text : '',
+                iconCls : 'upload-icon'
+            }
+        } ],
+        buttons : [ {
+	        text : 'Upload',
+	        handler : function() {
+	            if (fileUploadFormPanel.getForm().isValid()) {
+	            	fileUploadFormPanel.getForm().submit({
+	                    url : 'uploadOWL.do',
+	                    waitMsg : 'Uploading your file...',
+	                    success : function(fileUploadFormPanel , action) {
+		            		Ext.Msg.show({
+		            			title : 'Success',
+		            			msg : 'Processed file on the server',
+		            			minWidth : 200,
+		            			modal : true,
+		            			icon : Ext.Msg.INFO,
+		            			buttons : Ext.Msg.OK
+		            		});
+	                    }
+	                });
+	            }
+	        }
+
+        }, {
+            text : 'Reset',
+            handler : function() {
+                fileUploadFormPanel.getForm().reset();
+        	}
+        } ]
+    });
+	
+	
+	var win = new Ext.Window({
+        title: 'Definição Propriedades',
+        closable:true,
+        modal:true,
+        width:350,
+        height:170,
+        closeAction:'close',
+        items:fileUploadFormPanel
+        
+	}).show();
 }
