@@ -34,16 +34,15 @@
 <body onload="main()">
     <div id="header"><h1>Editor M-MOBI b_1.0.2</h1></div>
 
-    <div style="display:none;">
+    <div id="home" style="display:none;">
 
         <!-- Start page content -->
         <div id="start-div">
             <div>
-            
             	<div id="graphContainerDiagrama"></div>
             </div>
         </div>
-        
+
         <div id="relaco-div">
         	<div>
             	<div id="graphContainer"></div>
@@ -55,7 +54,7 @@
             	<div id="classes"></div>
             </div>
         </div>
-		
-     </div>    
+
+     </div>
 </body>
 </html>

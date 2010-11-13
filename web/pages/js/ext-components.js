@@ -538,7 +538,7 @@ function carregarRelacao(classeA,classeB,tipoRelacao){
 function uploadOWLPopUp(){
 	
 	var fileUploadFormPanel = new Ext.FormPanel({
-    	fileUpload : true,
+		fileUpload : true,
         frame : true,
         layout : 'fit',
         bodyStyle : 'padding:25px',
@@ -561,22 +561,26 @@ function uploadOWLPopUp(){
                 iconCls : 'upload-icon'
             }
         } ],
-        buttons : [ {
+        buttons : [{
 	        text : 'Upload',
 	        handler : function() {
 	            if (fileUploadFormPanel.getForm().isValid()) {
 	            	fileUploadFormPanel.getForm().submit({
 	                    url : 'uploadOWL.do',
-	                    waitMsg : 'Uploading your file...',
-	                    success : function(fileUploadFormPanel , action) {
-		            		Ext.Msg.show({
-		            			title : 'Success',
-		            			msg : 'Processed file on the server',
-		            			minWidth : 200,
-		            			modal : true,
-		            			icon : Ext.Msg.INFO,
-		            			buttons : Ext.Msg.OK
-		            		});
+	                    waitMsg : 'Carregando OWL ...',
+	                    success : function(fileUploadFormPanel, o) {
+		            		Ext.Msg.show( {
+	                    		title : 'Sucesso',
+	                    		msg : 'OWL Carregado com Sucesso!',
+	                    		minWidth : 200,
+	                    		modal : true,
+	                    		icon : Ext.Msg.INFO,
+	                    		buttons : Ext.Msg.OK,
+	                    		fn:function(btn){
+		            				win.close();
+		            				ajaxDivUpdate('graphContainerDiagrama', '/EditorM-MOBI/diagramaInit.do', null, resetarRelacoes);
+		            			}
+	                    	});
 	                    }
 	                });
 	            }
@@ -599,6 +603,5 @@ function uploadOWLPopUp(){
         height:170,
         closeAction:'close',
         items:fileUploadFormPanel
-        
 	}).show();
 }

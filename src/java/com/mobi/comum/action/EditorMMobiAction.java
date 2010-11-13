@@ -757,26 +757,31 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		RelacaoForm fileImportForm = (RelacaoForm)form;
 		// Process the FormFile
         FormFile myFile = fileImportForm.getFile();
-        String contentType = myFile.getContentType();
         //Get the file name
         String fileName    = myFile.getFileName();
-        //int fileSize       = myFile.getFileSize();
-        byte[] fileData    = myFile.getFileData();
+        
         //Get the servers upload directory real path name
         String filePath = getServlet().getServletContext().getRealPath("/") +"upload";
         /* Save file on the server */
+        
         if(!fileName.equals("")){  
-        	System.out.println("Server path:" +filePath);
+        	
         	//Create file
         	File fileToCreate = new File(filePath, fileName);
         	//If file does not exists create file                      
-        	if(!fileToCreate.exists()){
-        		FileOutputStream fileOutStream = new FileOutputStream(fileToCreate);
-        		fileOutStream.write(myFile.getFileData());
-        		fileOutStream.flush();
-        		fileOutStream.close();
-        	}  
+        
+        	FileOutputStream fileOutStream = new FileOutputStream(fileToCreate);
+    		fileOutStream.write(myFile.getFileData());
+    		fileOutStream.flush();
+    		fileOutStream.close();
         }
+        
+        Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+        Mobi2OWL mobi2Owl =  new Mobi2OWL(mobi.getContext().getUri() , mobi);
+        mobi = mobi2Owl.importForMobiOfOWL(filePath + "/" + fileName);
+        
+        request.setAttribute(EditorMMobiConstantes.MOBI, mobi);
+        
 		return mapping.findForward("success");
 	}
 	
