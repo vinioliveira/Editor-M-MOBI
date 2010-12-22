@@ -2,7 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="pragma" content="no-cache" />
-    <title>Editor M-MOBI b_1.0.2</title>
+    <title>Editor M-MOBI b_1.0.3</title>
 
     <!-- ** CSS ** -->
     <!-- base library -->

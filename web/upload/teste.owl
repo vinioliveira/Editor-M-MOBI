@@ -1,0 +1,145 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:mobidomain="http://www.mobi.edu/Dominio#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" > 
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Candidato">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Vereador">
+    <rdfs:subClassOf rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A0">
+    <owl:unionOf rdf:nodeID="A1"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Maria">
+    <mobidomain:Vice-Prefeito_pertenceA_Prefeito rdf:resource="http://www.mobi.edu/Dominio#Joao"/>
+    <mobidomain:Candidato_temUm_Partido rdf:resource="http://www.mobi.edu/Dominio#PT"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Vice-Prefeito"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#PV">
+    <mobidomain:Partido_pertenceA_Candidato rdf:resource="http://www.mobi.edu/Dominio#Oliveira"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Partido"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#PT">
+    <mobidomain:Partido_pertenceA_Candidato rdf:resource="http://www.mobi.edu/Dominio#Joao"/>
+    <mobidomain:Partido_pertenceA_Candidato rdf:resource="http://www.mobi.edu/Dominio#Maria"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Partido"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A2">
+    <owl:unionOf rdf:nodeID="A3"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A4">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Vice-Prefeito"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Vice-Prefeito_pertenceA_Prefeito">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <owl:inverseOf rdf:resource="http://www.mobi.edu/Dominio#Prefeito_temUm_Vice-Prefeito"/>
+    <rdfs:range rdf:nodeID="A5"/>
+    <rdfs:domain rdf:nodeID="A6"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A7">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Prefeito"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A8">
+    <owl:unionOf rdf:nodeID="A9"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A10">
+    <owl:unionOf rdf:nodeID="A11"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A1">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A12">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Partido"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Partido">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Prefeito_temUm_Vice-Prefeito">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <owl:inverseOf rdf:resource="http://www.mobi.edu/Dominio#Vice-Prefeito_pertenceA_Prefeito"/>
+    <rdfs:range rdf:nodeID="A13"/>
+    <rdfs:domain rdf:nodeID="A2"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Prefeito">
+    <rdfs:subClassOf rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Vice-Prefeito">
+    <rdfs:subClassOf rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A5">
+    <owl:unionOf rdf:nodeID="A7"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A3">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Prefeito"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Joao">
+    <mobidomain:Prefeito_temUm_Vice-Prefeito rdf:resource="http://www.mobi.edu/Dominio#Maria"/>
+    <mobidomain:Candidato_temUm_Partido rdf:resource="http://www.mobi.edu/Dominio#PT"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Prefeito"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A14">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Vice-Prefeito"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Candidato_temUm_Partido">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <owl:inverseOf rdf:resource="http://www.mobi.edu/Dominio#Partido_pertenceA_Candidato"/>
+    <rdfs:range rdf:nodeID="A10"/>
+    <rdfs:domain rdf:nodeID="A8"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Oliveira">
+    <mobidomain:Candidato_temUm_Partido rdf:resource="http://www.mobi.edu/Dominio#PV"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+    <rdf:type rdf:resource="http://www.mobi.edu/Dominio#Vereador"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A13">
+    <owl:unionOf rdf:nodeID="A14"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A6">
+    <owl:unionOf rdf:nodeID="A4"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A11">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Partido"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A9">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="http://www.mobi.edu/Dominio#Candidato"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.mobi.edu/Dominio#Partido_pertenceA_Candidato">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <owl:inverseOf rdf:resource="http://www.mobi.edu/Dominio#Candidato_temUm_Partido"/>
+    <rdfs:range rdf:nodeID="A0"/>
+    <rdfs:domain rdf:nodeID="A15"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A15">
+    <owl:unionOf rdf:nodeID="A12"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+</rdf:RDF>

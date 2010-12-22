@@ -671,7 +671,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 		Mobi2OWL mobi2OWL = new Mobi2OWL("http://www.mobi.edu/", mobi);
 
-		String path = "/tmp/";
+		String path = getServlet().getServletContext().getRealPath("/")+"owl/";
 		String file = email+"-"+dominio+".owl";
 		
 		mobi2OWL.setExportPath(path);
@@ -754,25 +754,20 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			throws Exception {
 		
 		RelacaoForm fileImportForm = (RelacaoForm)form;
-		// Process the FormFile
         FormFile myFile = fileImportForm.getFile();
-        //Get the file name
         String fileName    = myFile.getFileName();
         
-        //Get the servers upload directory real path name
-        String filePath = getServlet().getServletContext().getRealPath("/") +"upload";
-        /* Save file on the server */
+        String filePath = getServlet().getServletContext().getRealPath("/")+ "upload";
         
         if(!fileName.equals("")){  
         	
-        	//Create file
-        	File fileToCreate = new File(filePath, fileName);
-        	//If file does not exists create file                      
+        	File fileToCreate = new File(filePath , fileName);
         
-        	FileOutputStream fileOutStream = new FileOutputStream(fileToCreate);
+    		FileOutputStream fileOutStream = new FileOutputStream(fileToCreate);
     		fileOutStream.write(myFile.getFileData());
     		fileOutStream.flush();
     		fileOutStream.close();
+        	
         }
         
         Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
