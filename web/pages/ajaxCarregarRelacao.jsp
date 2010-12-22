@@ -129,17 +129,22 @@ function carregar(){
 		}
 		
 		<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }">
-			Ext.getCmp('ida').setValue('${relacao.nameA}');
-			Ext.getCmp('volta').setValue('${relacao.nameB}');
-			mobi.RELATION.nomeA = '${relacao.nameA}';
-			mobi.RELATION.nomeB = '${relacao.nameB}';
+			var propriedadeA = '${relacao.nameA}'.split('_')[1];
+ 			var propriedadeB = '${relacao.nameB}'.split('_')[1];
+		
+			Ext.getCmp('ida').setValue(propriedadeA);
+			Ext.getCmp('volta').setValue(propriedadeB);
+			mobi.RELATION.nomeA = propriedadeA
+			mobi.RELATION.nomeB = propriedadeB;
 		</c:if>
 		
 		<c:if test="${relacao.type == 3}">
-			Ext.getCmp('ida').setValue('${relacao.name}');
-			Ext.getCmp('volta').setValue('${relacao.name}'); 
-			mobi.RELATION.nomeA = '${relacao.name}';
-			mobi.RELATION.nomeB = '${relacao.name}';
+			var propriedade = '${relacao.name}'.split('_')[1];
+	
+			Ext.getCmp('ida').setValue(propriedade);
+			Ext.getCmp('volta').setValue(propriedade); 
+			mobi.RELATION.nomeA = propriedade;
+			mobi.RELATION.nomeB = propriedade;
 		</c:if>
 	}
 

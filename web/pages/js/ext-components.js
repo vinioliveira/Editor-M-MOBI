@@ -522,9 +522,9 @@ function buscarInstancias(classe,conjunto,tipoRelacao){
 	
 }
 
-function carregarRelacao(classeA,classeB,tipoRelacao){
+function carregarRelacao(nomeRelation,tipoRelacao){
     
-	var params = 'classeA=' + classeA + '&classeB=' + classeB + '&tipoRelacao=' + tipoRelacao;
+	var params = 'nomeRelation=' + nomeRelation + '&tipoRelacao='+tipoRelacao;
     var panel = Ext.get('relaco-div');
     panel.getUpdater().update( {
       url : '/EditorM-MOBI/ajaxCarregarRelacao.do',

@@ -83,18 +83,22 @@
 			if (umlGraph.model.isEdge(cell)){
 
 				var tipo_relacao = cell.id.substring(cell.id.length-1);
+				var nomeRelacao = cell.id.substring(0, cell.id.length-2);
 
 				if (tipo_relacao == mobi.INHERITANCE){
-					carregarRelacao(cell.target.value,cell.source.value,mobi.INHERITANCE);
+					carregarRelacao(nomeRelacao, tipo_relacao);
+					//	carregarRelacao(cell.target.value+"_isSuper_"+cell.source.value);
 				}
 				
 				if(tipo_relacao == mobi.EQUIVALENCE){
-					carregarRelacao(cell.target.value,cell.source.value, mobi.EQUIVALENCE);
+					carregarRelacao(nomeRelacao, tipo_relacao);
+					//carregarRelacao(cell.target.value);
 				}
 
 				if(tipo_relacao == mobi.UNIDIRECIONAL_COMPOSITION || tipo_relacao == mobi.BIDIRECIONAL_COMPOSITION
 						|| tipo_relacao == mobi.SYMMETRIC_COMPOSITION){
-					carregarRelacao(cell.target.value,cell.source.value, tipo_relacao);
+					carregarRelacao(nomeRelacao, tipo_relacao);
+					//	carregarRelacao(cell.target.value);
 				}
 			}
 			
@@ -148,30 +152,30 @@
 							return createPopupMenu(umlGraph, menu, cell, evt, classeA);
 						};
 				 	}
-				 	
+				 	// Criação dos nós Heranças
 				 	<c:if test="${relacao.type == 4}">
 				 		var classeB = criarCellVertex(umlGraph, '${relacao.classB.uri}', '${relacao.classB.uri}', 0, 0, widht, height);
 				 		if(classeB.getEdgeCount()>0){
 					 		var edge = classeB.getEdgeAt(0);
 					 		classeB.removeEdge(edge);
 				 		}
-				 		umlGraph.insertEdge(parent2, '${relacao.classB.uri}'+'_'+'${relacao.type}', '', classeB,classeA);
+				 		umlGraph.insertEdge(parent2, '${relacao.classA.uri}_isSuper_${relacao.classB.uri}_${relacao.type}', '', classeB,classeA);
 				 		umlGraph.panningHandler.factoryMethod = function(menu, cell, evt){
 							return createPopupMenu(umlGraph, menu, cell, evt, classeB);
 						};
 				 		
 					</c:if>
-		
+					// Criação dos nós Equivalencias 
 				 	<c:if test="${relacao.type == 6}">
 				 	
 				 		var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
 				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, widht, height);
-				 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
-		
+				 		umlGraph.insertEdge(parent2,'${relacao.classA.uri}_{relacao.classB.uri}${relacao.classB.uri}_{relacao.classA.uri}_${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+				 		
 					</c:if>
-					
-				 	<c:if test="${relacao.type == 1 || relacao.type == 5 || relacao.type == 2 }"> 
+					// Criação dos nós Composições Bidirecionais 					
+				 	<c:if test="${relacao.type == 1  || relacao.type == 2 }"> 
 
 				 		var cardinalityA =	mobi.PorcessCardinality('${relacao.cardinalityA}');
 				 		var cardinalityB =	mobi.PorcessCardinality('${relacao.cardinalityB}');
@@ -184,19 +188,34 @@
 						var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
 				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, widht, height);
-				 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
+				 		umlGraph.insertEdge(parent2,'${relacao.classA.uri}_'+propriedadeA+'_${relacao.classB.uri}${relacao.classB.uri}_'+propriedadeB+'_${relacao.classA.uri}_${relacao.type}', 
 				 				stringA + stringB , classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 				 	</c:if>
-	
-				 	<c:if test="${relacao.type == 3}"> 
+
+				 	// Criação dos nós Composições Unidirecionais
+				 	<c:if test="${relacao.type == 5}"> 
 
 				 		var cardinalityA =	mobi.PorcessCardinality('${relacao.cardinalityA}');
 			 			var cardinalityB =	mobi.PorcessCardinality('${relacao.cardinalityB}');
-			 			var propriedade = '${relacao.name}'.split('_')[2];
+			 			var propriedade = '${relacao.nameA}'.split('_')[1];
 						var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
 				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
-				 		umlGraph.insertEdge(parent2,'${relacao.classB.uri}'+'_'+'${relacao.type}', 
+				 		umlGraph.insertEdge(parent2,'${relacao.classA.uri}_'+propriedade+'_${relacao.classB.uri}_${relacao.type}', 
+				 				'('+cardinalityA +')'+propriedade,
+				 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+		 			</c:if>
+				 	
+				 	// Criação dos nós Composições Simetricas  
+				 	<c:if test="${relacao.type == 3 }"> 
+
+				 		var cardinalityA =	mobi.PorcessCardinality('${relacao.cardinalityA}');
+			 			var cardinalityB =	mobi.PorcessCardinality('${relacao.cardinalityB}');
+			 			var propriedade = '${relacao.name}'.split('_')[1];
+						var x1 = classeA.geometry.x + 100;
+				 		var y1 = classeA.geometry.y;
+				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, 80, 30);
+				 		umlGraph.insertEdge(parent2,'${relacao.classA.uri}_'+propriedade+'_${relacao.classB.uri}_${relacao.type}', 
 				 				'('+cardinalityA +')'+propriedade +'\n ('+cardinalityB+')'+ propriedade,
 				 				 classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 			 		</c:if>

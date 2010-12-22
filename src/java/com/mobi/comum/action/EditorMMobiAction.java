@@ -348,8 +348,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
- 		String classeA = request.getParameter("classeA");
-		String classeB = request.getParameter("classeB");
+ 		String nomeRelation = request.getParameter("nomeRelation");
 		int tipoRelacao = Integer.valueOf(request.getParameter("tipoRelacao"));
 		
 		Mobi mobi =  (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
@@ -358,19 +357,19 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		Relation relation = null;
 			
 		if(tipoRelacao == Relation.INHERITANCE){
-			relation = mobi.getInheritanceRelation(classeA + classeB + tipoRelacao);
+			relation = mobi.getInheritanceRelation(nomeRelation);
 		}
 		
 		if(tipoRelacao == Relation.EQUIVALENCE){
-			relation = mobi.getEquivalenceRelation(classeA + classeB + tipoRelacao);
+			relation = mobi.getEquivalenceRelation(nomeRelation);
 		}
 		
 		if(tipoRelacao == Relation.UNIDIRECIONAL_COMPOSITION || tipoRelacao == Relation.BIDIRECIONAL_COMPOSITION){
-			relation = mobi.getCompositionRelation(classeA + classeB + tipoRelacao);
+			relation = mobi.getCompositionRelation(nomeRelation);
 		}
 
 		if( tipoRelacao == Relation.SYMMETRIC_COMPOSITION ){
-			relation = mobi.getSymmetricRelation(classeA + classeB + tipoRelacao);
+			relation = mobi.getSymmetricRelation(nomeRelation);
 		}
 		
 		//mobi.getAllGenericRelations().put(EditorMMobiConstantes.TEMPORARIO, relation);
@@ -393,7 +392,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		
 	}
 	
-	private Relation criarInstanciasRelacacao(Relation relation, Mobi mobi){
+	private Relation criarInstanciasRelacacao(Relation relation, Mobi mobi) throws Exception{
 		
 		if(relation.getInstanceRelationMapB().isEmpty()){
 			
@@ -778,9 +777,16 @@ public class EditorMMobiAction extends MappingDispatchAction {
         
         Mobi mobi = (Mobi)request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
         Mobi2OWL mobi2Owl =  new Mobi2OWL(mobi.getContext().getUri() , mobi);
-        mobi = mobi2Owl.importForMobiOfOWL(filePath + "/" + fileName);
+        mobi2Owl.importForMobiOfOWL(filePath + "/" + fileName);
+        mobi = mobi2Owl.getMobi();
         
-        request.setAttribute(EditorMMobiConstantes.MOBI, mobi);
+        request.getSession().setAttribute(EditorMMobiConstantes.MOBI, mobi);
+        
+        List relacionamentos = new ArrayList(mobi.getAllRelations().values());
+		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
+		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
+		request.setAttribute("classes", classes );
         
 		return mapping.findForward("success");
 	}
