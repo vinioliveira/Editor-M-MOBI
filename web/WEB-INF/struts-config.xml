@@ -30,9 +30,7 @@
 		</action>
 		
 		
-		<action path="/gerarArquivoOWL" type="com.mobi.comum.action.EditorMMobiAction" 
-				name="relacaoForm" parameter="gerarArquivoOWL" scope="session">
-		</action>
+		<action path="/gerarArquivoOWL" type="com.mobi.comum.action.download.MobiDownloadAction" />
 		
 		<action path="/modelagem" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="visualizarRelacoes">
