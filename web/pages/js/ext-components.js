@@ -11,7 +11,7 @@ var start = {
     			var dominio = Ext.getCmp('dominio').getValue();
     			var email = Ext.getCmp('email').getValue();
     			if(dominio != '' && email != ''){
-    				location.herf= 'ArquivoOWL.owl?dominio='+dominio+'&email='+email;
+    				window.location.href='/EditorM-MOBI/arquivoOWL.owl?dominio='+dominio+'&email='+email;
     			}else {
     				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e Dominio para efetuar o download do OWL.');
     			}
@@ -23,8 +23,7 @@ var start = {
 			handler: function(){
     				uploadOWLPopUp();
     			}
-    		},
-    		{
+    		},{
         		xtype : 'textfield',
         		id : 'dominio',
         		emptyText  : 'Dominio Modelado',

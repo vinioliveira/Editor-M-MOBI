@@ -42,15 +42,21 @@ public class MobiDownloadAction extends DownloadAction{
 		String path = getServlet().getServletContext().getRealPath("/")+"owl/";
 		String fileName = email+"-"+dominio+".owl";
 		
+		response.setHeader("Content-disposition", 
+                 "attachment; filename=" + fileName);
+
+		
 		mobi2OWL.setExportPath(path);
 		mobi2OWL.exportMobiToOWL(fileName);
+
+		String contentType = "text/xml";
+		File file = new File(path+fileName);
 		
-        File file = new File(path+fileName);
-		
-		return new FileStreamInfo("text/xml", file);
+		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+
+		return new FileStreamInfo(contentType, file);
         
 	}
 	
-
 }
 		
