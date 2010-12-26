@@ -497,6 +497,20 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
+		Mobi mobi = (Mobi) request.getSession().getAttribute(EditorMMobiConstantes.MOBI);
+		String nameRelation = request.getParameter("nameRelation");
+		
+		Relation relation = mobi.getAllRelations().get(nameRelation);
+		
+		mobi.destroyConcept(relation);
+		
+		List relacionamentos = new ArrayList(mobi.getAllRelations().values());
+		request.getSession().setAttribute("relacionamentos", relacionamentos);
+		
+		ArrayList classes = new ArrayList(mobi.getAllClasses().values());
+		request.setAttribute("classes", classes );
+
+		
 		return mapping.findForward("success");
 	}
 		
@@ -580,6 +594,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		String classeBUri = request.getParameter("classeB");
 		String nomeA = request.getParameter("ida");
 		String nomeB = request.getParameter("volta");
+		String nameRelation = request.getParameter("nameRelation");
 		
 		
 		Relation relation = mobi.getAllGenericRelations().get(EditorMMobiConstantes.TEMPORARIO) == null ? 
@@ -601,8 +616,8 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		}
 		
 		if( tipoRelacao ==  Relation.EQUIVALENCE ){
-			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.EQUIVALENCE);
-			relation = mobi.convertToEquivalenceRelation(relation, relation.getUri());
+			relation.setUri("equels");
+			relation = mobi.convertToEquivalenceRelation(relation, "");
 		}
 		
 		if( tipoRelacao == Relation.BIDIRECIONAL_COMPOSITION){
@@ -635,6 +650,12 @@ public class EditorMMobiAction extends MappingDispatchAction {
 			}
 		}
 
+		if(nameRelation != null){
+			
+			Relation oldRelation = mobi.getAllRelations().get(nameRelation);
+			mobi.destroyConcept(oldRelation);
+		}
+		
 		relation.processCardinality();
 		mobi.addConcept(relation);
 		

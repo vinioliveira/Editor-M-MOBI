@@ -171,7 +171,7 @@
 				 		var x1 = classeA.geometry.x + 100;
 				 		var y1 = classeA.geometry.y;
 				 		var classeB = umlGraph.insertVertex(parent2, '${relacao.classB.uri}', '${relacao.classB.uri}', x1, y1, widht, height);
-				 		umlGraph.insertEdge(parent2,'${relacao.classA.uri}_{relacao.classB.uri}${relacao.classB.uri}_{relacao.classA.uri}_${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
+				 		umlGraph.insertEdge(parent2,'${relacao.classA.uri}_equels_${relacao.classB.uri}_${relacao.type}', 'Equivalencia', classeB, classeA,mxConstants.EDGESTYLE_TOPTOBOTTOM);
 				 		
 					</c:if>
 					// Criação dos nós Composições Bidirecionais 					

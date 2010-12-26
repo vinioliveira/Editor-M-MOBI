@@ -197,25 +197,20 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 					graph.startEditingAtCell(cell);
 					
 			});
-
-			
-				menu.addItem('Excluir Classe', 'images/cross_48.png', function()
-				{
-					var cells = [];			
-					cells.push(cell);
-						
-					graph.traverse(cell, true, function(vertex)
-							{
-								cells.push(vertex);					
-								return true;
-							},null,new Array(), true);
 	
-					graph.removeCells(cells);		
-										
-				});
 			}
+		}else if (model.isEdge(cell)){
+			
+			menu.addItem('Excluir Classe', 'images/cross_48.png', function()
+					{ 
+						nameRelation =	cell.id.substring(0, cell.id.length-2);
+						params = { nameRelation : nameRelation };
+						ajaxDivUpdate('graphContainerDiagrama','eliminarRelacao.do',params, resetarRelacoes);		
+											
+					});
 		}
-	}else{
+	}
+	else{
 		menu.addItem('Limpar','images/refresh_48.png',function(){
 			resetarRelacoes();});
 

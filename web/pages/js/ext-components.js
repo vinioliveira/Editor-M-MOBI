@@ -11,7 +11,7 @@ var start = {
     			var dominio = Ext.getCmp('dominio').getValue();
     			var email = Ext.getCmp('email').getValue();
     			if(dominio != '' && email != ''){
-    				window.open('/EditorM-MOBI/gerarArquivoOWL.do?dominio='+dominio+'&email='+email);
+    				location.herf= 'ArquivoOWL.owl?dominio='+dominio+'&email='+email;
     			}else {
     				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e Dominio para efetuar o download do OWL.');
     			}
@@ -272,6 +272,10 @@ Ext.onReady(function(){
 	    		if(relacao!= null && classeA != '' && classeB !=  ''){
 	    		
 		    		params = { tipoRelacao : relacao.getId(), classeA : classeA , classeB: classeB} ;
+		    		
+		    		if(mobi.RELATION.exist){
+		    			params['nameRelation'] = mobi.RELATION.nameRelation;
+		    		}
 		    		
 		    		if (relacao.getId() == mobi.COMPOSITION){
 		    			var ida = Ext.getCmp('ida').getValue();

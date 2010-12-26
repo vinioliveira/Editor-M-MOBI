@@ -24,13 +24,18 @@
 			<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
+		<action path="/eliminarRelacao" type="com.mobi.comum.action.EditorMMobiAction" 
+				name="relacaoForm" parameter="eliminarRelacionamentoClasse" scope="session">
+			<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
+		</action>
+		
 		<action path="/eliminarRelacaos" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" parameter="eliminarRelacionamentoClasse" scope="session">
 			<forward name="success" path="/pages/ajaxDiagrama.jsp"/>
 		</action>
 		
 		
-		<action path="/gerarArquivoOWL" type="com.mobi.comum.action.download.MobiDownloadAction" />
+		<action path="/ArquivoOWL" type="com.mobi.comum.action.download.MobiDownloadAction" />
 		
 		<action path="/modelagem" type="com.mobi.comum.action.EditorMMobiAction" 
 				name="relacaoForm" scope="session" parameter="visualizarRelacoes">

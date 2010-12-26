@@ -120,7 +120,10 @@ function carregar(){
 	</c:forEach>
 
 	if('${relacao.type}' != 0){
-
+		
+		mobi.RELATION.exist = true;
+		mobi.RELATION.nameRelation ='${relacao.uri}';
+		
 		if('${relacao.type}'== mobi.INHERITANCE || '${relacao.type}' == mobi.EQUIVALENCE){
 			Ext.getCmp('${relacao.type}').setValue(true);
 			removerFieldTextDaComposicao('fieldSetRadioGroup');

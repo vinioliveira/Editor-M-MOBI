@@ -56,6 +56,10 @@ mobi.CONJUNTO_B = 'conjb';
 
 Relation = function(){
 	
+	this.exist = false;
+	this.nameRelation;
+	
+	
 	this.instanciasA = instanciasConjuntoA;
 	this.instanciasB = instanciasConjuntoB;
 	
