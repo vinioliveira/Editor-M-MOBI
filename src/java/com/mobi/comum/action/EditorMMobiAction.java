@@ -610,7 +610,7 @@ public class EditorMMobiAction extends MappingDispatchAction {
 		relation.setClassB(classeB);
 
 		if( tipoRelacao == Relation.INHERITANCE ){
-			relation.setUri(classeA.getUri() + classeB.getUri() + Relation.INHERITANCE);
+			relation.setUri("isSuper");
 			relation = mobi.convertToInheritanceRelation(relation, relation.getUri());
 			
 		}
