@@ -201,7 +201,7 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 			}
 		}else if (model.isEdge(cell)){
 			
-			menu.addItem('Excluir Classe', 'images/cross_48.png', function()
+			menu.addItem('Excluir Relação', 'images/cross_48.png', function()
 					{ 
 						nameRelation =	cell.id.substring(0, cell.id.length-2);
 						params = { nameRelation : nameRelation };
