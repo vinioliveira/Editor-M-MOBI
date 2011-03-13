@@ -1,6 +1,6 @@
-.gitignore
 .classpath
 .settings/*
+bin
 bin/*
 build
 build/*
