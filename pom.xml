@@ -8,33 +8,82 @@
   <name>EditorM-MOBI Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
+    
+    <!--  VRAPTOR 3 BEGIN -->
+    
     <dependency>
    		<groupId>br.com.caelum</groupId>
     	<artifactId>vraptor</artifactId>
     	<version>3.3.0</version>
 	</dependency>
+
+	<dependency>
+		<groupId>org.scannotation</groupId>
+		<artifactId>scannotation</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+
 	<dependency>
 	    <groupId>com.thoughtworks.xstream</groupId>
 	    <artifactId>xstream</artifactId>
 	    <version>1.3.1</version>
 	</dependency>
+	
+	<!--  VRAPTOR 3 END -->
+	
+	<!-- Fora do MAVEN REPOSITORY BEGIN -->	
+	
+	<dependency>
+		<groupId>org.hamcrest</groupId>
+		<artifactId>hamcrest-all</artifactId>
+		<version>1.2RC3</version>
+		<optional>true</optional>
+	</dependency>
+	
 	<dependency>
 		<groupId>edu.org.mobi</groupId>
 		<artifactId>Kernel-Mobi</artifactId>
 		<version>0.0.6</version>
 	</dependency>
+	
+	<!-- Fora do MAVEN REPOSITORY END -->
+	
+	<!--  TEST SUIT BEGIN -->
+	
+	<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+	
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-all</artifactId>
+		<version>1.8.1</version>
+	</dependency>
+	
+	<!--  TEST SUIT END -->
+	
+	<!--  COMMONS AND UTILS BEGIN -->	
+	
 	<dependency>
 		<groupId>jstl</groupId>
 		<artifactId>jstl</artifactId>
 		<version>1.2</version>
 		<type>jar</type>
 	</dependency>
+
+	<dependency>
+		<groupId>apache-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.1</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
+	
+	<!--  COMMONS AND UTILS END -->
+  
   </dependencies>
   <build>
     <finalName>EditorM-MOBI</finalName>
