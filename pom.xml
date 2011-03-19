@@ -14,7 +14,7 @@
     <dependency>
    		<groupId>br.com.caelum</groupId>
     	<artifactId>vraptor</artifactId>
-    	<version>3.3.0</version>
+    	<version>3.3.2-SNAPSHOT</version>
 	</dependency>
 
 	<dependency>
@@ -84,6 +84,18 @@
 	
 	<!--  COMMONS AND UTILS END -->
   
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate</artifactId>
+		<version>3.2.0.ga</version>
+		<optional>true</optional>
+		<exclusions>
+			<exclusion>
+				<groupId>javax.transaction</groupId>
+				<artifactId>jta</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
   </dependencies>
   <build>
     <finalName>EditorM-MOBI</finalName>
