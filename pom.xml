@@ -83,24 +83,18 @@
 	</dependency>
 	
 	<!--  COMMONS AND UTILS END -->
-  
+
 	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate</artifactId>
-		<version>3.2.0.ga</version>
-		<optional>true</optional>
-		<exclusions>
-			<exclusion>
-				<groupId>javax.transaction</groupId>
-				<artifactId>jta</artifactId>
-			</exclusion>
-		</exclusions>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>2.5</version>
+		<type>jar</type>
+		<scope>compile</scope>
 	</dependency>
   </dependencies>
   <build>
     <finalName>EditorM-MOBI</finalName>
-    <sourceDirectory>EditorM-MOBI/src/main/java</sourceDirectory>
-	<testSourceDirectory>EditorM-MOBI/src/test/java</testSourceDirectory>
+    
     <plugins>
     	<plugin>
 			<groupId>org.codehaus.mojo</groupId>
@@ -119,6 +113,13 @@
 				<target>1.5</target>
 			</configuration>
 		</plugin>
+		<plugin>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<source>1.6</source>
+				<target>1.6</target>
+			</configuration>
+		</plugin>
     	<plugin>
     		<groupId>org.apache.maven.plugins</groupId>
     		<artifactId>maven-war-plugin</artifactId>
@@ -129,6 +130,5 @@
     	</plugin>
     </plugins>
   </build>
-
   
 </project>

@@ -41,7 +41,7 @@ public class InstanceControllerTest {
 		when(instancesService.getByName("anonymous")).thenReturn(new Instance("anonymous"));
 		controller.getInstance("anonymous");
 		String expectedResult = "{\"instance\": {\"valid\": true,\"uri\": \"anonymous\"}}";
-		assertEquals(expectedResult, result.restultSerialized());
+		assertEquals(expectedResult, result.serializedRestult());
 	}
 	
 	
@@ -50,7 +50,7 @@ public class InstanceControllerTest {
 		when(instancesService.createWithName("Anonymous 1")).thenReturn(instancesExamples.get(0));
 		controller.create("Anonymous 1");
 		String expectedResult = "{\"instance\": {\"valid\": true,\"uri\": \"Anonymous 1\"}}";
-		assertEquals(expectedResult, result.restultSerialized());
+		assertEquals(expectedResult, result.serializedRestult());
 		
 	}
 	
@@ -59,7 +59,7 @@ public class InstanceControllerTest {
 		when(instancesService.getAll()).thenReturn(instancesExamples);
 		controller.list();
 		String expectedResult = "{\"instances\": [{\"valid\": true,\"uri\": \"Anonymous 1\"},{\"valid\": true,\"uri\": \"Anonymous 2\"},{\"valid\": true,\"uri\": \"Anonymous 3\"}]}";
-		assertEquals(expectedResult, result.restultSerialized());
+		assertEquals(expectedResult, result.serializedRestult());
 	
 	}
 	
@@ -68,7 +68,7 @@ public class InstanceControllerTest {
 		when(instancesService.update(instancesExamples.get(0))).thenReturn(instancesExamples.get(0));
 		controller.update(instancesExamples.get(0));
 		String expectedResult = "{\"instance\": {\"valid\": true,\"uri\": \"Anonymous 1\"}}";
-		assertEquals(expectedResult, result.restultSerialized());
+		assertEquals(expectedResult, result.serializedRestult());
 		
 	}
 	
