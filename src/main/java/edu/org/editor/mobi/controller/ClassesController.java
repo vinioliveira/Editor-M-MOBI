@@ -1,6 +1,10 @@
 package edu.org.editor.mobi.controller;
 
+import mobi.core.concept.Class;
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
@@ -18,14 +22,24 @@ public class ClassesController {
 		this.classService = classService;
 	}
 
-	@Get
-	public void create() {
-		result.use(Results.json()).from(classService.create()).serialize();
+	@Post public void create(String name) {
+		result.use(Results.json()).from(classService.createWithName(name)).serialize();
 	}
 
-	@Get
-	public void list() {
+	@Get public void list() {
 		result.use(Results.json()).from(classService.getAll(),"classes").serialize();
+	}
+
+	@Get public void getClass(String name) {
+		result.use(Results.json()).from(classService.getByName(name)).serialize();
+	}
+
+	@Put public void update(Class newClass) {
+		result.use(Results.json()).from(classService.update(newClass)).serialize();
+	}
+
+	@Delete public void delete(Class class1) {
+		result.use(Results.status()).ok();
 	}
 
 }

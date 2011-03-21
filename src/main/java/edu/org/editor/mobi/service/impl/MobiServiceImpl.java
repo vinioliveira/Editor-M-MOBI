@@ -13,10 +13,12 @@ import edu.org.editor.mobi.service.MobiService;
 
 @SessionScoped
 @Component
+@SuppressWarnings("unused")
 public class MobiServiceImpl implements MobiService, Serializable{
 
 		
 	private static final long serialVersionUID = -5556995386330353203L;
+	
 	private Mobi mobi;
 	private User currentUser;
 	

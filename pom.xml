@@ -6,7 +6,7 @@
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>EditorM-MOBI Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+
   <dependencies>
     
     <!--  VRAPTOR 3 BEGIN -->
@@ -99,7 +99,26 @@
   </dependencies>
   <build>
     <finalName>EditorM-MOBI</finalName>
+    <sourceDirectory>EditorM-MOBI/src/main/java</sourceDirectory>
+	<testSourceDirectory>EditorM-MOBI/src/test/java</testSourceDirectory>
     <plugins>
+    	<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>cobertura-maven-plugin</artifactId>
+			<version>2.4</version>
+			<configuration>
+				<format>xml</format>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>2.3.1</version>
+			<configuration>
+				<source>1.5</source>
+				<target>1.5</target>
+			</configuration>
+		</plugin>
     	<plugin>
     		<groupId>org.apache.maven.plugins</groupId>
     		<artifactId>maven-war-plugin</artifactId>
