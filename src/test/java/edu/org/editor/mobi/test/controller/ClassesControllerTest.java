@@ -38,7 +38,7 @@ public class ClassesControllerTest {
 		when(classesService.getByName("anonymous")).thenReturn(new Class("anonymous"));
 		controller.getClass("anonymous");
 		String expectedResult = "{\"class\": {\"valid\": true,\"uri\": \"anonymous\"}}";
-		assertEquals(expectedResult, result.serializedRestult());
+		assertEquals(expectedResult, result.serializedResult());
 		
 	}
 	
@@ -48,7 +48,7 @@ public class ClassesControllerTest {
 		when(classesService.createWithName("Anonymous 1")).thenReturn(classesExamples.get(0));
 		controller.create("Anonymous 1");
 		String expectedResult = "{\"class\": {\"valid\": true,\"uri\": \"Anonymous 1\"}}";
-		assertEquals(expectedResult, result.serializedRestult());
+		assertEquals(expectedResult, result.serializedResult());
 		
 	}
 	
@@ -57,7 +57,7 @@ public class ClassesControllerTest {
 		when(classesService.getAll()).thenReturn(classesExamples);
 		controller.list();
 		String expectedResult = "{\"classes\": [{\"valid\": true,\"uri\": \"Anonymous 1\"},{\"valid\": true,\"uri\": \"Anonymous 2\"},{\"valid\": true,\"uri\": \"Anonymous 3\"}]}";
-		assertEquals(expectedResult, result.serializedRestult());
+		assertEquals(expectedResult, result.serializedResult());
 	
 	}
 	
@@ -65,7 +65,7 @@ public class ClassesControllerTest {
 		when(classesService.update(classesExamples.get(0))).thenReturn(classesExamples.get(0));
 		controller.update(classesExamples.get(0));
 		String expectedResult = "{\"class\": {\"valid\": true,\"uri\": \"Anonymous 1\"}}";
-		assertEquals(expectedResult, result.serializedRestult());
+		assertEquals(expectedResult, result.serializedResult());
 		
 	}
 	
