@@ -10,7 +10,10 @@ import br.com.caelum.vraptor.ioc.SessionScoped;
 import edu.org.editor.mobi.model.User;
 import edu.org.editor.mobi.service.MobiService;
 
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 @SessionScoped
 @Component
 @SuppressWarnings("unused")

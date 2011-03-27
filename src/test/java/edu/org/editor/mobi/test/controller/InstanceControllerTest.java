@@ -17,7 +17,10 @@ import org.mockito.MockitoAnnotations;
 import br.com.caelum.vraptor.util.test.MockSerializationResult;
 import edu.org.editor.mobi.controller.InstancesController;
 import edu.org.editor.mobi.service.InstancesService;
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 public class InstanceControllerTest {
 
 	MockSerializationResult result;

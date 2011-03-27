@@ -15,7 +15,10 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import edu.org.editor.mobi.controller.EditorMMobiController;
 import edu.org.editor.mobi.model.User;
 import edu.org.editor.mobi.service.MobiService;
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 public class EditorMMobiControllerTest {
 
 	MockResult result;

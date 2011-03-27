@@ -5,7 +5,10 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import edu.org.editor.mobi.service.RelationService;
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 @Resource
 public class RelationController {
 

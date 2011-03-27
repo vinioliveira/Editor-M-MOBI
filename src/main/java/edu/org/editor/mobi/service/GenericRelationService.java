@@ -3,7 +3,10 @@ package edu.org.editor.mobi.service;
 import mobi.core.concept.Class;
 import mobi.core.concept.Instance;
 import mobi.core.relation.GenericRelation;
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 public interface GenericRelationService {
 
 	GenericRelation create();

@@ -2,6 +2,10 @@ package edu.org.editor.mobi.model;
 
 import java.io.Serializable;
 
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 public class User implements Serializable {
 
 	

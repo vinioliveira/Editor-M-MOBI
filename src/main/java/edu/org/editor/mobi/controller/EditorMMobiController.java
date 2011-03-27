@@ -5,6 +5,10 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import edu.org.editor.mobi.service.MobiService;
 
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 
 @Resource
 public class EditorMMobiController {

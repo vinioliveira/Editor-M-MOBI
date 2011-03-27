@@ -19,7 +19,10 @@ import org.mockito.MockitoAnnotations;
 import br.com.caelum.vraptor.util.test.MockSerializationResult;
 import edu.org.editor.mobi.controller.GenericRelationController;
 import edu.org.editor.mobi.service.GenericRelationService;
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 public class GenericRelationControllerTest {
 
 	MockSerializationResult result;

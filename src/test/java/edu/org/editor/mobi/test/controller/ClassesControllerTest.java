@@ -13,7 +13,10 @@ import org.mockito.MockitoAnnotations;
 import br.com.caelum.vraptor.util.test.MockSerializationResult;
 import edu.org.editor.mobi.controller.ClassesController;
 import edu.org.editor.mobi.service.ClassesService;
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 public class ClassesControllerTest {
 
 	MockSerializationResult result;

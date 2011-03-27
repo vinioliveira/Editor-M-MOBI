@@ -10,7 +10,10 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import edu.org.editor.mobi.service.InstancesService;
 
-
+/**
+ * @author Vinícius Oliveira
+ *
+ */
 @Resource
 public class InstancesController {
 
