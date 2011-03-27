@@ -25,8 +25,8 @@ import edu.org.editor.mobi.service.GenericRelationService;
  */
 public class GenericRelationControllerTest {
 
-	MockSerializationResult result;
 	@Mock GenericRelationService genericRelationService;
+	MockSerializationResult result;
 	GenericRelationController controller;
 	GenericRelation genericRelationMock;
 	InstanceRelation instRelation;

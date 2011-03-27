@@ -65,15 +65,15 @@ public class ClassesControllerTest {
 	}
 	
 	@Test public void shouldUpdateClassWithNewName() throws Exception { 
-		when(classesService.update(classesExamples.get(0))).thenReturn(classesExamples.get(0));
-		controller.update(classesExamples.get(0));
+		when(classesService.update(classesExamples.get(1).getUri(), classesExamples.get(0))).thenReturn(classesExamples.get(0));
+		controller.update(classesExamples.get(1).getUri(),classesExamples.get(0));
 		String expectedResult = "{\"class\": {\"valid\": true,\"uri\": \"Anonymous 1\"}}";
 		assertEquals(expectedResult, result.serializedResult());
 		
 	}
 	
 	@Test public void shouldDeleteInstance(){
-		when(classesService.delete(classesExamples.get(0))).thenReturn(true);
+		when(classesService.destroy(classesExamples.get(0))).thenReturn(true);
 		controller.delete(classesExamples.get(0));
 		assertTrue(result.used());
 	}

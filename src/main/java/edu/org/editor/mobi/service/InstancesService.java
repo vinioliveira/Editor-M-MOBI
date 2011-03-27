@@ -11,12 +11,12 @@ public interface InstancesService {
 
 	Instance getByName(String name);
 
-	Instance createWithName(String name);
+	Instance createWithName(String name) throws Exception;
 
 	List<Instance> getAll();
 
-	Instance update(Instance instance);
+	Boolean destroy(Instance instance);
 
-	Boolean delete(Instance instance);
+	Instance update(String oldId, Instance instance) throws Exception;
 
 }

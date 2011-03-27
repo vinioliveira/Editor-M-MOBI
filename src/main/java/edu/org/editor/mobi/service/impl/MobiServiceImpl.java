@@ -35,4 +35,10 @@ public class MobiServiceImpl implements MobiService, Serializable{
 	public User getCurrentUser() {
 		return currentUser;
 	}
+
+	@Override
+	public Mobi getCurrentMobi() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

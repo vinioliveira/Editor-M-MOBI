@@ -26,7 +26,7 @@ public class ClassesController {
 		this.classService = classService;
 	}
 
-	@Post public void create(String name) {
+	@Post public void create(String name) throws Exception {
 		result.use(Results.json()).from(classService.createWithName(name)).serialize();
 	}
 
@@ -38,8 +38,8 @@ public class ClassesController {
 		result.use(Results.json()).from(classService.getByName(name)).serialize();
 	}
 
-	@Put public void update(Class newClass) {
-		result.use(Results.json()).from(classService.update(newClass)).serialize();
+	@Put public void update(String oldId, Class newClass) throws Exception {
+		result.use(Results.json()).from(classService.update(oldId, newClass)).serialize();
 	}
 
 	@Delete public void delete(Class class1) {

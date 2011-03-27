@@ -14,10 +14,10 @@ public interface ClassesService {
 
 	Class getByName(String string);
 
-	Class createWithName(String name);
+	Class createWithName(String name) throws Exception;
 
-	Class update(Class newClass);
+	Class update(String oldId, Class newClass) throws Exception;
 
-	Boolean delete(Class clazz);
+	Boolean destroy(Class clazz);
 
 }

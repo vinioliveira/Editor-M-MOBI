@@ -29,7 +29,7 @@ public class InstancesController {
 		result.use(Results.json()).from(instanceService.getByName(name)).serialize();
 	}
 
-	@Post public void create(String name) {
+	@Post public void create(String name) throws Exception {
 		result.use(Results.json()).from(instanceService.createWithName(name)).serialize();
 	}
 
@@ -37,8 +37,8 @@ public class InstancesController {
 		result.use(Results.json()).from(instanceService.getAll(), "instances").serialize();
 	}
 
-	@Put public void update(Instance instance) {
-		result.use(Results.json()).from(instanceService.update(instance)).serialize();
+	@Put public void update(String oldId,Instance instance) throws Exception {
+		result.use(Results.json()).from(instanceService.update(oldId,instance)).serialize();
 	}
 
 	@Delete	public void delete(Instance instance) {

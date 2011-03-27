@@ -68,15 +68,15 @@ public class InstanceControllerTest {
 	
 	@Test public void shouldUpdateClassWithNewName() throws Exception { 
 		
-		when(instancesService.update(instancesExamples.get(0))).thenReturn(instancesExamples.get(0));
-		controller.update(instancesExamples.get(0));
-		String expectedResult = "{\"instance\": {\"valid\": true,\"uri\": \"Anonymous 1\"}}";
+		when(instancesService.update(instancesExamples.get(1).getUri(), instancesExamples.get(0))).thenReturn(instancesExamples.get(1));
+		controller.update(instancesExamples.get(1).getUri(), instancesExamples.get(0));
+		String expectedResult = "{\"instance\": {\"valid\": true,\"uri\": \"Anonymous 2\"}}";
 		assertEquals(expectedResult, result.serializedResult());
 		
 	}
 	
 	@Test public void shouldDeleteInstance(){
-		when(instancesService.delete(instancesExamples.get(0))).thenReturn(true);
+		when(instancesService.destroy(instancesExamples.get(0))).thenReturn(true);
 		controller.delete(instancesExamples.get(0));
 		assertTrue(result.used());
 	}
