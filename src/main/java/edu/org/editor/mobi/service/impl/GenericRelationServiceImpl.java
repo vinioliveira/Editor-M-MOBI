@@ -3,10 +3,12 @@
  */
 package edu.org.editor.mobi.service.impl;
 
+import br.com.caelum.vraptor.ioc.Component;
 import mobi.core.Mobi;
 import mobi.core.concept.Class;
 import mobi.core.concept.Instance;
 import mobi.core.relation.GenericRelation;
+import mobi.core.relation.InstanceRelation;
 import edu.org.editor.mobi.service.EditorMobiConstants;
 import edu.org.editor.mobi.service.GenericRelationService;
 import edu.org.editor.mobi.service.MobiService;
@@ -15,12 +17,13 @@ import edu.org.editor.mobi.service.MobiService;
  * @author Vinícius Oliveira
  *
  */
+@Component
 public class GenericRelationServiceImpl implements GenericRelationService {
 
 	
 	private Mobi mobi;
 	private MobiService mobiService;
-	
+	private GenericRelation genericRelation;
 	/**
 	 * @param mockMobiService
 	 */
@@ -34,7 +37,7 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	 */
 	@Override
 	public GenericRelation create() {
-		return (GenericRelation) (mobi.getAllGenericRelations().get(EditorMobiConstants.TEMP) == null ?
+		return (GenericRelation) (getCurrentGenericRelation() == null ?
 				mobi.createGenericRelation(EditorMobiConstants.TEMP) : mobi.getAllGenericRelations().get(EditorMobiConstants.TEMP));
 		
 	}
@@ -53,7 +56,15 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	 */
 	@Override
 	public GenericRelation addInstanceGroupA(Instance instance) {
-		// TODO Auto-generated method stub
+		GenericRelation genericRelation = getCurrentGenericRelation();
+		if(genericRelation != null ){
+			if(! genericRelation.getInstanceRelationMapA().containsKey(instance.getUri())){
+				InstanceRelation instanceRelation = new InstanceRelation();
+				instanceRelation.setInstance(instance);
+				genericRelation.getInstanceRelationMapA().put(instance.getUri(),instanceRelation);
+			}
+			return genericRelation;
+		}
 		return null;
 	}
 
@@ -62,7 +73,15 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	 */
 	@Override
 	public GenericRelation addInstanceGroupB(Instance instance) {
-		// TODO Auto-generated method stub
+		genericRelation = getCurrentGenericRelation();
+		if(genericRelation != null ){
+			if(! genericRelation.getInstanceRelationMapA().containsKey(instance.getUri())){
+				InstanceRelation instanceRelation = new InstanceRelation();
+				instanceRelation.setInstance(instance);
+				genericRelation.getInstanceRelationMapB().put(instance.getUri(),instanceRelation);
+			}
+			return genericRelation;
+		}
 		return null;
 	}
 
@@ -94,4 +113,7 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 		return null;
 	}
 
+	private GenericRelation getCurrentGenericRelation(){
+		return mobi.getAllGenericRelations().get(EditorMobiConstants.TEMP);
+	}
 }
