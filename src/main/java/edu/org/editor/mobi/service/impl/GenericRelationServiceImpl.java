@@ -90,8 +90,9 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	 */
 	@Override
 	public GenericRelation setClassGroupA(Class clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		genericRelation = getCurrentGenericRelation();
+		genericRelation.setClassA(clazz);
+		return genericRelation;
 	}
 
 	/* (non-Javadoc)
@@ -99,18 +100,19 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	 */
 	@Override
 	public GenericRelation setClassGroupB(Class clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		genericRelation = getCurrentGenericRelation();
+		genericRelation.setClassB(clazz);
+		return genericRelation;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#createRelationInstance(mobi.core.concept.Instance, mobi.core.concept.Instance)
 	 */
 	@Override
-	public GenericRelation createRelationInstance(Instance instanceGroupA,
-			Instance instanceGroubB) {
-		// TODO Auto-generated method stub
-		return null;
+	public GenericRelation createRelationInstance(Instance instanceGroupA, Instance instanceGroubB) {
+		genericRelation = getCurrentGenericRelation();
+		genericRelation.addInstanceRelation(instanceGroupA, instanceGroubB);
+		return genericRelation;
 	}
 
 	private GenericRelation getCurrentGenericRelation(){

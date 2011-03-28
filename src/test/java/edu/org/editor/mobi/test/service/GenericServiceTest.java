@@ -1,9 +1,10 @@
 package edu.org.editor.mobi.test.service;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
+import mobi.core.concept.Class;
 import edu.org.editor.mobi.service.EditorMobiConstants;
 import edu.org.editor.mobi.service.MobiService;
 import edu.org.editor.mobi.service.impl.GenericRelationServiceImpl;
@@ -33,7 +34,8 @@ public class GenericServiceTest {
 	private GenericRelation mockGenericRelation;
 	HashMap<String, GenericRelation> genericRelationExamples;
 	private Instance simpleInstance;
-	private GenericRelation genericRelationReturn;
+	private GenericRelation genericRelationReturned;
+	private Class simplaClass;
 	
 	
 	
@@ -43,6 +45,7 @@ public class GenericServiceTest {
 		MockitoAnnotations.initMocks(this);
 		
 		this.simpleInstance = new Instance("anonymous");
+		this.simplaClass = new Class("anonymous");
 		this.mockGenericRelation = new GenericRelation(EditorMobiConstants.TEMP);
 
 		genericRelationExamples = new HashMap<String, GenericRelation>(); 
@@ -66,26 +69,52 @@ public class GenericServiceTest {
 	@Test public void shouldResteTheGenericRelationOnKernel() {
 		
 		when(mockMobi.createGenericRelation(EditorMobiConstants.TEMP)).thenReturn(new GenericRelation());
-		genericRelationReturn = genericRelationServiceImpl.reset();
-		assertNotNull(genericRelationReturn);
-   		assertNull(genericRelationReturn.getClassA());
-   		assertNull(genericRelationReturn.getClassB());
-   		assertTrue(genericRelationReturn.getInstanceRelationMapA().isEmpty());
-   		assertTrue(genericRelationReturn.getInstanceRelationMapB().isEmpty());
+		genericRelationReturned = genericRelationServiceImpl.reset();
+		assertNotNull(genericRelationReturned);
+   		assertNull(genericRelationReturned.getClassA());
+   		assertNull(genericRelationReturned.getClassB());
+   		assertTrue(genericRelationReturned.getInstanceRelationMapA().isEmpty());
+   		assertTrue(genericRelationReturned.getInstanceRelationMapB().isEmpty());
    		
 	}
 	
 	@Test public void shouldAddAnNewInstanceIntoGoupA(){
 
-		genericRelationReturn = genericRelationServiceImpl.addInstanceGroupA(simpleInstance);
-		assertFalse(genericRelationReturn.getInstanceRelationMapA().isEmpty());
+		genericRelationReturned = genericRelationServiceImpl.addInstanceGroupA(simpleInstance);
+		assertFalse(genericRelationReturned.getInstanceRelationMapA().isEmpty());
 		
 	}
 	
 	@Test public void shouldAddAnNewInstanceIntoGoupB(){
 
-		genericRelationReturn = genericRelationServiceImpl.addInstanceGroupB(simpleInstance);
-		assertFalse(genericRelationReturn.getInstanceRelationMapB().isEmpty());
+		genericRelationReturned = genericRelationServiceImpl.addInstanceGroupB(simpleInstance);
+		assertFalse(genericRelationReturned.getInstanceRelationMapB().isEmpty());
+		
+	}
+	
+	@Test public void shouldAddAClassToGroupA(){
+		
+		genericRelationReturned = genericRelationServiceImpl.setClassGroupA(simplaClass);
+		assertNotNull(genericRelationReturned.getClassA());
+		assertEquals(simplaClass, genericRelationReturned.getClassA());
+		
+	}
+	
+	@Test public void shouldAddAClassToGroupB(){
+		
+		genericRelationReturned = genericRelationServiceImpl.setClassGroupB(simplaClass);
+		assertNotNull(genericRelationReturned.getClassB());
+		assertEquals(simplaClass, genericRelationReturned.getClassB());
+		
+	}
+	
+	@Test public void shouldAddAnInstanceRelation(){
+		
+		Instance simpleInstanceB =  new Instance("B");
+		genericRelationReturned =  genericRelationServiceImpl.createRelationInstance(simpleInstance, simpleInstanceB);
+		assertFalse(genericRelationReturned.getInstanceRelationMapA().isEmpty());
+		assertFalse(genericRelationReturned.getInstanceRelationMapB().isEmpty());
+		assertTrue(genericRelationReturned.getInstanceRelationMapA().get(simpleInstance.getUri()).getAllInstances().containsKey(simpleInstanceB.getUri()));
 		
 	}
 }
