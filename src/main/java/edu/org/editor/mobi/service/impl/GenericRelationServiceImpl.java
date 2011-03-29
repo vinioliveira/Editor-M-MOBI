@@ -3,12 +3,12 @@
  */
 package edu.org.editor.mobi.service.impl;
 
-import br.com.caelum.vraptor.ioc.Component;
 import mobi.core.Mobi;
 import mobi.core.concept.Class;
 import mobi.core.concept.Instance;
 import mobi.core.relation.GenericRelation;
 import mobi.core.relation.InstanceRelation;
+import br.com.caelum.vraptor.ioc.Component;
 import edu.org.editor.mobi.service.EditorMobiConstants;
 import edu.org.editor.mobi.service.GenericRelationService;
 import edu.org.editor.mobi.service.MobiService;
@@ -117,5 +117,42 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 
 	private GenericRelation getCurrentGenericRelation(){
 		return mobi.getAllGenericRelations().get(EditorMobiConstants.TEMP);
+	}
+
+	/**
+	 * @param oldId
+	 * @param instanceUpdatedA
+	 * 
+	 * @return GenericRelation
+	 */
+	public GenericRelation updateInstanceGroupA(String oldId, Instance instanceUpdatedA) {
+
+		InstanceRelation instanceRelation = new InstanceRelation();
+		instanceRelation.setInstance(instanceUpdatedA);				
+		
+		genericRelation = getCurrentGenericRelation();
+		
+		genericRelation.getInstanceRelationMapA().remove(oldId);
+		genericRelation.getInstanceRelationMapA().put(instanceUpdatedA.getUri(), instanceRelation);
+
+		return genericRelation;
+	}
+
+	/**
+	 * @param oldId
+	 * @param instanceUpdatedB
+	 * @return
+	 */
+	public GenericRelation updateInstanceGroupB(String oldId, Instance instanceUpdatedB) {
+
+		InstanceRelation instanceRelation = new InstanceRelation();
+		instanceRelation.setInstance(instanceUpdatedB);				
+		
+		genericRelation = getCurrentGenericRelation();
+		
+		genericRelation.getInstanceRelationMapB().remove(oldId);
+		genericRelation.getInstanceRelationMapB().put(instanceUpdatedB.getUri(), instanceRelation);
+
+		return genericRelation;
 	}
 }
