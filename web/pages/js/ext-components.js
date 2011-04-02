@@ -4,7 +4,7 @@ var start = {
     bodyStyle: 'padding:25px',
     contentEl: 'start-div',
     tbar: [{
-			text:'Baixar OWL',
+			text:'Download OWL',
 			xtype: 'button',
 			icon : 'images/box_downloa.png',
 			handler: function(){
@@ -13,11 +13,11 @@ var start = {
     			if(dominio != '' && email != ''){
     				window.location.href='/EditorM-MOBI/arquivoOWL.owl?dominio='+dominio+'&email='+email;
     			}else {
-    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e Dominio para efetuar o download do OWL.');
+    				Ext.MessageBox.alert('Email',  'Please fill in the Email and Domain fields to get the OWL.');
     			}
     			}
     		},{
-    		text:'Importar OWL',
+    		text:'Import OWL',
 			xtype: 'button',
 			icon : 'images/box_downloa.png',
 			handler: function(){
@@ -26,7 +26,7 @@ var start = {
     		},{
         		xtype : 'textfield',
         		id : 'dominio',
-        		emptyText  : 'Dominio Modelado',
+        		emptyText  : 'Domain Modeling',
                 name: 'domonio',
                 style : {margin : '0px 0px 0px 20px'}
     		},
@@ -39,18 +39,18 @@ var start = {
             style : {margin : '0px 0px 0px 20px'}
     		},
     		{
-			text:'Salvar Mobi',
+			text:'Save Mobi',
 			icon : 'images/arrow_down.png',
 			handler: function(){
     			var email = Ext.getCmp('email').getValue();
     			var dominio = Ext.getCmp('dominio').getValue();
     			if(email == ''&& dominio != ''){
-    				Ext.MessageBox.alert('Email',  'Por favor Preencha o Email e o Domínio Para poder Salvar o Estado.');
+    				Ext.MessageBox.alert('Email',  'Please fill in the Email and Domain fields to get the OWL.');
     			}else {
     				 Ext.MessageBox.show({
-				           title: 'Por favor Aguarde',
-				           msg: 'Salvando Estado...',
-				           progressText: 'Salvando...',
+				           title: 'Please wait',
+				           msg: 'Saving State...',
+				           progressText: 'Saving...',
 				           width:300,
 				           progress:true,
 				           closable:false,
@@ -62,7 +62,7 @@ var start = {
 				            return function(){
 				                if(v == 12){
 				                    Ext.MessageBox.hide();
-				                    Ext.MessageBox.alert('Salvar',  'Estado Salvo com Sucesso!');
+				                    Ext.MessageBox.alert('Save',  'Stat has been saved with success!');
 				                }else{
 				                    var i = v/11;
 				                    Ext.MessageBox.updateProgress(i, Math.round(100*i)+'% salvo ...');
@@ -80,7 +80,7 @@ var start = {
 			}
     		},
     		{
-			text:'Recuperar Mobi',
+			text:'Recovery Mobi',
 			icon : 'images/arrow_up.png',
 			handler: function(){
     			var email = Ext.getCmp('email').getValue();
@@ -167,7 +167,7 @@ Ext.onReady(function(){
         style: { margin : '10px 0px 5px 30px'},
         hideTrigger: true,
         mode: 'local',
-        value:'ClasseA',
+        value:'ClassA',
         listeners : {
 			change : function (text,newValue,oldValue){
 				buscarInstancias(newValue, mobi.CONJUNTO_A, Ext.getCmp('tipoRelacao').getValue());
@@ -187,7 +187,7 @@ Ext.onReady(function(){
 	        style: { margin : '10px 0px 5px 35px'},
 	        hideTrigger: true,
 	        mode: 'local',
-	        value:'ClasseB',
+	        value:'ClassB',
 	        listeners : {
 				change : function (text,newValue,oldValue){
 	        			buscarInstancias(newValue, mobi.CONJUNTO_B, Ext.getCmp('tipoRelacao').getValue());
@@ -200,17 +200,17 @@ Ext.onReady(function(){
 	
 	var radioGroup =  new Ext.form.FieldSet({
 		id: 'fieldSetRadioGroup',
-		title: 'Tipos de Relações',
+		title: 'Relation Types',
 	    autoHeight: true,
 	    items: [{
 	        xtype: 'radiogroup',
 	        hideLabel: true,
 	        id: 'tipoRelacao',
 	        items: [
-				{boxLabel: 'Herança', name: 'rb-auto', id: mobi.INHERITANCE, stateId :mobi.INHERITANCE, disabled: true},
-				{boxLabel: 'Composição', name: 'rb-auto', id: mobi.COMPOSITION, stateId : mobi.COMPOSITION, disabled: true,
+				{boxLabel: 'Inheritance', name: 'rb-auto', id: mobi.INHERITANCE, stateId :mobi.INHERITANCE, disabled: true},
+				{boxLabel: 'Composition', name: 'rb-auto', id: mobi.COMPOSITION, stateId : mobi.COMPOSITION, disabled: true,
 					listeners: {check: function(radio, checked) { if(checked){adcionarFieldTextDaComposicao('fieldSetRadioGroup');}else{removerFieldTextDaComposicao('fieldSetRadioGroup');}  }}},
-				{boxLabel: 'Equivalência', name: 'rb-auto', id: mobi.EQUIVALENCE, stateId : mobi.EQUIVALENCE, disabled: true},
+				{boxLabel: 'Equivalence', name: 'rb-auto', id: mobi.EQUIVALENCE, stateId : mobi.EQUIVALENCE, disabled: true},
 	        ]
 	    }]
 	});
@@ -219,7 +219,7 @@ Ext.onReady(function(){
 	//Buttons 
 	var panelButtons = [{
 	    	iconCls:'add',
-	        text:'Add Instancia A',
+	        text:'Add Instance A',
 	        width: 170,
 	        scope: this,
 	        handler: function(){
@@ -300,7 +300,7 @@ Ext.onReady(function(){
 	        iconCls:'add',
 	        width: 170,
 	        scope: this,
-	        text:'Add Instancia B',
+	        text:'Add Instance B',
 	        handler: function(){
 	    	if(qtdInstanciasConjuntoB <= 5)
 			{
@@ -343,7 +343,7 @@ Ext.onReady(function(){
 		minSize: 150,
 		autoScroll: true,
 		tbar:[{
-			text:'Nova Relação',
+			text:'New Relation',
 			xtype: 'button',
 			icon : 'images/paper_48.png',
 			handler: function(){
@@ -420,7 +420,7 @@ Ext.onReady(function(){
 function abrirPopupComposicao(instanceGraph, cell){
 	
 	var win = new Ext.Window({
-        title: 'Definição Propriedades',
+        title: 'Properties Definition',
         closable:true,
         modal:true,
         width:300,
@@ -435,7 +435,7 @@ function abrirPopupComposicao(instanceGraph, cell){
     	        items: 
         		[new Ext.form.TextField({
         	    	id : 'ida_popup',
-        	    	fieldLabel : 'Ida',
+        	    	fieldLabel : 'Out',
         	    	width : 150,
         	    	hideLabel : false,
         	    	listeners : {
@@ -447,7 +447,7 @@ function abrirPopupComposicao(instanceGraph, cell){
         	    }),        		
         		new Ext.form.TextField({
         	    	id : 'volta_popup',
-        	    	fieldLabel : 'Volta',
+        	    	fieldLabel : 'Return',
         	    	width : 150,
     	    		hideLabel : false,
         	    	listeners : {
@@ -463,7 +463,7 @@ function abrirPopupComposicao(instanceGraph, cell){
         	    })] 
         	    
         	}),
-        buttons: [{text :'Criar',
+        buttons: [{text :'Create',
 				  handler : function (){
 		        	var ida = Ext.getCmp('ida_popup').getValue();
 					var volta = Ext.getCmp('volta_popup').getValue();
@@ -492,19 +492,19 @@ function detectorTipoComposicao(ida, volta, label,idComponente){
 		label  = Ext.getCmp(label); 
 		if(ida != '' && volta == '' || ida == '' && volta != '' ){
 			//uniderecional 
-			label.setText('Unidirecional');
+			label.setText('Unidirectional');
 			Ext.getCmp(idComponente).stateId = mobi.UNIDIRECIONAL_COMPOSITION;
 		}
 			
 		if(ida != '' && volta != '' && ida != volta ){
 			//bidirecional
-			label.setText('Bidirecional');
+			label.setText('Bidirectional');
 			Ext.getCmp(idComponente).stateId = mobi.BIDIRECIONAL_COMPOSITION;
 		}
 		
 		if(ida != '' && volta != '' && ida == volta ){
 			//simetrica
-			label.setText('Simetrica');
+			label.setText('Symmetrical');
 			Ext.getCmp(idComponente).stateId = mobi.SYMMETRIC_COMPOSITION;
 		}
 	}	
@@ -570,11 +570,11 @@ function uploadOWLPopUp(){
 	            if (fileUploadFormPanel.getForm().isValid()) {
 	            	fileUploadFormPanel.getForm().submit({
 	                    url : 'uploadOWL.do',
-	                    waitMsg : 'Carregando OWL ...',
+	                    waitMsg : 'Loading OWL ...',
 	                    success : function(fileUploadFormPanel, o) {
 		            		Ext.Msg.show( {
-	                    		title : 'Sucesso',
-	                    		msg : 'OWL Carregado com Sucesso!',
+	                    		title : 'Success',
+	                    		msg : 'OWL has been loaded with Success!',
 	                    		minWidth : 200,
 	                    		modal : true,
 	                    		icon : Ext.Msg.INFO,
@@ -599,7 +599,7 @@ function uploadOWLPopUp(){
 	
 	
 	var win = new Ext.Window({
-        title: 'Definição Propriedades',
+        title: 'Properties Definition',
         closable:true,
         modal:true,
         width:350,

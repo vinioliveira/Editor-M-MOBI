@@ -149,7 +149,7 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 	{
 		if (model.isVertex(cell))
 		{
-			menu.addItem('Adicionar Herança', 'images/add_48.png', function(){
+			menu.addItem('Add New Inheritance', 'images/add_48.png', function(){
 				
 				ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
 				
@@ -167,7 +167,7 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 			});
 			if (cell.id != 'Thing' && model.isVertex(cell)) {
 				
-				menu.addItem('Adicionar Composicao', 'images/add_48.png', function(){
+				menu.addItem('Add New Composition', 'images/add_48.png', function(){
 					
 					if(cell.id != 'Thing'){
 						abrirPopupComposicao(graph, cell);
@@ -175,7 +175,7 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 				
 				});
 				
-				menu.addItem('Adicionar Equivalência', 'images/add_48.png', function(){
+				menu.addItem('Add New Equivalence', 'images/add_48.png', function(){
 					
 					ClasseNova = criarCellVertex(graph, 'Novo', 'Novo', 0, 0, widht, height);
 					graph.insertEdge(parent, null, '', ClasseNova,cell);
@@ -192,7 +192,7 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 				});
 				
 				
-				menu.addItem('Editar Nome Classe', 'comum/mxgraph/images/text.gif', function()
+				menu.addItem('Edit Class Name', 'comum/mxgraph/images/text.gif', function()
 				{
 					graph.startEditingAtCell(cell);
 					
@@ -201,7 +201,7 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 			}
 		}else if (model.isEdge(cell)){
 			
-			menu.addItem('Excluir Relação', 'images/cross_48.png', function()
+			menu.addItem('Delete Relation', 'images/cross_48.png', function()
 					{ 
 						nameRelation =	cell.id.substring(0, cell.id.length-2);
 						params = { nameRelation : nameRelation };
@@ -211,13 +211,13 @@ function createPopupMenu(graph, menu, cell, evt, classe){
 		}
 	}
 	else{
-		menu.addItem('Limpar','images/refresh_48.png',function(){
+		menu.addItem('Clean','images/refresh_48.png',function(){
 			resetarRelacoes();});
 
-		menu.addItem('Reset Modelagem','images/clean_16.png',function(){
+		menu.addItem('Reset Modeling','images/clean_16.png',function(){
 			Ext.Msg.show({
-				   title:'Começar de novo?',
-				   msg: 'Você está prestes a perder tudo que foi feito até agora está certo disso ?',
+				   title:'Start over ?',
+				   msg: 'You are about to lose all what you have done, are you sure?',
 				   buttons: Ext.Msg.YESNO,
 				   fn: function(btn){
 				    	if (btn == 'yes'){
@@ -237,7 +237,7 @@ function optionsRelation(graph, menu, cell, evt, classe){
 
 	if (cell != null)
 	{
-		menu.addItem('Excluir', 'images/cross_48.png', function()
+		menu.addItem('Delete', 'images/cross_48.png', function()
 		{
 			var cells = [];			
 			if (model.isVertex(cell)){
@@ -260,13 +260,13 @@ function optionsRelation(graph, menu, cell, evt, classe){
 								
 		});
 	}else{
-		menu.addItem('Limpar','images/refresh_48.png',function(){
+		menu.addItem('Clean','images/refresh_48.png',function(){
 			resetarRelacoes();});
 		
-		menu.addItem('Reset Modelagem','images/clean_16.png',function(){
+		menu.addItem('Reset Modeling','images/clean_16.png',function(){
 			Ext.Msg.show({
-				   title:'Começar de novo?',
-				   msg: 'Você está prestes a perder tudo que foi feito até agora está certo disso ?',
+				   title:'Start over?',
+				   msg: 'You are about to lose all what you have done, are you sure?',
 				   buttons: Ext.Msg.YESNO,
 				   fn: function(btn){
 				    	if (btn == 'yes'){

@@ -366,7 +366,7 @@ function adcionarFieldTextDaComposicao(){
 	
 	var ida =  new Ext.form.TextField({
     	id : 'ida',
-    	fieldLabel : 'Ida',
+    	fieldLabel : 'Out',
 		listeners : {
 			change : function (text,newValue,oldValue){
 				volta = Ext.getCmp('volta').getValue();
@@ -378,7 +378,7 @@ function adcionarFieldTextDaComposicao(){
 	
 	var volta =  new Ext.form.TextField({
     	id : 'volta',
-    	fieldLabel : 'Volta',
+    	fieldLabel : 'Rertun',
 		listeners : {
 			change : function (text,newValue,oldValue){
 					ida = Ext.getCmp('ida').getValue();
