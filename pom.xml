@@ -6,6 +6,7 @@
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>EditorM-MOBI Maven Webapp</name>
+	
 
   <dependencies>
     
@@ -96,7 +97,7 @@
     <finalName>EditorM-MOBI</finalName>
     
     <plugins>
-    	<plugin>
+    	<plugin>	
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>cobertura-maven-plugin</artifactId>
 			<version>2.4</version>
@@ -113,13 +114,6 @@
 				<target>1.5</target>
 			</configuration>
 		</plugin>
-		<plugin>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<configuration>
-				<source>1.6</source>
-				<target>1.6</target>
-			</configuration>
-		</plugin>
     	<plugin>
     		<groupId>org.apache.maven.plugins</groupId>
     		<artifactId>maven-war-plugin</artifactId>
@@ -127,6 +121,27 @@
     		<configuration>
     			<warSourceDirectory>src/main/webapp</warSourceDirectory>
     		</configuration>
+    	</plugin>
+    	<plugin>
+    		<groupId>com.github.searls</groupId>
+    		<artifactId>jasmine-maven-plugin</artifactId>
+    		<version>1.0.2-beta-2</version>
+    		<executions>
+			<execution>
+				<goals>
+					<goal>generateManualRunner</goal>
+					<goal>resources</goal>
+					<goal>testResources</goal>
+					<goal>test</goal>
+				</goals>
+				<configuration>
+					<jsSrcDir>${project.basedir}/src/main/webapp/public/js</jsSrcDir>
+					 <sourceExcludes>
+						<exclude>lib/**</exclude>
+					</sourceExcludes>
+				</configuration>
+			</execution>
+</executions>
     	</plugin>
     </plugins>
   </build>
