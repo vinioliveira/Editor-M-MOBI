@@ -7,7 +7,7 @@
 function RelationDraw() {
 	this.instancesGroupA = new Array();
 	this.instancesGroupB = new Array();
-}
+};
 
 RelationDraw.prototype.addInstanceGroupA = function(instance){
 	this.instancesGroupA.push(instance);
