@@ -18,27 +18,23 @@ RelationDraw.prototype.addInstanceGroupB = function(instance){
 };
 
 RelationDraw.prototype.removeInstanceGroupA = function(instance){
-	var index = jQuery.inArray(instance, this.instancesGroupA);
-	if( index != -1){
-		this.instancesGroupA.splice(index, 1);
+	if( this.instancesGroupA.contain(instance) ){
+		this.instancesGroupA.remove(this.instancesGroupA.getIndex(instance));
 	};
 };
 
 RelationDraw.prototype.removeInstanceGroupB = function(instance){
-	var index = jQuery.inArray(instance, this.instancesGroupB);
-	if( index != -1){
-		this.instancesGroupB.splice(index, 1);
+	if( this.instancesGroupB.contain(instance) ){
+		this.instancesGroupB.remove(this.instancesGroupB.getIndex(instance));
 	};
 };
 
 RelationDraw.prototype.getAssociationsFrom = function(instance){
-	var index = jQuery.inArray(instance, this.instancesGroupA);
-	if(index == -1){
-		index = jQuery.inArray(instance, this.instancesGroupB);
-		if( index != -1 )
-			return this.instancesGroupB[index].relations;
+	if( this.instancesGroupA.contain(instance) ){
+		return this.instancesGroupA[index].relations;
 	}else{
-		return this.instancesGroupA[index].relations; 
+		if( this.instancesGroupB.contain(instance) )
+			return this.instancesGroupB[index].relations;
 	}
 };
 
@@ -48,6 +44,7 @@ RelationDraw.prototype.getAssociationsFrom = function(instance){
  * Class JavaScript to Draw Instances for mapping of 
  * relations between them
  * 
+ * @author Vinícius Oliveira
  */
 
 function Instance(uri){
@@ -58,7 +55,10 @@ function Instance(uri){
 };
 
 Instance.prototype.associateWith = function(instanceToBeAssociated){
-	this.associatedInstances.push(instanceToBeAssociated);
+	if( ! this.associatedInstances.contain(instanceToBeAssociated) ){ 
+		this.associatedInstances.push(instanceToBeAssociated);
+		instanceToBeAssociated.associateWith(this);
+	}
 };
 
 
