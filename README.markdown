@@ -39,75 +39,72 @@ do eclipse rode esse comando
 Em seguida configure seu settings.xml do maven para fazer o download também do 
 repositório do jboss caso ainda não esteja configurado. Adicionando esses profiles
 ao seu settings.xml dentro da tag <profiles></profiles>
-<xml>
-  <profile>
-    <id>jboss-public-repository</id>	
-    <repositories>
-      <repository>
-	      <id>jboss-public-repository-group</id>
-	      <name>JBoss Public Repository Group</name>
-	      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-	      <layout>default</layout>
-	      <releases>
-		      <enabled>true</enabled>
-		      <updatePolicy>never</updatePolicy>
-	      </releases>
-	      <snapshots>
-		      <enabled>true</enabled>
-		      <updatePolicy>never</updatePolicy>
-	      </snapshots>
-      </repository>
-    </repositories>
-
-    <pluginRepositories>
-      <pluginRepository>
-	      <id>jboss-public-repository-group</id>
-	      <name>JBoss Public Repository Group</name>
-	      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-	      <releases>
-		      <enabled>true</enabled>
-	      </releases>
-	      <snapshots>
-		      <enabled>true</enabled>
-	      </snapshots>
-      </pluginRepository>
-    </pluginRepositories>
-  </profile>
-
-  <profile>
-    <id>jboss-repository</id>	
-    <repositories>
-      <repository>
-	      <id>JBoss</id>
-	      <name>JBoss Repository</name>
-	      <url>http://repository.jboss.org/maven2/</url>
-	      <layout>default</layout>
-	      <releases>
-		      <enabled>true</enabled>
-		      <updatePolicy>never</updatePolicy>
-	      </releases>
-	      <snapshots>
-		      <enabled>true</enabled>
-		      <updatePolicy>never</updatePolicy>
-	      </snapshots>
-      </repository>
-    </repositories>
-
-    <pluginRepositories>
-      <pluginRepository>
-	      <id>JBoss</id>
-	      <name>JBoss Repository</name>
-	      <url>http://repository.jboss.org/maven2/</url>
-	      <releases>
-		      <enabled>true</enabled>
-	      </releases>
-	      <snapshots>
-		      <enabled>true</enabled>
-	      </snapshots>
-      </pluginRepository>
-    </pluginRepositories>
-  </profile>
-</xml>
+  <xml>
+    <profile>
+      <id>jboss-public-repository</id>	
+      <repositories>
+        <repository>
+	        <id>jboss-public-repository-group</id>
+	        <name>JBoss Public Repository Group</name>
+	        <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+	        <layout>default</layout>
+	        <releases>
+		        <enabled>true</enabled>
+		        <updatePolicy>never</updatePolicy>
+	        </releases>
+	        <snapshots>
+		        <enabled>true</enabled>
+		        <updatePolicy>never</updatePolicy>
+	        </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+	        <id>jboss-public-repository-group</id>
+	        <name>JBoss Public Repository Group</name>
+	        <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+	        <releases>
+		        <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+		        <enabled>true</enabled>
+	        </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+    <profile>
+      <id>jboss-repository</id>	
+      <repositories>
+        <repository>
+	        <id>JBoss</id>
+	        <name>JBoss Repository</name>
+	        <url>http://repository.jboss.org/maven2/</url>
+	        <layout>default</layout>
+	        <releases>
+		        <enabled>true</enabled>
+		        <updatePolicy>never</updatePolicy>
+	        </releases>
+	        <snapshots>
+		        <enabled>true</enabled>
+		        <updatePolicy>never</updatePolicy>
+	        </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+	        <id>JBoss</id>
+	        <name>JBoss Repository</name>
+	        <url>http://repository.jboss.org/maven2/</url>
+	        <releases>
+		        <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+		        <enabled>true</enabled>
+	        </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </xml>
 
 Configurando esse arquivo no seu settings.xml isso permite baixar todas as libs necessária. 
 
@@ -117,9 +114,9 @@ Configurando esse arquivo no seu settings.xml isso permite baixar todas as libs 
 ---------------------------
 
 Por fim dentro da pasta .settings dentro do projeto abra o arquivo org.eclipse.wst.common.component e modifique a seguinte linha : 
-<xml>
-  <wb-resource deploy-path="/" source-path="/web"/>
-</xml>
+  <xml>
+    <wb-resource deploy-path="/" source-path="/web"/>
+  </xml>
 Para 
 <xml>
   <wb-resource deploy-path="/" source-path="src/main/webapp"/>
