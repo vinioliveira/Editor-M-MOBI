@@ -1,5 +1,3 @@
-pt-Br
-
 Configurando o Projeto com o eclipse
 ===
 
