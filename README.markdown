@@ -32,7 +32,7 @@ Essa parte assumo que você já tem o maven configurado e instalado no seu
 ambiente. Afim de fazer ele funcionar corretamente com o plugin e2Maven 
 do eclipse rode esse comando 
   
-    mvn eclipse:eclipse -Dwptversion=2
+    mvn eclipse:eclipse -Dwtpversion=2
 
 Em seguida configure seu settings.xml do maven para fazer o download também do 
 repositório do jboss caso ainda não esteja configurado. Adicionando esses profiles
@@ -110,7 +110,11 @@ Configurando esse arquivo no seu settings.xml isso permite baixar todas as libs 
 3º Passo 
 ---------------------------
 
-Por fim dentro da pasta .settings dentro do projeto abra o arquivo org.eclipse.wst.common.component e modifique a seguinte linha : 
+Por fim dentro da pasta .settings dentro do projeto abra o arquivo 
+
+    org.eclipse.wst.common.component 
+
+e modifique a seguinte linha : 
 
     <wb-resource deploy-path="/" source-path="/web"/>
 
@@ -118,5 +122,5 @@ Para
 
     <wb-resource deploy-path="/" source-path="src/main/webapp"/>
 
-Depois disso configure seu ClassPath para o JDK 1.6 no compile também. Talvez seja necessário modicar no facets de 1.5 para 1.6 também 
+Depois disso configure seu ClassPath para o JDK 1.6 no compile também. Talvez seja necessário modificar no facets de 1.5 para 1.6 também 
 Pronto o projeto deve rodar perfeitamente em http://localhost:8080/EditorM-MOBI/home
