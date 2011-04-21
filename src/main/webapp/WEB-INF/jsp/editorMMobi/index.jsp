@@ -6,23 +6,25 @@
 
     <!-- ** CSS ** -->
     <!-- base library -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/stylesheets/extjs/ext-all.css" />
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/stylesheets/extjs/fileuploadfield.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/stylesheets/extjs/xtheme-gray.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/stylesheets/extjs/ext-theme-component.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/stylesheets/extjs/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/stylesheets/extjs/fileuploadfield.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/stylesheets/extjs/xtheme-gray.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/stylesheets/extjs/ext-theme-component.css" />
     
     <!-- ExtJS library -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/js/extjs/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/js/extjs/ext-all.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/js/extjs/FileUploadField.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/js/extjs/ext-components.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/ext-all.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/FileUploadField.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/ext-components.js"></script>
     
     <!-- Mobi Js -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/js/mobi/mobi-utils.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/js/mobi/mobi-class.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/mobi/mobi-utils.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/mobi/mobi-class.js"></script>
     
 </head>
+
 <!-- onload="main()" -->
+
 <body>
 
     <div id="header"><h1>Editor M-MOBI b_2.0</h1></div>
