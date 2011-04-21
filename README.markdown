@@ -118,7 +118,7 @@ Por fim dentro da pasta .settings dentro do projeto abra o arquivo org.eclipse.w
 
 Para 
 
-  "<wb-resource deploy-path="/" source-path="src/main/webapp"/>"
+    <wb-resource deploy-path="/" source-path="src/main/webapp"/>
 
 Depois disso configure seu ClassPath para o JDK 1.6 no compile também. Talvez seja necessário modicar no facets de 1.5 para 1.6 também 
 Pronto o projeto deve rodar perfeitamente em http://localhost:8080/EditorM-MOBI/home
