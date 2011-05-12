@@ -26,7 +26,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/pages/js/ext-components.js"></script>
 
 	<!-- mxGraph library -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/comum/mxgraph/mxClient.js"></script>
+	<script type="text/javascript" src="http://mxclient.jgraph.com/demo/mxgraph/src/js/mxclient.php?version=1.1.0.0"></script>
+	<!-- script type="text/javascript" src="${pageContext.request.contextPath}/comum/mxgraph/mxClient.js"></script-->
     
     
     
