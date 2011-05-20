@@ -278,7 +278,9 @@ Ext.onReady(function(){
 		    		
 		    		if (relacao.getId() == mobi.COMPOSITION){
 		    			var ida = Ext.getCmp('ida').getValue();
+		    			ida = ida.replace(/_/g,"-"); 
 		    			var volta = Ext.getCmp('volta').getValue();
+		    			volta = volta.replace(/_/g,"-");
 		    			
 		    			if(ida != ''){
 			    			params['tipoRelacao'] = relacao.getStateId();
