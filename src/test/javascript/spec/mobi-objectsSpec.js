@@ -10,8 +10,8 @@ describe('RelationDraw', function(){
 	var instance; 
 	
 	beforeEach(function () {
-		
-	    relationDraw = new RelationDraw();
+		mockRaphael = {};
+	    relationDraw = new Relation(mockRaphael);
 	    instance = new Instance("Teste");
 	
 	});
