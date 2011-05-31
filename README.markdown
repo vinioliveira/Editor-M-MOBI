@@ -39,9 +39,9 @@ o que torna necessário toda vez que for adicionado um novo jar no pom.xml rodar
 para não ter essa necessidade pode ser adicionado a linha a seguir no lugar das inumeras linahs de jar
 especificadas uma a uma no 'org.eclipse.wst.common.component' 
 
-   <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/con/org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER">
+    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/con/org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER">
        <dependency-type>consumes</dependency-type>
-   </dependent-module>
+    </dependent-module>
 
 Em seguida configure seu settings.xml do maven para fazer o download também do 
 repositório do jboss caso ainda não esteja configurado. Adicionando esses profiles
