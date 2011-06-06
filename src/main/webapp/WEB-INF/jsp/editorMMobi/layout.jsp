@@ -23,8 +23,6 @@
     
     
 </head>
-
-
 <body>
 	<div id="content">
 	    <header>
@@ -35,23 +33,9 @@
 	    		<li><a href="#">Experimente</a></li>
 	    	</ul>
 	    </header>
-
-    	<div id="main">
-    		<div id="top_options">
-    			<button class="blue medium">Download OWL</button>
-    			<button class="blue medium">Importar OWL</button>
-    			<input type="text" />
-    			<input type="text" />
-    			<button class="blue medium">Salvar MOBI</button>
-    			<button class="blue medium">Recuperar MOBI</button>
-    		</div>
-    		<div id="relation">
-    			<div id="graph_relation" class="box"></div>
-    			<div id="options" class="box"></div>
-    		</div>
-    		<div id="graph" class="box" ></div>
-    		<div style="clear:both"></div>
-    	</div>
+	
+	    <div id="main"></div>
+	    <footer></footer>
     </div>
 </body>
 </html>

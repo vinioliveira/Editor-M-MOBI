@@ -1,43 +1,102 @@
-var start = {
-    id: 'start-panel',
-    layout: 'fit',
-    bodyStyle: 'padding:25px',
-    contentEl: 'start-div',
-    tbar: [{
-				text:'Baixar OWL',
-				xtype: 'button',
-				icon : 'images/box_downloa.png'
-			},{
-				text:'Importar OWL',
-				xtype: 'button',
-				icon : 'images/box_downloa.png'
-			},{
-        		xtype : 'textfield',
-        		id : 'dominio',
-        		emptyText  : 'Dominio Modelado',
-                name: 'domonio',
-                style : {margin : '0px 0px 0px 20px'}
-    		},
-    		{
-	    		xtype : 'textfield',
-	    		id : 'email',
-	    		emptyText  : 'Email',
-	            name: 'email',
-	            vtype:'email',
-	            style : {margin : '0px 0px 0px 20px'}
-    		},
-    		{
-				text:'Salvar Mobi',
-				icon : 'images/arrow_down.png'
-			},
-    		{
-				text:'Recuperar Mobi',
-				icon : 'images/arrow_up.png'
-    		}
-    ]
-};
+(function(jQuery){
+	
 
-Ext.onReady(function(){
+	// Menus EXT Todos os botões e fields existentes na tela estão aqui.
+	var menu ={ 
+			top :[{
+					xtype: 'button',
+					text:'Baixar OWL', // Botão BAIXAR OWL
+					textAlign : 'center',
+					icon : 'images/box_downloa.png'
+				},{
+					xtype: 'button',
+					text:'Importar OWL', // Botão IMPORTAR OWL
+					textAlign : 'center',
+					icon : 'images/box_downloa.png'
+				},{
+	        		xtype : 'textfield', // Campo para preencher nome do domínio
+	        		id : 'dominio',
+	        		emptyText  : 'Dominio Modelado',
+	                name: 'domonio',
+	                style : {margin : '0px 0px 0px 20px'}
+	    		},{
+		    		xtype : 'textfield', //Campo para preencher o e-mail 
+		    		id : 'email',
+		    		emptyText  : 'Email',
+		            name: 'email',
+		            vtype:'email',
+		            style : {margin : '0px 0px 0px 20px'}
+	    		},{
+	    			xtype: 'button',
+					text:'Salvar Mobi', // Botão para Salvar o Estado do MOBI
+					textAlign : 'center',
+					icon : 'images/arrow_down.png'
+				},{
+					xtype: 'button',
+					text:'Recuperar Mobi', // Botão para Recuperar o Estado do MOBI
+					textAlign : 'center',
+					icon : 'images/arrow_up.png'
+	    		}], 
+	    		
+			relation :  [{
+					xtype: 'button',
+					iconCls:'add',
+				    text:'Add Instancia A',
+				    width: 170
+				},{
+					xtype: 'button',
+			        name : 'save-realtion',
+			        text:'OK',
+			        width: 70
+			    },{
+			    	xtype: 'button',
+			        iconCls:'add',
+			        text:'Add Instancia B',
+			        width: 170
+			}]
+	};
+	
+	var body_content =  {
+		    id: 'start-panel',
+		    layout: 'fit',
+		    bodyStyle: 'padding:25px',
+		    contentEl: 'start-div'
+	};
+
+	var panels = {
+			top : {
+				xtype: 'panel',
+				contentEl: 'start-div',
+			    bodyStyle: 'padding:25px',
+				id: 'top-panel',
+				region: 'center',
+				layout: 'card',
+				margins: '2 5 5 0',
+				activeItem: 0,
+				border: false,
+				items: [ menu.top ]
+			}
+	};
+	
+	jQuery.initializerExt = function() {
+
+		new Ext.Viewport({
+				layout: 'border',
+				title: 'Ext Layout Browser',
+				items: [
+						panels.top
+					],
+		        renderTo: Ext.getBody()
+		    });
+	};
+	
+	
+})(jQuery);
+
+/* 
+
+//Ext.onReady(function(){
+var dor = function(){
 		
 	Ext.QuickTips.init();
 	
@@ -104,22 +163,7 @@ Ext.onReady(function(){
 	
 	
 	//Buttons 
-	var panelButtons = [{
-			iconCls:'add',
-		    text:'Add Instancia A',
-		    width: 170,
-		    scope: this
-		},{
-	        name : 'save-realtion',
-	        text:'OK',
-	        //disabled : true,
-	        width: 70
-	    },{
-	        iconCls:'add',
-	        width: 170,
-	        scope: this,
-	        text:'Add Instancia B'
-	}];
+	var panelButtons =
 	
 	var treePanel = new Ext.FormPanel({
 		id: 'tree-panel',
