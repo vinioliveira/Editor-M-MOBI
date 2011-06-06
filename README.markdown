@@ -34,6 +34,15 @@ do eclipse rode esse comando
   
     mvn eclipse:eclipse -Dwtpversion=2
 
+O passo anterior irá adicionar todas as libs existentes no pom.xml ao file 'org.eclipse.wst.common.component' 
+o que torna necessário toda vez que for adicionado um novo jar no pom.xml rodar o comando acima novamente
+para não ter essa necessidade pode ser adicionado a linha a seguir no lugar das inumeras linahs de jar
+especificadas uma a uma no 'org.eclipse.wst.common.component' 
+
+    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/con/org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER">
+       <dependency-type>consumes</dependency-type>
+    </dependent-module>
+
 Em seguida configure seu settings.xml do maven para fazer o download também do 
 repositório do jboss caso ainda não esteja configurado. Adicionando esses profiles
 ao seu settings.xml dentro da tag <profiles></profiles>
