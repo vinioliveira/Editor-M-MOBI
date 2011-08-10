@@ -32,7 +32,7 @@ public class RelationServiceImpl implements RelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.RelationService#get(java.lang.String)
 	 */
-	@Override
+	
 	public Relation get(String name) {
 		return mobi.getAllRelations().get(name);
 	}
@@ -40,7 +40,7 @@ public class RelationServiceImpl implements RelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.RelationService#getAll()
 	 */
-	@Override
+	
 	public List<Relation> getAll() {
 		return new ArrayList<Relation>(mobi.getAllRelations().values());
 	}

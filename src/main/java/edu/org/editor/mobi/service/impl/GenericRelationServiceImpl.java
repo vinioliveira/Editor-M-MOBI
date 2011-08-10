@@ -35,7 +35,6 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#create()
 	 */
-	@Override
 	public GenericRelation create() {
 		return (GenericRelation) (getCurrentGenericRelation() == null ?
 				mobi.createGenericRelation(EditorMobiConstants.TEMP) : mobi.getAllGenericRelations().get(EditorMobiConstants.TEMP));
@@ -45,7 +44,6 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#reset()
 	 */
-	@Override
 	public GenericRelation reset() {
 		mobi.getAllGenericRelations().put(EditorMobiConstants.TEMP, new GenericRelation());
 		return (GenericRelation) mobi.createGenericRelation(EditorMobiConstants.TEMP);
@@ -54,7 +52,6 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#addInstanceGroupA(mobi.core.concept.Instance)
 	 */
-	@Override
 	public GenericRelation addInstanceGroupA(Instance instance) {
 		GenericRelation genericRelation = getCurrentGenericRelation();
 		if(genericRelation != null ){
@@ -71,7 +68,6 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#addInstanceGroupB(mobi.core.concept.Instance)
 	 */
-	@Override
 	public GenericRelation addInstanceGroupB(Instance instance) {
 		genericRelation = getCurrentGenericRelation();
 		if(genericRelation != null ){
@@ -88,7 +84,6 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#setClassGroupA(mobi.core.concept.Class)
 	 */
-	@Override
 	public GenericRelation setClassGroupA(Class clazz) {
 		genericRelation = getCurrentGenericRelation();
 		genericRelation.setClassA(clazz);
@@ -98,7 +93,6 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#setClassGroupB(mobi.core.concept.Class)
 	 */
-	@Override
 	public GenericRelation setClassGroupB(Class clazz) {
 		genericRelation = getCurrentGenericRelation();
 		genericRelation.setClassB(clazz);
@@ -108,7 +102,6 @@ public class GenericRelationServiceImpl implements GenericRelationService {
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.GenericRelationService#createRelationInstance(mobi.core.concept.Instance, mobi.core.concept.Instance)
 	 */
-	@Override
 	public GenericRelation createRelationInstance(Instance instanceGroupA, Instance instanceGroubB) {
 		genericRelation = getCurrentGenericRelation();
 		genericRelation.addInstanceRelation(instanceGroupA, instanceGroubB);
