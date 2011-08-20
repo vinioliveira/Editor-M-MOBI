@@ -6,7 +6,6 @@
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>EditorM-MOBI Maven Webapp</name>
-	
 
   <dependencies>
     
@@ -19,9 +18,9 @@
 	</dependency>
 
 	<dependency>
-		<groupId>org.scannotation</groupId>
-		<artifactId>scannotation</artifactId>
-		<version>1.0.2</version>
+	  <groupId>org.scannotation</groupId>
+	  <artifactId>scannotation</artifactId>
+	  <version>1.0.2</version>
 	</dependency>
 
 	<dependency>
@@ -33,7 +32,7 @@
 	<!--  VRAPTOR 3 END -->
 	
 	<!-- Fora do MAVEN REPOSITORY BEGIN -->	
-	
+ 
 	<dependency>
 		<groupId>org.hamcrest</groupId>
 		<artifactId>hamcrest-all</artifactId>
@@ -66,25 +65,74 @@
 	
 	<!--  TEST SUIT END -->
 	
-	<!--  COMMONS AND UTILS BEGIN -->	
+	<!-- Container GUICE BEGIN -->
 	
 	<dependency>
-		<groupId>jstl</groupId>
-		<artifactId>jstl</artifactId>
-		<version>1.2</version>
-		<type>jar</type>
+      <groupId>com.google.inject</groupId>	
+	  <artifactId>guice</artifactId>
+	  <version>3.0</version>
+	</dependency>
+	
+    <dependency>  
+       <groupId>com.google.guava</groupId>  
+       <artifactId>guava</artifactId>  
+       <version>r07</version>  
+    </dependency>  
+    
+	<dependency>
+	  <groupId>cglib</groupId>
+	  <artifactId>cglib</artifactId>
+	  <version>2.2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>com.thoughtworks.paranamer</groupId>
+	  <artifactId>paranamer</artifactId>
+	  <version>2.2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>net.vidageek</groupId>
+	  <artifactId>mirror</artifactId>
+	  <version>1.5.1</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>ognl</groupId>
+	  <artifactId>ognl</artifactId>
+	  <version>2.7.3</version>
 	</dependency>
 
 	<dependency>
-		<groupId>apache-collections</groupId>
-		<artifactId>commons-collections</artifactId>
-		<version>3.2.1</version>
-		<type>jar</type>
-		<scope>compile</scope>
+	  <groupId>com.google.inject.extensions</groupId>
+	  <artifactId>guice-multibindings</artifactId>
+	  <version>3.0</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>aopalliance</groupId>
+	  <artifactId>aopalliance</artifactId>
+	  <version>1.0</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>javax.inject</groupId>
+	  <artifactId>javax.inject</artifactId>
+	  <version>1</version>
+	</dependency>
+	
+	<!-- GUICE CONTAINER END -->
+
+	<!--  COMMONS AND UTILS BEGIN -->	
+
+	<dependency>
+	  <groupId>commons-collections</groupId>
+	  <artifactId>commons-collections</artifactId>
+	  <version>3.2.1</version>
 	</dependency>
 	
 	<!--  COMMONS AND UTILS END -->
-
+	
 	<dependency>
 		<groupId>javax.servlet</groupId>
 		<artifactId>servlet-api</artifactId>
@@ -92,7 +140,9 @@
 		<type>jar</type>
 		<scope>compile</scope>
 	</dependency>
+
   </dependencies>
+ 
   <build>
     <finalName>EditorM-MOBI</finalName>
     
