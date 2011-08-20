@@ -6,6 +6,8 @@ package edu.org.editor.mobi.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.caelum.vraptor.ioc.Component;
+
 import mobi.core.Mobi;
 import mobi.core.concept.Class;
 import edu.org.editor.mobi.service.ClassesService;
@@ -15,6 +17,7 @@ import edu.org.editor.mobi.service.MobiService;
  * @author Vinícius Oliveira
  *
  */
+@Component
 public class ClassesServiceImpl implements ClassesService{
 
 	private MobiService mobiService; 

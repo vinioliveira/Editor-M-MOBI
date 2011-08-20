@@ -6,6 +6,8 @@ package edu.org.editor.mobi.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.caelum.vraptor.ioc.Component;
+
 import mobi.core.Mobi;
 import mobi.core.common.Relation;
 import edu.org.editor.mobi.service.MobiService;
@@ -15,6 +17,7 @@ import edu.org.editor.mobi.service.RelationService;
  * @author Vinícius Oliveira
  *
  */
+@Component
 public class RelationServiceImpl implements RelationService {
 
 	
