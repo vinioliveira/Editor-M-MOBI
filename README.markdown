@@ -1,36 +1,43 @@
 Configurando o Projeto com o eclipse
 ===
 
-Esse tutorial segue em 3 principais passos, podendo se estender por mais alguns conforme a plataforma que está sendo usada.
-
-
 
 1º Passo 
 ---------------------------
 
-Clone o projeto 
+  Clone o projeto 
 
     git clone https://github.com/vinioliveira/EditorM-MOBI.git
 
-Depois faça um fetch para obter as branchs e consequentemente a branch 
+  Depois faça um fetch para obter as branchs e consequentemente a branch 
 desenvolvimento que é esta, onde está a versão mais nova do EditorM-MOBI
 
     git fetch origin 
 
-Em seguida crie uma nova branch e faça o checkout da mesma para torna-la 
+  Em seguida crie uma nova branch e faça o checkout da mesma para torna-la 
 sua branch de trabalho 
   
     git checkout -b desenvolvimento origin/desenvolvimento 
 
-Nesse momento você tem o projeto baixado na branch correta. 
+  Nesse momento você tem o projeto baixado na branch correta. 
 
 
 2º Passo
 ---------------------------
 
-Essa parte assumo que você já tem o maven configurado e instalado no seu 
-ambiente. Afim de fazer ele funcionar corretamente com o plugin e2Maven 
-do eclipse rode esse comando 
+  Essa parte assumo que você já tem o maven configurado e instalado no seu 
+ambiente. Algumas libs utilizadas no projeto não se encotnram em repositório oficial algum 
+por isso criei um shell script que instala essas libs no seu repositorie afim de facilitar caso 
+deseje instalar manualmente você mesmo as libs se encontram na pasta lib : 
+	
+	cd Editor-M-Mobi/
+	sh ./install_dependencies.sh
+
+  Após executar o comando as libs deveram estar disponível em seu repositório local se algum error ocorrer
+durante a execução desse passo reveja seu settings.xml e veja se está tudo correto e se está adicionado o 
+repositório official do jboss o qual é necessário para o download de alguns dos pacotes deste projeto. 
+Caso deseje utilize o settings.xml desse [link](https://gist.github.com/1161383) que já possui o repositório configurado.
+  Afim de fazer ele funcionar corretamente com o plugin e2Maven do eclipse rode esse comando 
   
     mvn eclipse:eclipse -Dwtpversion=2
 
@@ -43,83 +50,10 @@ especificadas uma a uma no 'org.eclipse.wst.common.component'
        <dependency-type>consumes</dependency-type>
     </dependent-module>
 
-Em seguida configure seu settings.xml do maven para fazer o download também do 
-repositório do jboss caso ainda não esteja configurado. Adicionando esses profiles
-ao seu settings.xml dentro da tag <profiles></profiles>
-
-    <profile>
-      <id>jboss-public-repository</id>	
-      <repositories>
-        <repository>
-          <id>jboss-public-repository-group</id>
-          <name>JBoss Public Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-          <layout>default</layout>
-          <releases>
-	          <enabled>true</enabled>
-	          <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-	          <enabled>true</enabled>
-	          <updatePolicy>never</updatePolicy>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>jboss-public-repository-group</id>
-          <name>JBoss Public Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-          <releases>
-	          <enabled>true</enabled>
-          </releases>
-          <snapshots>
-	          <enabled>true</enabled>
-          </snapshots>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
-    <profile>
-      <id>jboss-repository</id>	
-      <repositories>
-        <repository>
-          <id>JBoss</id>
-          <name>JBoss Repository</name>
-          <url>http://repository.jboss.org/maven2/</url>
-          <layout>default</layout>
-          <releases>
-	          <enabled>true</enabled>
-	          <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-	          <enabled>true</enabled>
-	          <updatePolicy>never</updatePolicy>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>JBoss</id>
-          <name>JBoss Repository</name>
-          <url>http://repository.jboss.org/maven2/</url>
-          <releases>
-	          <enabled>true</enabled>
-          </releases>
-          <snapshots>
-	          <enabled>true</enabled>
-          </snapshots>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
-
-Configurando esse arquivo no seu settings.xml isso permite baixar todas as libs necessária. 
-
-
-
 3º Passo 
 ---------------------------
 
-Por fim dentro da pasta .settings dentro do projeto abra o arquivo 
+  Por fim dentro da pasta .settings dentro do projeto abra o arquivo 
 
     org.eclipse.wst.common.component 
 
