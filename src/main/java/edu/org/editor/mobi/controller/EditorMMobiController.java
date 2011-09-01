@@ -22,7 +22,7 @@ public class EditorMMobiController {
 		this.mobiService = mobiService;
 	}
 		
-	@Get("/home")
+	@Get("/")
 	public void index(){
 		result.include(mobiService.getCurrentUser());
 	}

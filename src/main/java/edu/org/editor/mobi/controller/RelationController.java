@@ -1,5 +1,6 @@
 package edu.org.editor.mobi.controller;
 
+import mobi.core.common.Relation;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
@@ -20,12 +21,12 @@ public class RelationController {
 		this.result = result;
 	}
 
-	@Get public void get(String name) {
-		result.use(Results.json()).from(relationService.get(name)).serialize();
+	@Get("/relations/{name}") public void get(String name) {
+		result.use(Results.json()).withoutRoot().from(relationService.get(name)).serialize();
 	}
 
-	@Get public void getAll() {
-		result.use(Results.json()).from(relationService.getAll()).serialize();
+	@Get("/relations") public void getAll() {
+		result.use(Results.json()).withoutRoot().from(relationService.getAll()).serialize();
 	}
 
 }
