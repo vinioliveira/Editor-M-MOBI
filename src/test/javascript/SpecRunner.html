@@ -7,17 +7,34 @@
   <script type="text/javascript" src="lib/jasmine-1.0.2/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.0.2/jasmine-html.js"></script>
 
+
+  <!-- Vendors -->
+  <script src="../../main/webapp/js/vendor/jquery-1.5.2.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../main/webapp/js/vendor/underscore.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../main/webapp/js/vendor/backbone.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../main/webapp/js/vendor/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../main/webapp/js/mobi.js" type="text/javascript" charset="utf-8"></script>
+
+
   <!-- include source files here... -->
-  <script type="text/javascript" src="../../main/webapp/javascript/lib/jQuery/jquery-1.5.2.min.js"></script>
-  <script type="text/javascript" src="../../main/webapp/javascript/lib/raphael/raphael-min.js"></script>
-  <script type="text/javascript" src="../../main/webapp/javascript/lib/Utils/Utils.js"></script>
-  <script type="text/javascript" src="../../main/webapp/javascript/mobi-objects.js"></script>
-  
+  <script src="../../main/webapp/js/mobi.js" type="text/javascript" charset="utf-8"></script>
 
 
   <!-- include spec files here... -->
-  <script type="text/javascript" src="spec/mobi-objectsSpec.js"></script>
-  <script type="text/javascript" src="spec/relationControlSpec.js"></script>
+  
+  <script src="spec/fixture.js" type="text/javascript" charset="utf-8"></script>
+  <script src="spec/mobiSpec.js" type="text/javascript" charset="utf-8"></script>
+  
+  <!-- Templates -->
+  <script type="text/x-jquery-tmpl" id="class-template">
+	<span>${'${'}uri}</span>
+  </script>
+  
+  <script type="text/x-jquery-tmpl" id="relation-template">
+		<span> Relations </span>
+		<div class="classesA"></div>
+		<div class="classesB"></div>
+  </script>
 
 </head>
 <body>
