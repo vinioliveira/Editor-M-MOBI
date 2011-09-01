@@ -39,7 +39,7 @@ public class ClassesControllerTest {
 	@Test public void shouldReturnAnSpecificClassByName() throws Exception {
 		
 		when(classesService.getByName("anonymous")).thenReturn(new Class("anonymous"));
-		controller.getClass("anonymous");
+		controller.show("anonymous");
 		String expectedResult = "{\"class\": {\"valid\": true,\"uri\": \"anonymous\"}}";
 		assertEquals(expectedResult, result.serializedResult());
 		
@@ -59,13 +59,14 @@ public class ClassesControllerTest {
 		 
 		when(classesService.getAll()).thenReturn(classesExamples);
 		controller.list();
-		String expectedResult = "{\"classes\": [{\"valid\": true,\"uri\": \"Anonymous 1\"},{\"valid\": true,\"uri\": \"Anonymous 2\"},{\"valid\": true,\"uri\": \"Anonymous 3\"}]}";
+		String expectedResult = "[{\"valid\": true,\"uri\": \"Anonymous 1\"},{\"valid\": true,\"uri\": \"Anonymous 2\"},{\"valid\": true,\"uri\": \"Anonymous 3\"}]";
 		assertEquals(expectedResult, result.serializedResult());
 	
 	}
 	
 	@Test public void shouldUpdateClassWithNewName() throws Exception { 
 		when(classesService.update(classesExamples.get(1).getUri(), classesExamples.get(0))).thenReturn(classesExamples.get(0));
+		
 		controller.update(classesExamples.get(1).getUri(),classesExamples.get(0));
 		String expectedResult = "{\"class\": {\"valid\": true,\"uri\": \"Anonymous 1\"}}";
 		assertEquals(expectedResult, result.serializedResult());

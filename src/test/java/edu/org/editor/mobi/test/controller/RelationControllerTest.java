@@ -46,7 +46,7 @@ public class RelationControllerTest {
 		
 		when(relationService.get("R1")).thenReturn(relationsExamples.get(0));
 		controller.get("R1");
-		String expectedResult = "{\"compositionRelation\": {\"valid\": true,\"uri\": \"R1\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []}}";
+		String expectedResult = "{\"valid\": true,\"uri\": \"R1\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []}";
 		assertEquals(expectedResult, result.serializedResult());
 		
 	}
@@ -55,7 +55,7 @@ public class RelationControllerTest {
 		
 		when(relationService.getAll()).thenReturn(relationsExamples);
 		controller.getAll();
-		String expectedResult = "{\"list\": [{\"valid\": true,\"uri\": \"R1\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []},{\"valid\": true,\"uri\": \"R2\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []},{\"valid\": true,\"uri\": \"R3\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []}]}";
+		String expectedResult = "[{\"valid\": true,\"uri\": \"R1\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []},{\"valid\": true,\"uri\": \"R2\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []},{\"valid\": true,\"uri\": \"R3\",\"type\": 0,\"cardinalityA\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"cardinalityB\": {\"type\": 0,\"maxCardinality\": 0,\"minCardinality\": 0},\"instanceRelationMapA\": [],\"instanceRelationMapB\": []}]";
 		assertEquals(expectedResult, result.serializedResult());
 		
 	}
