@@ -94,12 +94,12 @@
 	//Collections
 	window.Classes = Backbone.Collection.extend({
 		model : Class,
-		url   : 'classes'
+		url   : '/classes'
 	});
 	
 	window.Instances = Backbone.Collection.extend({
 		model : Instance,
-		url   : 'instances'
+		url   : '/instances'
 	});
 	
 	
@@ -140,9 +140,7 @@
             this.template = $('#relation-template');
             this.model.get('instancesGroupA').bind("add",this.render);
             this.model.get('instancesGroupB').bind("add",this.render);
-			
-            // this.collection.bind('reset', this.render);
-            // this.collection.bind('add', this.render);
+
         },
         
         render: function() {
@@ -164,8 +162,6 @@
                 $classesB.append(view.render().el);
             });
             
-//            $classA.append( this.model.get('classA').
-
             return this;
         }
 
@@ -178,7 +174,6 @@
 		routes : {
 			''  : 'home',
 			'blank' : 'blank',
-			'new' : 'newClass'
 		},
 		
 		initialize: function() {
@@ -196,11 +191,8 @@
 		
 		blank : function() {
 			$("#graph_relation").empty();
-		},
-		
-		newClass : function(){
-			alert('Nova Classe ....');
 		}
+		
 	});
 		
 	$(function() {
