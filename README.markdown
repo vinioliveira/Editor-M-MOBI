@@ -7,7 +7,7 @@ Configurando o Projeto com o eclipse
 
   Clone o projeto 
 
-    git clone https://github.com/vinioliveira/EditorM-MOBI.git
+    git clone https://github.com/vinioliveira/Editor-M-MOBI.git
 
   Depois faça um fetch para obter as branchs e consequentemente a branch 
 desenvolvimento que é esta, onde está a versão mais nova do EditorM-MOBI
