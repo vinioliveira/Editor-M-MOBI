@@ -111,8 +111,21 @@
 	window.relations = new Relations();
 	window.classes = new Classes();
 	
-	
 	//Views 	
+	window.InstanceView = Backbone.View.extend({
+		initialize :  function(){
+			_.bindAll(this, 'render');
+			this.model.bind('change', this.render);
+			this.template = $('#instance-template');
+		},
+		
+		render : function() {
+			var renderContent = this.template.tmpl(this.model.toJSON());
+			$(this.el).html(renderContent);
+			return this;
+		}
+	})
+	
 	window.ClassView = Backbone.View.extend({
 		
 		className : "class",
@@ -131,9 +144,7 @@
 	})
 	
 	window.RelationView = Backbone.View.extend({
-		
-		className : "relation",
-		
+				
 		initialize: function() {
 
             _.bindAll(this, 'render');
@@ -147,21 +158,23 @@
             
             $(this.el).html(this.template.tmpl({ uri : this.model.get('uri')}));
 
-            var $classesA = this.$('.classesA'),
-            	$classesB = this.$('.classesB'),
+            var $instancesA = this.$('.instancesA'),
+            	$instancesB = this.$('.instancesB'),
             	$classA   = this.$('.classA'),
 	            $classB   = this.$('.classB');
             
             this.model.get('instancesGroupA').each(function(instance) {
-                var view = new ClassView({ model: instance });
-                $classesA.append(view.render().el);
+                var view = new InstanceView({ model: instance });
+                $instancesA.append(view.render().el);
             });
 
             this.model.get('instancesGroupB').each(function(instance) {
-                var view = new ClassView({ model: instance });
-                $classesB.append(view.render().el);
+                var view = new InstanceView({ model: instance });
+                $instancesB.append(view.render().el);
             });
-            
+
+			
+			
             return this;
         }
 
@@ -184,7 +197,7 @@
 		},
 		
 		home: function() {
-			var $container = $('#graph_relation');
+			var $container = $('#relation');
 			$container.empty();
 			$container.append(this.relationView.render().el)
 		},

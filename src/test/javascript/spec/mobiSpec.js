@@ -1,5 +1,5 @@
 /**
- * Test suite for RelatiosDraw
+ * Test suite for Mobi BackBone.js
  * 
  * @author Vinícius Oliveira
  */
@@ -39,25 +39,25 @@ describe('Mobi', function(){
 			});
 			
 			it('Should return html with relation class', function() {
-				expect($(this.relationView.render().el).hasClass('relation')).toBeTruthy();
+				expect($(this.relationView.render().el).find('#map-relation')).toBeTruthy();
 			});
 			
 			it('Should return html with classes class for childrens', function() {
 				$element = $(this.relationView.render().el);
 				
-				expect($element.children().hasClass('classesA')).toBeTruthy();
-				expect($element.find('.classesA').children().size()).toEqual(3);
+				expect($element.find('instancesA')).toBeTruthy();
+				expect($element.find('.instancesA').children().size()).toEqual(3);
 
-				expect($element.children().hasClass('classesB')).toBeTruthy();
-				expect($element.find('.classesB').children().size()).toEqual(3);
+				expect($element.find('.instancesB')).toBeTruthy();
+				expect($element.find('.instancesB').children().size()).toEqual(3);
 			});
 			
 			it('Should return html with 4 childrens to 4 of instances add to Classes Variable', function() {
 				this.relation.get('instancesGroupA').add(new Instance({}));
 				$element = $(this.relationView.render().el);
 				
-				expect($element.children().hasClass('classesA')).toBeTruthy();
-				expect($element.find('.classesA').children().size()).toEqual(4);
+				expect($element.find('instancesA')).toBeTruthy();
+				expect($element.find('.instancesA').children().size()).toEqual(4);
 			});
 		})
 	});

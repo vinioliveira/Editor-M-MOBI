@@ -26,15 +26,19 @@
   <script src="spec/mobiSpec.js" type="text/javascript" charset="utf-8"></script>
   
   <!-- Templates -->
-  <script type="text/x-jquery-tmpl" id="class-template">
+  <script type="text/x-jquery-tmpl" id="instance-template">
 	<span>${'${'}uri}</span>
   </script>
   
   <script type="text/x-jquery-tmpl" id="relation-template">
-		<span> Relations </span>
-		<div class="classesA"></div>
-		<div class="classesB"></div>
+	<div id="map-relation" class="box">
+		<span> Relations : ${'${'} uri }</span>
+		<div class="instancesA"></div>
+		<div class="instancesB"></div>
+	</div>
+	<div id="options" class="box"></div>
   </script>
+
 
 </head>
 <body>

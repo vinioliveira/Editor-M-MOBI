@@ -7,14 +7,7 @@
     <!-- ** CSS ** -->
     <!-- base library -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/stylesheets/main.css" />
-    
-    <!-- ExtJS library -->
-    <!--<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/adapter/ext/ext-base.js"></script> -->
-    <!--<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/ext-all.js"></script> -->
-	<!-- <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/FileUploadField.js"></script> -->
-    <!-- <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/lib/extjs/ext-components.js"></script> -->
-    
-    
+        
     
     <!-- Vendor Js -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/modernizr-1.6.min.js"></script>
@@ -26,14 +19,17 @@
 	<!-- Mobi Js -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi.js"></script>
     
-	<script type="text/x-jquery-tmpl" id="class-template">
+	<script type="text/x-jquery-tmpl" id="instance-template">
 		<span>${'${'}uri}</span>
 	</script>
     
     <script type="text/x-jquery-tmpl" id="relation-template">
-		<span> Relations : ${'${'} uri }</span>
-		<div class="classesA"></div>
-		<div class="classesB"></div>
+		<div id="map-relation" class="box">
+			<span> Relations : ${'${'} uri }</span>
+			<div class="instancesA"></div>
+			<div class="instancesB"></div>
+		</div>
+		<div id="options" class="box"></div>
     </script>
     
     <script type="text/javascript">
@@ -65,10 +61,7 @@
     			<button class="blue medium">Salvar MOBI</button>
     			<button class="blue medium">Recuperar MOBI</button>
     		</div>
-    		<div id="relation">
-    			<div id="graph_relation" class="box"></div>
-    			<div id="options" class="box"></div>
-    		</div>
+    		<div id="relation"></div>
     		<div id="graph" class="box" ></div>
     		<div style="clear:both"></div>
     	</div>
