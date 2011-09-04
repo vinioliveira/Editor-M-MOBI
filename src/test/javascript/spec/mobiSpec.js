@@ -38,8 +38,8 @@ describe('Mobi', function(){
 				this.relationView = new RelationView({ model : this.relation });
 			});
 			
-			it('Should return html with relation class', function() {
-				expect($(this.relationView.render().el).find('#map-relation')).toBeTruthy();
+			it('Should return html with map-relation id', function() {
+				expect($(this.relationView.render().el).find('#map-relation').toArray().length).toBeGreaterThan(0);
 			});
 			
 			it('Should return html with classes class for childrens', function() {
@@ -62,6 +62,32 @@ describe('Mobi', function(){
 		})
 	});
 	
+	describe('Instance', function() {
+		
+		beforeEach(function() {
+			this.instance = new Instance(MobiFixture[0].compositionRelation.instanceRelationMapA[0][1].instance)
+		});
+		
+		it('Creation works fine', function() {
+			expect(this.instance.get('uri')).toEqual('Anonymous 3');
+		});
+		
+		
+		describe('Instance View', function() {
+			
+			beforeEach(function() {
+				this.instanceView = new InstanceView({model : this.instance});
+			});
+			
+			it('Should return html with instance class', function() {
+				expect($(this.instanceView.render().el).find('.instance').toArray().length).toBeGreaterThan(0);
+			});
+		})
+		
+		
+		
+	})
+	
 	describe('Class',function() {
 		
 		beforeEach(function() {
@@ -78,8 +104,8 @@ describe('Mobi', function(){
 				this.classView = new ClassView({ model : this.class });
 			});
 			
-			it('Should return a div with class corespondent to Side of the current Class', function() {
-				// expect($(this.classView.render().el).hasClass('.')).toBeTruthy();
+			it('Should return html with classA class', function() {
+				expect($(this.classView.render().el).find('input.class').toArray().length).toBeGreaterThan(0);
 			});
 		})
 	});

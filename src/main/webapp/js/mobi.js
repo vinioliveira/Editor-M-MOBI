@@ -38,6 +38,8 @@
 		initialize : function() {
 			this.set({ instancesGroupA : new Instances() });
 			this.set({ instancesGroupB : new Instances() });
+			this.set({ classA : new Class() });
+			this.set({ classB : new Class() });
 			this.prepare();
 		},
 		
@@ -51,10 +53,10 @@
 		},
 		
 		prepare : function() {
+			this.prepareClassA();
+			this.prepareClassB();
 			this.prepareInstancesA();
 			this.prepareInstancesB();
-			this.prepareClasseA();
-			this.prepareClasseB();
 		},
 		
 		prepareInstancesA : function() {
@@ -75,15 +77,15 @@
 			}
 		},
 		
-		prepareClasseA : function() {
+		prepareClassA : function() {
 			if(this.get("cardinalityA") != null ){
-				self.set({ classA : new Class(this.get("cardinalityA").mobiClass )});
+				this.set({ classA : new Class(this.get("cardinalityA").mobiClass )});
 			}
 		},		
 		
-		prepareClasseB : function() {
+		prepareClassB : function() {
 			if(this.get('cardinalityB') != null){
-				self.set({ classB : new Class(this.get("cardinalityB").mobiClass )});
+				this.set({ classB : new Class(this.get("cardinalityB").mobiClass )});
 			}
 		}
 		
@@ -128,8 +130,6 @@
 	
 	window.ClassView = Backbone.View.extend({
 		
-		className : "class",
-		
 		initialize : function() {
 			_.bindAll(this, 'render');
 			this.model.bind("change",this.render);
@@ -173,7 +173,17 @@
                 $instancesB.append(view.render().el);
             });
 
+			$classA.append(new ClassView({
+					model : this.model.get('classA') // ( this.model.get('classA') || new Class({ uri : 'New Class'}))
+				})
+				.render().el
+			);
 			
+			$classB.append(new ClassView({
+					model : ( this.model.get('classB') || new Class({ uri : 'New Clsss'}))
+				})
+				.render().el
+			);
 			
             return this;
         }

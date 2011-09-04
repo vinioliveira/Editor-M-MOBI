@@ -20,16 +20,23 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi.js"></script>
     
 	<script type="text/x-jquery-tmpl" id="instance-template">
-		<span>${'${'}uri}</span>
+		<span class="instance" >${'${'}uri}</span>
 	</script>
     
+	<script type="text/x-jquery-tmpl" id="class-template">
+		<input class="class" type="text" value='${'${'}uri}'></input>
+	</script>
+	
     <script type="text/x-jquery-tmpl" id="relation-template">
 		<div id="map-relation" class="box">
 			<span> Relations : ${'${'} uri }</span>
 			<div class="instancesA"></div>
 			<div class="instancesB"></div>
 		</div>
-		<div id="options" class="box"></div>
+		<div id="options" class="box">
+			<div class="classA"></div>
+			<div class="classB"></div>
+		</div>
     </script>
     
     <script type="text/javascript">
