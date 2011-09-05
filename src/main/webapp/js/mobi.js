@@ -62,8 +62,8 @@
 		prepareInstancesA : function() {
 			self = this;
 			if(this.get('instanceRelationMapA') != null){
-				self.get('instanceRelationMapA').forEach(function(map) {
-					self.get('instancesGroupA' ).add( new Instance(map[1].instance));
+				this.get('instanceRelationMapA').forEach(function(mapInst) {
+					self.get('instancesGroupA' ).add( new Instance(mapInst[1]));
 				});				
 			}
 		},
@@ -71,8 +71,8 @@
 		prepareInstancesB : function() {
 			self = this;
 			if(this.get('instanceRelationMapB') != null){
-				self.get('instanceRelationMapB').forEach(function(map) {
-					self.get('instancesGroupB' ).add(new Instance(map[1].instance));
+				self.get('instanceRelationMapB').forEach(function(mapInst) {
+					self.get('instancesGroupB' ).add(new Instance(mapInst[1]));
 				});				
 			}
 		},
@@ -91,7 +91,36 @@
 		
 	});
 	
-	window.Instance = Backbone.Model.extend({});
+	window.Instance = Backbone.Model.extend({
+		
+		initialize : function() {
+			this.set({ uri : ( this.get('uri') || '' )});
+			this.set({instances : new Instances()});
+			this.prepare(); 
+		},
+		
+		prepare : function() {
+			this.prepareUri();
+			this.prepareInstences();
+		},
+		
+		prepareUri : function() {
+			if(this.get('instance') != null ){
+				this.set({ uri : this.get('instance').uri});				
+			}
+		},
+		
+		prepareInstences : function() {
+			//Don't change name of this variable, that can cause error with callback functions
+			selfInst = this;
+			if(this.get('instanceMap') != null){
+				this.get('instanceMap').forEach(function(map) {
+					selfInst.get('instances').add(new Instance(map[1]));
+				});				
+			}
+		}
+		
+	});
 	
 	//Collections
 	window.Classes = Backbone.Collection.extend({

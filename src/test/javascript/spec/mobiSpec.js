@@ -9,7 +9,7 @@ describe('Mobi', function(){
 	describe('Relation', function() {
 		
 		beforeEach(function() {
-			window.relation = this.relation = new Relation(MobiFixture[0].compositionRelation);
+			this.relation = new Relation(MobiFixture[0].compositionRelation);
 		});
 		
 		it('Creation works fine',function() {
@@ -65,13 +65,21 @@ describe('Mobi', function(){
 	describe('Instance', function() {
 		
 		beforeEach(function() {
-			this.instance = new Instance(MobiFixture[0].compositionRelation.instanceRelationMapA[0][1].instance)
+			window.instance = this.instance = new Instance(MobiFixture[0].compositionRelation.instanceRelationMapA[0][1])
 		});
 		
 		it('Creation works fine', function() {
 			expect(this.instance.get('uri')).toEqual('Anonymous 3');
 		});
 		
+		describe('Instance Model', function() {
+			
+			it('Should return all of relations for this Instance', function() {
+				expect(this.instance.get('instances').length).toEqual(1);
+				expect(this.instance.get('instances').first().get('uri')).toEqual('Anonymous 4');
+			});
+			
+		});
 		
 		describe('Instance View', function() {
 			
