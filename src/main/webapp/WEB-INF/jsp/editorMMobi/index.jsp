@@ -18,7 +18,8 @@
 
 	<!-- Mobi Js -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi.js"></script>
-    
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/rassoci/rassoci.js"></script>
+	    
 	<script type="text/x-jquery-tmpl" id="instance-template">
 		<span class="instance" >${'${'}uri}</span>
 	</script>
