@@ -26,16 +26,35 @@
 	</script>
     
 	<script type="text/x-jquery-tmpl" id="class-template">
-		<input class="class" type="text" value='${'${'}uri}'></input>
+		<input class="class left" type="text" value='${'${'}uri}'></input>
 	</script>
 	
     <script type="text/x-jquery-tmpl" id="relation-template">
 		<div id="map-relation" class="box">
-			<span> Relations : ${'${'} uri }</span>
+			<div class="header"> 
+				<img src="/images/transfer.png">
+				Relation : <i>${'${'} uri }</i>
+				<div class="action">
+					<a class="add relation" href="#">	
+						relation
+						<img src="/images/plus.png">
+					</a>
+				</div>
+			</div>
 			<div class="instancesA"></div>
 			<div class="instancesB"></div>
 		</div>
-		<div id="options" class="box">
+		<div id="options">
+			<div class="actions">
+				<a class="add left" href="#">
+					<img src="/images/plus.png">
+					class A
+				</a> 
+				<a class="add right" href="#">
+					class B
+					<img src="/images/plus.png">
+				</a>
+			</div>
 			<div class="classA"></div>
 			<div class="classB"></div>
 		</div>
@@ -51,27 +70,39 @@
 
 
 <body>
-	<div id="content">
-	    <header>
+	<div class="content">
+	    <div class="top">
 	    	<h1>MOBI-I</h1>
-	    	<ul>
-	    		<li><a href="#">Home</a></li>
-	    		<li><a href="#">Sobre</a></li>
-	    		<li><a href="#">Experimente</a></li>
-	    	</ul>
-	    </header>
-
-    	<div id="main">
-    		<div id="top_options">
-    			<a href="/#blank"><button class="blue medium">Download OWL</button></a>
-    			<button class="blue medium">Importar OWL</button>
-    			<input type="text" />
-    			<input type="text" />
-    			<button class="blue medium">Salvar MOBI</button>
-    			<button class="blue medium">Recuperar MOBI</button>
-    		</div>
+			<h3>Metodo de Modelagem Baseado em Instancia</h3>
+			<div id="menu" class="right">
+				<ul>
+					<li class="refrash">
+						<span></span>
+						<a href="#">refrash</a>
+					</li>
+					<li class="download">
+						<span></span>
+						<a href="#">download</a>
+					</li>
+					<li class="check">
+						<span></span>
+						<a href="#">check</a>
+					</li>
+					<li class="about">
+						<span></span>
+						<a href="#">about</a>
+					</li>
+				</ul>
+			</div>
+	    </div>
+    	<div class="main">
     		<div id="relation"></div>
-    		<div id="graph" class="box" ></div>
+    		<div id="graph"  >
+    			<div class="header">
+					<img src="/images/graph.png">
+    				Info Graph
+    			</div>
+    		</div>
     		<div style="clear:both"></div>
     	</div>
     </div>
