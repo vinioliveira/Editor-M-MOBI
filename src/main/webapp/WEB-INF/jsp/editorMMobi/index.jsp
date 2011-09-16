@@ -15,12 +15,11 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/underscore.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/backbone.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/jquery.tmpl.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/raphael-min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/rassoci.js"></script>
 
 	<!-- Mobi Js -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/raphael/raphael-min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/rassoci/rassoci.js"></script>
-	    
 	<script type="text/x-jquery-tmpl" id="instance-template">
 		<span class="instance" >${'${'}uri}</span>
 	</script>
