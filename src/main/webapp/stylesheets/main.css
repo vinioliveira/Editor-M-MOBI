@@ -33,7 +33,8 @@ a, a:visited, a:active{
 .top {
     position: relative;
 	height : 60px;
-	background-image : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA7CAIAAAA1lncVAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAGNJREFUeNpcTbsOgDAIhEtM//+nXFzcTYxfoU6chRKrHcgB98K2HzivGyQhIjGkI3P//vnj33vQOt93RwXNIFp9lTNa+wU2Tc/UxNYpzmWXhifv7B3zXeP5oU2+TAXrMj8CDAA+VFkbUEmEBAAAAABJRU5ErkJggg==)
+	background-image : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA7CAIAAAA1lncVAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAGNJREFUeNpcTbsOgDAIhEtM//+nXFzcTYxfoU6chRKrHcgB98K2HzivGyQhIjGkI3P//vnj33vQOt93RwXNIFp9lTNa+wU2Tc/UxNYpzmWXhifv7B3zXeP5oU2+TAXrMj8CDAA+VFkbUEmEBAAAAABJRU5ErkJggg==);
+	min-width : 840;
 }
 
 .top h1 {
@@ -56,7 +57,7 @@ a, a:visited, a:active{
 /* USER INFORMATION */
 
 #user-info{
-	margin : 0 0 0 160px;
+	margin : 0 0 0 90px;
 	padding : 4px 5px;
 	border-left : 2px dashed #A1A4A8;
 }
