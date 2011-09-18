@@ -5,7 +5,12 @@
 	id="WebApp_ID" version="2.5">
   <display-name>Editor M-MOBI</display-name>
   
-  <context-param>
+  	<context-param>  
+       <param-name>br.com.caelum.vraptor.encoding</param-name>  
+       <param-value>UTF-8</param-value>  
+	</context-param>  
+	
+  	<context-param>
         <param-name>br.com.caelum.vraptor.packages</param-name>
         <param-value>edu.org.editor.mobi</param-value>
     </context-param>
