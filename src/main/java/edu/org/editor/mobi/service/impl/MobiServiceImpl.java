@@ -24,21 +24,27 @@ public class MobiServiceImpl implements MobiService, Serializable{
 	
 	private Mobi mobi;
 	private User currentUser;
-	
-	@PostConstruct
-	public void create(){
-		mobi = new Mobi("AnonimoDomain");
-		currentUser = User.anonymousUser();
+
+	public void setUser(User user){
+		this.currentUser = user;
 	}
 	
+	public void mobiDomain(String name){
+		this.mobi = new Mobi(name);
+	}
 	
 	public User getCurrentUser() {
 		return currentUser;
 	}
-
 	
 	public Mobi getCurrentMobi() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	public Boolean isActive(){
+		return (currentUser != null && mobi != null);
+	}
+
 }

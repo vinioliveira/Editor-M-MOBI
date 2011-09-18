@@ -20,6 +20,10 @@
 
 	<!-- Mobi Js -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi.js"></script>
+  
+	
+	<!-- TEMPLATES -->
+	
 	<script type="text/x-jquery-tmpl" id="instance-template">
 		<span class="instance" >${'${'}uri}</span>
 	</script>
@@ -72,7 +76,17 @@
 	<div class="content">
 	    <div class="top">
 	    	<h1>MOBI-I</h1>
-			<h3>Metodo de Modelagem Baseado em Instancia</h3>
+			<div id="user-info" class="left">
+				<div class="user">
+					<b>agent </b>: <i>${ user.name }</i>
+				</div>
+				<div class="email">
+					<b>email </b> : <i> ${ user.email }</i>
+				</div>
+				<div class="domain">
+					<b>domain</b> : <i> ${ user.domain }</i>
+				</div>
+			</div>
 			<div id="menu" class="right">
 				<ul>
 					<li class="refrash">

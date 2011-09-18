@@ -6,6 +6,7 @@ import java.io.Serializable;
  * @author Vinícius Oliveira
  *
  */
+
 public class User implements Serializable {
 
 	
@@ -13,26 +14,16 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 8256351799387628267L;
 	private String name;
 	private String email;
+	private String domain;
 
-	private User (String name){
-		this.name=name;
-	}
+	public User() {}
 	
-	public static User withName(String name){
-		  return new User(name);
-	}
-
-	public User andEmail(String email){
-		
+	public User(String name, String email, String domain) {
+		this.name = name;
 		this.email = email;
-		
-		return this;
+		this.domain = domain;
 	}
 	
-	public static User anonymousUser(){
-		return User.withName("Anonymous").andEmail("anonymous@mobi.org.edu");
-	}
-
 	
 	/**
 	 * @return the name
@@ -66,5 +57,21 @@ public class User implements Serializable {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	/**
+	 * @return the domain
+	 */
+	public String getDomain() {
+		return domain;
+	}
+
+
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 }

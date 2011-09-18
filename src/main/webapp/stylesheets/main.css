@@ -1,24 +1,19 @@
 /* GLOBALS*/
-@font-face {
-    font-family: "Museo 700 Regular";
-}
-
 * {
     margin: 0;
     padding: 0;
 }
 
 body {
-    color: #4D4D4D;
-    font-family: "Lucida Grande",Verdana,sans-serif;
+    color: #2f5579;
+    font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
     font-size: 14px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.698);
  	background-color: #d3dadf ;
     background-repeat: no-repeat;
 }
 
 a, a:visited, a:active{
-	color : #4d4d4d;
+	color : #2f5579;
 	text-decoration : none;
 }
 
@@ -45,7 +40,7 @@ a, a:visited, a:active{
 	float: left;
 	width: 165px;
 	height: 60px;
-	background: url('../images/mobi-logo.png') no-repeat;
+	background: url('../images/mobi-min.png') 15px 0 no-repeat;
 	text-indent: -3000px;
 }
 
@@ -58,6 +53,28 @@ a, a:visited, a:active{
 	text-indent: -3000px;
 }
 
+/* USER INFORMATION */
+
+#user-info{
+	margin : 0 0 0 160px;
+	padding : 4px 5px;
+	border-left : 2px dashed #A1A4A8;
+}
+
+#user-info .user {
+	background: url(../images/user.png)  0px 2px no-repeat;
+	padding-left: 15px;
+}
+
+#user-info .email {
+	background: url(../images/at.png) 0px 2px  no-repeat;
+	padding-left: 15px;
+}
+
+#user-info .domain {
+	background: url(../images/domain.png) 0px 2px no-repeat;
+	padding-left: 15px;
+}
 
 /* MENU TOP*/
 
@@ -77,7 +94,7 @@ a, a:visited, a:active{
 	position: absolute;
 	left: 50%;
 	margin-left: -25px;
-	top: 10px;
+	top: 7px;
 	width: 50px;
 	height: 45px;
 }
@@ -96,7 +113,7 @@ li.refrash span{
 }
 
 li.download span{
-	background : url(../images/download.png) 14px 0 no-repeat ;
+	background : url(../images/download.png) 16px 0 no-repeat ;
 }
 
 li.check span{
@@ -253,4 +270,68 @@ li.about span{
     border-radius: 5px;
     overflow: hidden;
     position: relative;
+}
+
+
+/* AUTH Ballon */
+
+#auth { 
+	  position: absolute;
+	  top: 0;
+	  right: 0;
+	  bottom: 0;
+	  left: 0;
+	  width : 470px;
+	  height : 270px;
+	  margin: auto;
+	  background: url(../images/logo-mobi.png) 0 0 transparent;
+	  text-shadow:  1px 0px white;
+}
+
+#auth .form {
+	color : #2f5579;
+	margin : 40px 150px 0px 40px;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+#auth .form .field{
+	width: 191px;
+	height: 27px;
+	background: url(../images/textfield.png) no-repeat;
+	margin-bottom: 15px;
+	margin-top: 2px;
+}
+
+#auth .form #button {
+	width: 150px;
+	margin: auto;
+}
+
+#auth .form .button-form {
+    border: 1px solid #FFF;
+    background-color: #2f5579;
+    color : #fff;
+    -moz-border-radius: 3px;
+  	-webkit-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 20px;
+    margin-right: 10px;
+    padding: 2px 8px;
+    text-decoration: none;
+}
+
+#auth .form input[type="text"]{
+	width: 183px;
+	height: 22px;
+	background: none;
+	border-style: hidden;
+	margin-top: 2px;
+	font-size: 13px;
+	text-align: center;
+	border-width: 1px;
+	margin-left: 4px;
 }

@@ -1,17 +1,15 @@
 package edu.org.editor.mobi.test.controller;
 
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockSerializationResult;
 import edu.org.editor.mobi.controller.EditorMMobiController;
 import edu.org.editor.mobi.model.User;
 import edu.org.editor.mobi.service.MobiService;
@@ -21,22 +19,21 @@ import edu.org.editor.mobi.service.MobiService;
  */
 public class EditorMMobiControllerTest {
 
-	MockResult result;
+	MockSerializationResult result;
+	EditorMMobiController controller;
 	@Mock MobiService mobiService;
 	
 	@Before public void setUp(){
 		MockitoAnnotations.initMocks(this);
-		result = new MockResult();
+		result = new MockSerializationResult();
+		controller = new EditorMMobiController(mobiService, result);
 	}
 	
-	@Test public void shouldStartAnNewSessionToTheCurrentUser(){
-		
-		when(mobiService.getCurrentUser()).thenReturn(User.anonymousUser());
-		EditorMMobiController editorController = new EditorMMobiController(mobiService, result);
-		editorController.index();
-		User userSession = result.included("User");
-		assertThat(userSession, is(Matchers.instanceOf(User.class)));
-			
+	@Test public void shouldReturnCurrentUserOfSession() throws Exception{
+		when(mobiService.getCurrentUser()).thenReturn(new User("vinicius", "vinicius@oliveira.com", ""));
+		controller.getCurrentUser();
+		String expectedResult = "{\"name\": \"vinicius\",\"email\": \"vinicius@oliveira.com\"}";
+		assertEquals(expectedResult, result.serializedResult());
 	}
 	
 }	
