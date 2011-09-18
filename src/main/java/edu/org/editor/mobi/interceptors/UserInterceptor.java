@@ -54,7 +54,7 @@ public class UserInterceptor implements Interceptor{
 
 	private Boolean proced(){
 		if(! request.getRequestURI().equals(AUTH_URL)){
-			if( ( getCurrentUser() != null) && (! getCurrentUser().isActive())){
+			if( ( getCurrentUser() == null) || (! getCurrentUser().isActive())){
 				return false;
 			}
 		}
