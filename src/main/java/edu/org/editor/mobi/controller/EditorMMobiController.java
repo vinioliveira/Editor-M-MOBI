@@ -37,7 +37,7 @@ public class EditorMMobiController {
 	
 	
 	@Post("/auth")
-	public void form(User user, String name){
+	public void form(User user){
 		mobiService.setUser(user);
 		mobiService.mobiDomain(user.getDomain());
 		result.redirectTo("/");
