@@ -14,11 +14,13 @@
 	
 	<div id="auth">
 		<div class="form">
-			<div class="error">
-			<c:forEach var="error" items="${errors}">
-	    		${error.message}
-			</c:forEach>
-			</div>
+			<c:if test="${not empty errors }">
+				<div class="error">
+					<c:forEach var="error" items="${errors}">
+			    		${error.message}
+					</c:forEach>
+				</div>
+			</c:if>
 			<form action="<c:url value="/auth"/>" method="post" accept-charset="UTF-8">
 				<f:message key="user.domain" /> 
 				<div class="field">
