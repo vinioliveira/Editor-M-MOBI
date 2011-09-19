@@ -1,6 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@page contentType="text/html; charset=UTF-8" %>  
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,19 +11,24 @@
         
 </head>
 <body>
-
+	
 	<div id="auth">
 		<div class="form">
+			<div class="error">
+			<c:forEach var="error" items="${errors}">
+	    		${error.message}
+			</c:forEach>
+			</div>
 			<form action="<c:url value="/auth"/>" method="post" accept-charset="UTF-8">
-				Domain 
+				<f:message key="user.domain" /> 
 				<div class="field">
 					<input type="text" name="user.domain">
 				</div>
-				Name  
+				<f:message key="user.agent" /> (<f:message key="user.name" /> ) 
 				<div class="field">
 					<input type="text" name="user.name">
 				</div>
-				Email  
+				<f:message key="user.email" />  
 				<div class="field">
 					<input type="text" name="user.email">
 				</div>

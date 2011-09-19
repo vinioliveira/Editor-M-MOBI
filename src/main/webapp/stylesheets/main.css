@@ -336,3 +336,9 @@ li.about span{
 	border-width: 1px;
 	margin-left: 4px;
 }
+
+#auth .form .error{
+	color: red;
+	margin-top: -20px;
+	margin-bottom: 10px;
+}

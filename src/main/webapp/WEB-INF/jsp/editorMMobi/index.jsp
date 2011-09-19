@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" %>  
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -80,13 +80,13 @@
 	    	<h1>MOBI-I</h1>
 			<div id="user-info" class="left">
 				<div class="user">
-					<b>agent </b>: <i>${ user.name }</i>
+					<b><f:message key="user.agent" /></b>: <i>${ user.name }</i>
 				</div>
 				<div class="email">
-					<b>email </b> : <i> ${ user.email }</i>
+					<b><f:message key="user.email" /></b> : <i> ${ user.email }</i>
 				</div>
 				<div class="domain">
-					<b>domain</b> : <i> ${ user.domain }</i>
+					<b><f:message key="user.domain" /></b> : <i> ${ user.domain }</i>
 				</div>
 			</div>
 			<div id="menu" class="right">

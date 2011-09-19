@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.util.test.MockSerializationResult;
 import edu.org.editor.mobi.controller.EditorMMobiController;
 import edu.org.editor.mobi.model.User;
@@ -21,18 +22,19 @@ public class EditorMMobiControllerTest {
 
 	MockSerializationResult result;
 	EditorMMobiController controller;
+	@Mock Validator validator;
 	@Mock MobiService mobiService;
 	
 	@Before public void setUp(){
 		MockitoAnnotations.initMocks(this);
 		result = new MockSerializationResult();
-		controller = new EditorMMobiController(mobiService, result);
+		controller = new EditorMMobiController(mobiService, result, validator);
 	}
 	
 	@Test public void shouldReturnCurrentUserOfSession() throws Exception{
-		when(mobiService.getCurrentUser()).thenReturn(new User("vinicius", "vinicius@oliveira.com", ""));
+		when(mobiService.getCurrentUser()).thenReturn(new User("vinicius", "vinicius@oliveira.com", "novo"));
 		controller.getCurrentUser();
-		String expectedResult = "{\"name\": \"vinicius\",\"email\": \"vinicius@oliveira.com\"}";
+		String expectedResult = "{\"name\": \"vinicius\",\"email\": \"vinicius@oliveira.com\",\"domain\": \"novo\"}";
 		assertEquals(expectedResult, result.serializedResult());
 	}
 	

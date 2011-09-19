@@ -37,7 +37,10 @@ public class RelationServiceImpl implements RelationService {
 	 */
 	
 	public Relation get(String name) {
-		return mobi.getAllRelations().get(name);
+		if(mobi.getAllRelations() != null && (! mobi.getAllRelations().isEmpty())){
+			return mobi.getAllRelations().get(name);
+		}
+		return null;
 	}
 
 	/* (non-Javadoc)
