@@ -10,26 +10,6 @@
     <!-- base library -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/stylesheets/main.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/stylesheets/jquery-ui-1.8.16.custom.css" />
-        
-    <!-- Vendor Js -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/modernizr-1.6.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/jquery-ui-1.8.16.custom.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/underscore.js"></script> 
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/backbone.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/jquery.tmpl.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/raphael-min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/rassoci.js"></script>
-
-	<!-- Mobi Js -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi-templates.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi.js"></script>
-  
-   	<script type="text/javascript">
-    	$(function(){
-			window.relation.fetchPrepare();
-        });
-    </script>
     
 </head>
 
@@ -82,5 +62,28 @@
     	</div>
     </div>
 	<div id="dialog"></div>
+	
+	
+    <!-- Vendor Js -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/modernizr-1.6.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/underscore.js"></script> 
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/backbone.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/jquery.tmpl.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/raphael-min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/rassoci.js"></script>
+
+	<!-- Mobi Js -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi-templates.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mobi.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/class-bundler.js"></script>
+
+   	<script type="text/javascript">
+    	$(function(){
+			window.relation.fetchPrepare();
+        });
+    </script>
+
 </body>
 </html>
