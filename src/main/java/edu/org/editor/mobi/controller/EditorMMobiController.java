@@ -43,7 +43,7 @@ public class EditorMMobiController {
 	public void form(final User user){
 		
 		validator.checking(new Validations() {{
-			that(!user.getDomain().isEmpty() || !user.getName().isEmpty() || !user.getEmail().isEmpty(), 
+			that(!user.getDomain().isEmpty() && !user.getName().isEmpty() && !user.getEmail().isEmpty(), 
 						"user.name","message.blank", i18n("message.all.elements"));
 		}});
 		
