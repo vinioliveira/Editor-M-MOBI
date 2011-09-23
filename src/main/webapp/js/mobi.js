@@ -147,11 +147,10 @@
 		initialize :  function(){
 			_.bindAll(this, 'render');
 			this.model.bind('change', this.render);
-			this.template = $('#instance-template');
 		},
 		
 		render : function() {
-			var renderContent = this.template.tmpl(this.model.toJSON());
+			var renderContent = $.tmpl(Templates.instance, this.model.toJSON());
 			$(this.el).html(renderContent);
 			return this;
 		}
@@ -162,12 +161,26 @@
 		initialize : function() {
 			_.bindAll(this, 'render');
 			this.model.bind("change",this.render);
-			this.template = $('#class-template');
 		},
 		
 		render : function() {
-			var renderContent = this.template.tmpl(this.model.toJSON());
+			var renderContent = $.tmpl(Templates.class, this.model.toJSON());
 			$(this.el).html(renderContent);
+			return this;
+		},
+		
+	})
+	
+	window.ClassesView = Backbone.View.extend({
+		
+		initialize : function() {
+			_.bindAll(this, 'render');
+			this.template = $('#class-form-template');
+		},
+		
+		render : function() {
+			var renderContet = $.tmpl(Templates.class_form, this.collection.toJSON());
+			$(this.el).html(renderContet);
 			return this;
 		}
 	})
@@ -185,7 +198,7 @@
         
         render: function() {
             
-            $(this.el).html(this.template.tmpl({ uri : this.model.get('uri')}));
+            $(this.el).html($.tmpl(Templates.relation, { uri : this.model.get('uri')}));
 
             var $instancesA = this.$('.instancesA'),
             	$instancesB = this.$('.instancesB'),

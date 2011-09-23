@@ -163,7 +163,7 @@ li.about span{
 }
 
 
-.add img {
+.add img, .add-class img {
 	padding: 7px;
 	border-right: 1px solid #A1A4A8;
 	border-left: 1px solid #A1A4A8;
