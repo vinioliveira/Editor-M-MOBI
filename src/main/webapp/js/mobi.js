@@ -175,11 +175,11 @@
 		
 		initialize : function() {
 			_.bindAll(this, 'render');
-			this.template = $('#class-form-template');
 		},
 		
 		render : function() {
-			var renderContet = $.tmpl(Templates.class_form, this.collection.toJSON());
+			var renderContet = $.tmpl(Templates.class_form_input,{});
+			renderContet.append($.tmpl(Templates.class_form_list, this.collection.toJSON()));
 			$(this.el).html(renderContet);
 			return this;
 		}
@@ -190,7 +190,6 @@
 		initialize: function() {
 
             _.bindAll(this, 'render');
-            this.template = $('#relation-template');
             this.model.get('instancesGroupA').bind("add",this.render);
             this.model.get('instancesGroupB').bind("add",this.render);
 
@@ -251,7 +250,8 @@
 		home: function() {
 			var $container = $('#relation');
 			$container.empty();
-			$container.append(this.relationView.render().el)
+			$container.append(this.relationView.render().el);
+			attchClassFormEvent();
 		},
 		
 		blank : function() {

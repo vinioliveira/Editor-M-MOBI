@@ -2,15 +2,21 @@
 	
 	window.Templates ={
 		class 		: "class-tmpl",
-		class_form  : "classes-form-tmpl",
+		class_form_list  : "classes-form-list-tmpl",
+		class_form_input  : "classes-form-input-tmpl",
 		instance  	: "instances-tmpl",
 		relation    : "relation-tmpl"
 	}
 	
 	// #class-form-template
 	$.template(
-		"classes-form-tmpl", 
-		"<span class='instance'>${uri}</span>"
+		"classes-form-input-tmpl", 
+		"<input type='text' class='instance'>${uri}</input>"
+	);
+	
+	$.template(
+		"classes-form-list-tmpl", 
+		"<span type='text' class='instance'>${uri}</span>"
 	);
 	
 	// #instance-template
