@@ -16,8 +16,8 @@ public interface ClassesService {
 
 	Class createWithName(String name) throws Exception;
 
-	Class update(String oldId, Class newClass) throws Exception;
+	Class update(String oldUri, String newUri) throws Exception;
 
-	Boolean destroy(Class clazz);
+	Boolean destroy(String uri);
 
 }

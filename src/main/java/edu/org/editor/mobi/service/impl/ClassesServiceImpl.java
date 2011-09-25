@@ -27,8 +27,8 @@ public class ClassesServiceImpl implements ClassesService{
 	 * @param mobiService
 	 */
 	public ClassesServiceImpl(MobiService mobiService) {
-		this.mobi = mobiService.getCurrentMobi();
 		this.mobiService = mobiService;
+		this.mobi = this.mobiService.getCurrentMobi();
 	}
 
 	/* (non-Javadoc)
@@ -41,24 +41,24 @@ public class ClassesServiceImpl implements ClassesService{
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.ClassesService#getByName(java.lang.String)
 	 */
-	public Class getByName(String name) {
-		return mobi.getClass(name);
+	public Class getByName(String uri) {
+		return mobi.getClass(uri);
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.ClassesService#createWithName(java.lang.String)
 	 */
-	public Class createWithName(String name) throws Exception {
-		mobi.addConcept(new Class(name));
-		return mobi.getClass(name);
+	public Class createWithName(String uri) throws Exception {
+		mobi.addConcept(new Class(uri));
+		return mobi.getClass(uri);
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.org.editor.mobi.service.ClassesService#delete(mobi.core.concept.Class)
 	 */
-	public Boolean destroy(Class clazz) {
-		mobi.destroyConcept(clazz);
-		return mobi.getClass(clazz) == null ? true : false;
+	public Boolean destroy(String uri) {
+		mobi.destroyConcept(mobi.getClass(uri));
+		return mobi.getClass(uri) == null; 
 
 	}
 
@@ -67,10 +67,11 @@ public class ClassesServiceImpl implements ClassesService{
 	 * @see edu.org.editor.mobi.service.ClassesService#update(mobi.core.concept.Class)
 
 	 */
-	public Class update(String uri, Class clazz) throws Exception {
-		mobi.destroyConcept(new Class(uri));
-		mobi.addConcept(clazz);
-		return clazz;
+	public Class update(String oldUri, String newUri) throws Exception {
+		mobi.destroyConcept(new Class(oldUri));
+		Class klass = new Class(newUri);
+		mobi.addConcept(klass);
+		return klass;
 	}
 
 }

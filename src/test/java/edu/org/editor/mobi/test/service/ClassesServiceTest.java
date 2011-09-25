@@ -4,10 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import mobi.core.Mobi;
 import mobi.core.concept.Class;
 
@@ -26,53 +22,50 @@ import edu.org.editor.mobi.service.impl.ClassesServiceImpl;
 public class ClassesServiceTest {
 	
 	private ClassesServiceImpl classesServiceImpl;
-	@Mock private Mobi mockMobi;
+	private Mobi mobi;
+	private Class classTest;
 	@Mock private MobiService mockMobiService;
-	HashMap<String, Class> classsExamples;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
-		when(mockMobiService.getCurrentMobi()).thenReturn(mockMobi);
+		mobi = new Mobi("TEST");
+		classTest = new Class("TEST");
+		mobi.addConcept(classTest);
+		
+		when(mockMobiService.getCurrentMobi()).thenReturn(mobi);
 		this.classesServiceImpl = new ClassesServiceImpl(mockMobiService);
-		classsExamples = new HashMap<String, Class>(); 
-		classsExamples.put("Anonymous 1", new Class("Anonymous 1"));
-		classsExamples.put("Anonymous 2", new Class("Anonymous 2"));
-		classsExamples.put("Anonymous 3", new Class("Anonymous 3"));
+
 	}
 	
 	@Test public void shuldCreateANewClassOnKernel() throws Exception{
 		
-		when(mockMobi.getClass(classsExamples.get("Anonymous 1").getUri())).thenReturn(classsExamples.get("Anonymous 1"));
-		assertNotNull(classesServiceImpl.createWithName(classsExamples.get("Anonymous 1").getUri()));
+		assertEquals(classTest,classesServiceImpl.createWithName("TEST"));
 		
 	}
 	
 	@Test public void shouldDestroyAnClassOnKernel() {
 		
-		when(mockMobi.getClass(classsExamples.get("Anonymous 1"))).thenReturn(null);
-		assertTrue(classesServiceImpl.destroy(classsExamples.get("Anonymous 1")));
+		assertTrue(classesServiceImpl.destroy("TEST"));
    		
 	}
 	
-	@Test public void shouldRetrivebAnExistentClass(){
+	@Test public void shouldRetrivebAnExistentClass() throws Exception{
 		
-		when(mockMobi.getClass(classsExamples.get("Anonymous 1").getUri())).thenReturn(classsExamples.get("Anonymous 1"));
-		assertNotNull(classesServiceImpl.getByName(classsExamples.get("Anonymous 1").getUri()));
+		assertNotNull(classesServiceImpl.getByName("TEST"));
 		
 	}
 	
 	@Test public void shouldUpdateAnExistenceClass() throws Exception{
 		
-		when(mockMobi.getClass(classsExamples.get("Anonymous 2").getUri())).thenReturn(classsExamples.get("Anonymous 2"));
-		assertEquals(classsExamples.get("Anonymous 2"), classesServiceImpl.update(classsExamples.get("Anonymous 1").getUri(), classsExamples.get("Anonymous 2")));
+		classesServiceImpl.update("TEST", "TEST2");
+		assertNotNull(classesServiceImpl.getByName("TEST2"));
 		
 	}
 	
-	@Test public void shouldRetrievebAllExistencesClass(){
+	@Test public void shouldRetrievebAllExistencesClass() throws Exception{
 		
-		when(mockMobi.getAllClasses()).thenReturn(classsExamples);
-		assertEquals(classesServiceImpl.getAll(), new ArrayList<Class>(classsExamples.values()));
+		assertEquals(1, classesServiceImpl.getAll().size());
 		
 	}
 }

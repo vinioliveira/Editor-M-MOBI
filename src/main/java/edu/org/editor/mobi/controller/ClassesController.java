@@ -2,9 +2,8 @@ package edu.org.editor.mobi.controller;
 
 import java.util.List;
 
-import net.vidageek.mirror.dsl.ClassController;
-
 import mobi.core.concept.Class;
+import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
@@ -29,10 +28,11 @@ public class ClassesController {
 		this.result = result;
 		this.classService = classService;
 	}
-
-	@Post("/classes") public void create(String name) throws Exception {
-		result.use(Results.json()).from(classService.createWithName(name)).serialize();
-		result.redirectTo(ClassesController.class).list();
+	
+	@Consumes("application/json")
+	@Post("/classes") public void create(String uri) throws Exception {
+		classService.createWithName(uri);
+		result.redirectTo(ClassesController.class).show(uri);
 	}
 
 	@Get("/classes") public List<Class> list() {
@@ -41,14 +41,13 @@ public class ClassesController {
 		return classes;
 	}
 
-	@Get("/classes/{uri}") public Class show(String name) {
-		Class klass = classService.getByName(name);
-		result.use(Results.json()).from(klass).serialize();
-		return klass;
+	@Get("/classes/{uri}") public void show(String uri) {
+		Class klass = classService.getByName(uri);
+		result.use(Results.json()).withoutRoot().from(klass).serialize();
 	}
 
-	@Put("/classes/{uri}") public void update(String oldId, Class newClass) throws Exception {
-		result.use(Results.json()).from(classService.update(oldId, newClass)).serialize();
+	@Put("/classes/{uri}") public void update(String oldUri, String newUri) throws Exception {
+		result.use(Results.json()).from(classService.update(oldUri, newUri )).serialize();
 	}
 
 	@Delete("/classes/{uri}") public void delete(Class class1) {
