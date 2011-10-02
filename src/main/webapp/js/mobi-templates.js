@@ -1,17 +1,17 @@
 (function($) {	
 	
 	window.Templates ={
-		class 		: "class-tmpl",
+		class 			 : "class-tmpl",
 		class_form_list  : "classes-form-list-tmpl",
-		class_form_input  : "classes-form-input-tmpl",
-		instance  	: "instances-tmpl",
-		relation    : "relation-tmpl"
+		class_form_input : "classes-form-input-tmpl",
+		instance  		 : "instances-tmpl",
+		relation    	 : "relation-tmpl"
 	}
 	
 	// #class-form-template
 	$.template(
 		"classes-form-input-tmpl", 
-		"<input type='text' class='instance'>${uri}</input>"
+		"<input type='text' id='class-name'>${uri}</input>"
 	);
 	
 	$.template(
@@ -30,6 +30,7 @@
 		'class-tmpl',
 		"<input class='class left' type='text' value='${uri}'></input>"
 	);
+	
 	//  #relation-template	
 	$.template(
 		'relation-tmpl',
@@ -49,12 +50,12 @@
 		"</div>",
 		"<div id='options'>",
 			"<div class='actions'>",
-				"<a class='add-class left' href='#'>",
+				"<a class='add-class left' data-side='B' href='#'>",
 					"<img src='/images/plus.png'>",
-					"<label id='class-b'>class A</label>",
+					"<label id='class-b'>${uriClassB}</label>",
 				"</a>",
-				"<a class='add-class right' href='#'>",
-					"<label id='class-a'>class B</label>",
+				"<a class='add-class right' data-side='A' href='#'>",
+					"<label id='class-a'>${uriClassA}</label>",
 					"<img src='/images/plus.png'>",
 				"</a>",
 			"</div>",

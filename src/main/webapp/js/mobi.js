@@ -1,13 +1,13 @@
 /**
- * @author : Vinícius Oliveira 
+ * @author : Vin√≠cius Oliveira 
  */
 
 (function($){
 	
 	//Override
-	Backbone.Model.prototype.url = function() {
-		return this.urlRoot + '/' + (this.get("uri") || '');
-	};
+	// Backbone.Model.prototype.url = function() {
+	// 	return this.urlRoot + '/' + (this.get("uri") || '');
+	// };
 	
 	//Models 
 	window.Class = Backbone.Model.extend({
@@ -27,6 +27,8 @@
 		/**
 		 *  attributs 
 		 *      uri 	
+		 *      uriClassA
+		 *      uriClassB
 		 *      instancesGroupA 
 		 *      instancesGroupB
 		 *      classA
@@ -36,10 +38,13 @@
 		urlRoot : '/relations',
 		
 		initialize : function() {
+			this.set({uriClassA : "new class"});
+			this.set({uriClassB : "new class"});
 			this.set({ instancesGroupA : new Instances() });
 			this.set({ instancesGroupB : new Instances() });
 			this.set({ classA : new Class() });
 			this.set({ classB : new Class() });
+
 			this.prepare();
 		},
 		
@@ -80,12 +85,14 @@
 		prepareClassA : function() {
 			if(this.get("cardinalityA") != null ){
 				this.set({ classA : new Class(this.get("cardinalityA").mobiClass )});
+				this.set({ uriClassA : this.get("cardinalityA").mobiClass.uri });
 			}
 		},		
 		
 		prepareClassB : function() {
 			if(this.get('cardinalityB') != null){
 				this.set({ classB : new Class(this.get("cardinalityB").mobiClass )});
+				this.set({ uriClassB : this.get("cardinalityB").mobiClass.uri });
 			}
 		}
 		
@@ -197,12 +204,12 @@
         
         render: function() {
             
-            $(this.el).html($.tmpl(Templates.relation, { uri : this.model.get('uri')}));
+            $(this.el).html($.tmpl(Templates.relation, this.model.toJSON()));
 
             var $instancesA = this.$('.instancesA'),
             	$instancesB = this.$('.instancesB'),
-            	$classA   = this.$('.classA'),
-	            $classB   = this.$('.classB');
+            	$classA   	= this.$('.classA'),
+	            $classB   	= this.$('.classB');
             
             this.model.get('instancesGroupA').each(function(instance) {
                 var view = new InstanceView({ model: instance });
@@ -215,21 +222,17 @@
             });
 
 			$classA.append(new ClassView({
-					model : this.model.get('classA') // ( this.model.get('classA') || new Class({ uri : 'New Class'}))
-				})
-				.render().el
+				model : ( this.model.get('classA') || new Class({ uri : 'New Class'}))
+				}).render().el
 			);
 			
 			$classB.append(new ClassView({
-					model : ( this.model.get('classB') || new Class({ uri : 'New Clsss'}))
-				})
-				.render().el
+				model : ( this.model.get('classB') || new Class({ uri : 'New Clsss'}))
+				}).render().el
 			);
 			
             return this;
         }
-
-		
 	});
 	
 	
@@ -241,7 +244,7 @@
 		},
 		
 		initialize: function() {
-			window.relation = this.relation = new Relation({uri : "R1"}); 
+			this.relation = new Relation({uri : "R1"}); 
 			this.relationView = new RelationView({
 				model : this.relation 
 			});

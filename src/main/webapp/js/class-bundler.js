@@ -1,8 +1,8 @@
 (function($){
 	labelsRef = {
 		class : {
-			a	: "#class-a",
-			b	: "#class-b"
+			A	: "#class-a",
+			B	: "#class-b"
 		}
 	}
 		
@@ -32,20 +32,20 @@
 		$('a.add-class').click(function() {
 			input = $(this);
 			openFormDialog(function() {
-				console.log(arguments)
-				// classUri = $("input#class-name").val();
-				// 			class = new Class({ uri : classUri });
-				// 			class.save({error : function(){
-				// 					alert('Something went wrong!');
-				// 				},
-				// 				success : function() {
-				// 					//Probally will be extracted to a method
-				// 					classElId = labelsRef.class[input.attr("side")];
-				// 					$(classElId).val(classUri);
-				// 				}
-				// 			});
+				classUri = $("input#class-name").val();
+				//Clean input 
+				$("input#class-name").val("");
+				new Class({ uri : classUri }).save()	
+					.error(function(){
+						alert('Something went wrong!');
+					}).success(function() {
+						//Probally will be extracted to a method
+						classElId = labelsRef.class[input.data("side")];
+						$(classElId).text(classUri);
+						$("#dialog").dialog('close');
+					});
 			});
-		})
+		});
 	};
 	
 })(jQuery);
