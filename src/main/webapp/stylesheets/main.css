@@ -18,7 +18,6 @@ a, a:visited, a:active{
 }
 
 /* UTILS */
-
 .right {
 	float : right;
 }
@@ -28,8 +27,6 @@ a, a:visited, a:active{
 }
 
 /*HEADER */
-
-
 .top {
     position: relative;
 	height : 60px;
@@ -56,7 +53,6 @@ a, a:visited, a:active{
 }
 
 /* USER INFORMATION */
-
 #user-info{
 	
 	padding : 2px 5px;
@@ -79,14 +75,12 @@ a, a:visited, a:active{
 }
 
 /* MENU TOP*/
-
 #menu ul {
     float: left;
     list-style:none;
 }
 
 #menu ul li { 
-/*	display: inline; */
 	float : left;
 	position : relative;
 }
@@ -170,8 +164,11 @@ li.about span{
 	vertical-align: middle;
 }
 
-/* MAP RELATIONS */
+.add-class label{
+	margin : 5px;
+}
 
+/* MAP RELATIONS */
 #map-relation .header {
 	padding: 0 0 0 5px;
 	height: 33px;
@@ -190,7 +187,6 @@ li.about span{
 
 
 /* OPTIONS */
-
 #options{
 	margin-top: 0px;
 	background-color : #f5f9fc;
@@ -209,7 +205,6 @@ li.about span{
 }
 
 /* OPTIONS INPUT */
-
 #options input[type=text]{
 	border: 1px solid #F5F9FC;
     border-radius: 2px 2px 2px 2px;
@@ -224,7 +219,6 @@ li.about span{
 }
 
 /*Graphic*/
-
 #graph {
 	background-color : #f5f9fc;
 	border: 1px solid #b9c0c3;
@@ -240,16 +234,13 @@ li.about span{
 	height: 33px;
 	line-height: 33px;
 	font-size: 12px;
-/*	color: #4183C4;*/
     font-weight: bold;
 	background: url('../images/file_head.gif') 0 0 repeat-x #EEE;
-/*	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);*/
 	border-bottom: 1px solid #CCC;
 	overflow: hidden;
 }
 
 /* OTHERS */
-
 .button {
     border: 1px solid #FFFFFF;
     -moz-border-radius: 3px;
@@ -342,4 +333,13 @@ li.about span{
 	color: red;
 	margin-top: -20px;
 	margin-bottom: 10px;
+}
+
+/* Dialog */
+
+#dialog {
+	display : none;
+}
+#dialog input { 
+	width : 100% ;
 }
