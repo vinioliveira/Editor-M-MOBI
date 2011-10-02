@@ -38,12 +38,10 @@
 		urlRoot : '/relations',
 		
 		initialize : function() {
-			this.set({uriClassA : "new class"});
-			this.set({uriClassB : "new class"});
 			this.set({ instancesGroupA : new Instances() });
 			this.set({ instancesGroupB : new Instances() });
-			this.set({ classA : new Class() });
-			this.set({ classB : new Class() });
+			this.set({ classA : new Class({uri : "new class A"}) });
+			this.set({ classB : new Class({uri : "new class B"}) });
 
 			this.prepare();
 		},
@@ -85,14 +83,12 @@
 		prepareClassA : function() {
 			if(this.get("cardinalityA") != null ){
 				this.set({ classA : new Class(this.get("cardinalityA").mobiClass )});
-				this.set({ uriClassA : this.get("cardinalityA").mobiClass.uri });
 			}
 		},		
 		
 		prepareClassB : function() {
 			if(this.get('cardinalityB') != null){
 				this.set({ classB : new Class(this.get("cardinalityB").mobiClass )});
-				this.set({ uriClassB : this.get("cardinalityB").mobiClass.uri });
 			}
 		}
 		
@@ -244,7 +240,7 @@
 		},
 		
 		initialize: function() {
-			this.relation = new Relation({uri : "R1"}); 
+			window.relation = this.relation = new Relation({uri : "R1"}); 
 			this.relationView = new RelationView({
 				model : this.relation 
 			});

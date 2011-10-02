@@ -11,7 +11,8 @@
 	// #class-form-template
 	$.template(
 		"classes-form-input-tmpl", 
-		"<input type='text' id='class-name'>${uri}</input>"
+		["<input type='text' id='class-name'>${uri}</input>",
+		 "{{tmpl 'classes-form-list-tmpl'}}"].join('')
 	);
 	
 	$.template(
@@ -52,10 +53,10 @@
 			"<div class='actions'>",
 				"<a class='add-class left' data-side='B' href='#'>",
 					"<img src='/images/plus.png'>",
-					"<label id='class-b'>${uriClassB}</label>",
+					"<label id='class-b'>${classB['attributes']['uri']}</label>",
 				"</a>",
 				"<a class='add-class right' data-side='A' href='#'>",
-					"<label id='class-a'>${uriClassA}</label>",
+					"<label id='class-a'>${classA['attributes']['uri']}</label>",
 					"<img src='/images/plus.png'>",
 				"</a>",
 			"</div>",
