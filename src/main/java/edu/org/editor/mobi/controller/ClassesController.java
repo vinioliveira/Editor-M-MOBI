@@ -31,8 +31,13 @@ public class ClassesController {
 	
 	@Consumes("application/json")
 	@Post("/classes") public void create(String uri) throws Exception {
-		classService.createWithName(uri);
-		result.forwardTo(this).show(uri);
+		if(uri.equals("")){
+			result.use(Results.status()).notAcceptable();
+		}else{
+			if(classService.getByName(uri) != null) result.use(Results.status()).notModified();
+			classService.createWithName(uri);
+			result.forwardTo(this).show(uri);
+		}
 	}
 
 	@Get("/classes") public List<Class> list() {

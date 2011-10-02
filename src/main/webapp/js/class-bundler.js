@@ -33,6 +33,8 @@
 			input = $(this);
 			openFormDialog(function() {
 				classUri = $("input#class-name").val();
+				if(classUri == "") return;
+				
 				//Clean input 
 				$("input#class-name").val("");
 				new Class({ uri : classUri }).save()	
