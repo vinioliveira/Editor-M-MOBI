@@ -38,8 +38,7 @@ public class MobiServiceImpl implements MobiService, Serializable{
 	}
 	
 	public Mobi getCurrentMobi() {
-		// TODO Auto-generated method stub
-		return null;
+		return mobi;
 	}
 	
 	
