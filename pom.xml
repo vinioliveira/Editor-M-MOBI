@@ -131,6 +131,16 @@
 	  <version>3.2.1</version>
 	</dependency>
 	
+	
+	
+	<!-- JSON SERIALIZER -->
+	<dependency>
+		<groupId>org.codehaus.jettison</groupId>
+		<artifactId>jettison</artifactId>
+	  	<version>1.2</version>
+	</dependency>
+	<!-- JSON SERIALIZER END -->
+	
 	<!--  COMMONS AND UTILS END -->
 	<dependency>
 		<groupId>javax.servlet</groupId>
