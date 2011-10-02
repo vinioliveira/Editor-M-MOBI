@@ -12,12 +12,12 @@
 	$.template(
 		"classes-form-input-tmpl", 
 		["<input type='text' id='class-name'>${uri}</input>",
-		 "{{tmpl 'classes-form-list-tmpl'}}"].join('')
+		 "{{tmpl(list) 'classes-form-list-tmpl' }}"].join('')
 	);
 	
 	$.template(
 		"classes-form-list-tmpl", 
-		"<span type='text' class='instance'>${uri}</span>"
+		"<p><span type='text' class='instance'>${uri}</span></p>"
 	);
 	
 	// #instance-template

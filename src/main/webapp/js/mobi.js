@@ -181,8 +181,7 @@
 		},
 		
 		render : function() {
-			var renderContet = $.tmpl(Templates.class_form_input,{});
-			renderContet.append($.tmpl(Templates.class_form_list, this.collection.toJSON()));
+			var renderContet = $.tmpl(Templates.class_form_input,{ list : this.collection.toJSON() });
 			$(this.el).html(renderContet);
 			return this;
 		}
