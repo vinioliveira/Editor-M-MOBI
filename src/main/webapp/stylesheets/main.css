@@ -343,3 +343,25 @@ li.about span{
 #dialog input { 
 	width : 100% ;
 }
+
+#dialog .class-list{
+	height: 100px;
+	overflow: auto;
+	margin: 10px 0;
+	color: #2F5579;
+	border: 2px solid white;
+}
+
+#dialog .class-list p{
+	background : transparent; 
+	padding : 5px;
+}
+
+#dialog .class-list span {
+	background : transparent;
+}
+
+#dialog .class-list p:hover , span:hover{
+	background : white; 
+	cursor : hand;
+}

@@ -12,7 +12,7 @@
 	$.template(
 		"classes-form-input-tmpl", 
 		["<input type='text' id='class-name'>${uri}</input>",
-		 "{{tmpl(list) 'classes-form-list-tmpl' }}"].join('')
+		 "<div class='class-list'>{{tmpl(list) 'classes-form-list-tmpl' }}</div>"].join('')
 	);
 	
 	$.template(

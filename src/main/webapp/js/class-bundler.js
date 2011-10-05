@@ -24,31 +24,46 @@
 		$('#dialog').attr("title", (title || "Ihuuu"));
 	};
 	
+	closeDialog = function(){
+		$("#dialog").dialog('close');
+	};
+	
+	updateLabel = function(label, uri ){
+		classElId = labelsRef.class[label.data("side")];
+		$(classElId).text(uri);
+	};
+	
 	attchClassFormEvent = function() {
 		$('a.add-class').click(function() {
-			
-			window.classes.fetch({success : function(){
-			 	view = new ClassesView({collection : window.classes});
-				updateDialogHtml(view.render().el, "Classes");
-				
-				input = $(this);
-				openFormDialog(function() {
-					classUri = $("input#class-name").val();
-					if(classUri == "") return;
+			label = $(this);
+			window.classes.fetch({
+				success : function(){
+				 	view = new ClassesView({collection : window.classes});
+					updateDialogHtml(view.render().el, "Classes");
+	
+					openFormDialog(function() {
+						classUri = $("input#class-name").val();
+						if(classUri == "") return;
+						
+						//Clean input 
+						$("input#class-name").val("");
+						new Class({ uri : classUri }).save()	
+							.error(function(){
+								alert('Ho no! Something went wrong, please proceed again.');
+							}).success(function() {
+								//Probally will be extracted to a method
+								updateLabel(label, classUri);
+								closeDialog();
+							}
+						);
+					});
 					
-					//Clean input 
-					$("input#class-name").val("");
-					new Class({ uri : classUri }).save()	
-						.error(function(){
-							alert('Something went wrong!');
-						}).success(function() {
-							//Probally will be extracted to a method
-							classElId = labelsRef.class[input.data("side")];
-							$(classElId).text(classUri);
-							$("#dialog").dialog('close');
-						});
-				});
-			}});
+					$('#dialog p span').click(function(){
+						updateLabel(label, $(this).text());
+						closeDialog();
+					});
+				}
+			});
 		});
 	};
 	
