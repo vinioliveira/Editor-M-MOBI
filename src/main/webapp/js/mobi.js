@@ -202,10 +202,8 @@
             $(this.el).html($.tmpl(Templates.relation, this.model.toJSON()));
 
             var $instancesA = this.$('.instancesA'),
-            	$instancesB = this.$('.instancesB'),
-            	$classA   	= this.$('.classA'),
-	            $classB   	= this.$('.classB');
-            
+            	$instancesB = this.$('.instancesB');
+                       
             this.model.get('instancesGroupA').each(function(instance) {
                 var view = new InstanceView({ model: instance });
                 $instancesA.append(view.render().el);
@@ -215,16 +213,6 @@
                 var view = new InstanceView({ model: instance });
                 $instancesB.append(view.render().el);
             });
-
-			$classA.append(new ClassView({
-				model : ( this.model.get('classA') || new Class({ uri : 'New Class'}))
-				}).render().el
-			);
-			
-			$classB.append(new ClassView({
-				model : ( this.model.get('classB') || new Class({ uri : 'New Clsss'}))
-				}).render().el
-			);
 			
             return this;
         }
