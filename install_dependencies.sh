@@ -13,3 +13,6 @@ echo "Installing Kernel-Mobi"
 
 echo "Installing vraptor3 with modifications"
  	mvn install:install-file -Dfile=libs/vraptor-3.3.2-SNAPSHOT.jar  -DgroupId=br.com.caelum -DartifactId=vraptor -Dversion=3.3.2-SNAPSHOT -Dpackaging=jar
+
+
+#nova linha
